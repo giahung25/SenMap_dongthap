@@ -72,3 +72,15 @@ export function getGoogleMapsDirUrl(origin, destination) {
   const destLon = destination[1];
   return `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLon}&destination=${destLat},${destLon}&travelmode=driving`;
 }
+
+/**
+ * Điểm xuất phát mẫu giả lập GPS thông minh tại Đồng Tháp
+ */
+export const GPS_PRESETS = [
+  { id: 'device', name: 'GPS Thực tế thiết bị', coords: null },
+  { id: 'caolanh', name: 'Trung tâm TP. Cao Lãnh', coords: [10.4534, 105.6341] },
+  { id: 'sadec', name: 'Trung tâm TP. Sa Đéc', coords: [10.2974, 105.7588] },
+  { id: 'hongngu', name: 'Trung tâm TP. Hồng Ngự', coords: [10.8038, 105.2974] },
+  { id: 'caucaolanh', name: 'Bến / Cầu Cao Lãnh (Bờ Nam)', coords: [10.4051, 105.6624] },
+  { id: 'tramchim', name: 'Thị trấn Tràm Chim (Tam Nông)', coords: [10.6885, 105.5254] },
+];

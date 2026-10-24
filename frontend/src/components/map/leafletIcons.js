@@ -76,3 +76,25 @@ export function createUserGpsIcon() {
     popupAnchor: [0, -20],
   });
 }
+
+/**
+ * Creates custom divIcon for multi-stop tour order (Stop 1, 2, 3...)
+ */
+export function createTourStopIcon(stopNumber) {
+  const size = 32;
+  const html = `
+    <div class="relative flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
+      <div class="w-full h-full rounded-full bg-gradient-to-tr from-lotus-700 to-rose-500 text-white font-black text-xs flex items-center justify-center shadow-xl ring-3 ring-white animate-in zoom-in-75">
+        ${stopNumber}
+      </div>
+    </div>
+  `;
+
+  return L.divIcon({
+    html,
+    className: 'lotus-marker-wrapper',
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -size / 2 - 4],
+  });
+}

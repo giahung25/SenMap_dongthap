@@ -2,8 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WebGisMap from '../components/map/WebGisMap';
 import { monumentApi } from '../services/api';
-import { calculateDistanceKm } from '../utils/geoUtils';
+import {
+  calculateDistanceKm,
+  validateDongThapBounds,
+  GPS_PRESETS,
+} from '../utils/geoUtils';
 import { DISTRICTS, RANKINGS, CATEGORIES } from '../data/monumentsData';
+import { solveTourTSP2Opt } from '../utils/routingAlgorithms';
 import {
   Search,
   X,
@@ -16,12 +21,22 @@ import {
   Sparkles,
   ArrowRight,
   RotateCcw,
+  Route,
+  CheckSquare,
+  Square,
+  AlertTriangle,
+  Loader2,
+  CalendarCheck,
+  CheckCircle2,
 } from 'lucide-react';
 
 export default function MapView() {
   const navigate = useNavigate();
   const [monuments, setMonuments] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Sidebar Mode: 'explore' (Tra cứu di tích) | 'tour' (Lập Tour TSP 2-Opt)
+  const [sidebarMode, setSidebarMode] = useState('explore');
 
   // Filters & Search
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,10 +45,16 @@ export default function MapView() {
   const [selectedCategory, setSelectedCategory] = useState('Tất cả loại hình');
   const [selectedMonument, setSelectedMonument] = useState(null);
 
-  // GPS User location & Radius search
-  const [userLocation, setUserLocation] = useState([10.4494, 105.6295]); // Default: TP Cao Lãnh
+  // GPS User location & Presets (3-Mode Smart GPS)
+  const [userLocation, setUserLocation] = useState([10.4534, 105.6341]); // Default: TP. Cao Lãnh
+  const [selectedGpsPreset, setSelectedGpsPreset] = useState('caolanh');
   const [activeRadius, setActiveRadius] = useState(null); // null | 5 | 10 | 20 (km)
   const [gpsActive, setGpsActive] = useState(false);
+
+  // Multi-Stop Tour Planner (TSP 2-Opt)
+  const [selectedTourIds, setSelectedTourIds] = useState([1, 6, 2]); // Pre-check 3 famous monuments: Nguyễn Sinh Sắc, Gò Tháp, Xẻo Quýt
+  const [activeTour, setActiveTour] = useState(null);
+  const [isTspSolving, setIsTspSolving] = useState(false);
 
   // Mobile Bottom Sheet toggle
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -54,8 +75,9 @@ export default function MapView() {
     };
   }, []);
 
-  // Request real GPS location
+  // Request real GPS location from device
   const handleLocateUser = () => {
+    setSelectedGpsPreset('device');
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -64,16 +86,80 @@ export default function MapView() {
           setGpsActive(true);
         },
         () => {
-          // If user denies or error, use default Cao Lãnh
-          setUserLocation([10.4494, 105.6295]);
+          setUserLocation([10.4534, 105.6341]);
           setGpsActive(true);
         }
       );
     } else {
-      setUserLocation([10.4494, 105.6295]);
+      setUserLocation([10.4534, 105.6341]);
       setGpsActive(true);
     }
   };
+
+  // Switch GPS Preset
+  const handlePresetChange = (presetId) => {
+    setSelectedGpsPreset(presetId);
+    if (presetId === 'device') {
+      handleLocateUser();
+    } else {
+      const found = GPS_PRESETS.find((p) => p.id === presetId);
+      if (found?.coords) {
+        setUserLocation(found.coords);
+        setGpsActive(true);
+      }
+    }
+  };
+
+  // Callback when user drags GPS pin on the Leaflet map
+  const handleUserLocationDrag = (newCoords) => {
+    setUserLocation(newCoords);
+    setSelectedGpsPreset('custom');
+    setGpsActive(true);
+  };
+
+  // Toggle selection for TSP Multi-Stop Tour
+  const toggleTourMonument = (id) => {
+    setSelectedTourIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      } else {
+        if (prev.length >= 6) {
+          alert('Bạn có thể chọn tối đa 6 di tích trong một hành trình tour để tối ưu tốt nhất.');
+          return prev;
+        }
+        return [...prev, id];
+      }
+    });
+  };
+
+  // Execute Nearest Neighbor + 2-Opt TSP Algorithm
+  const handleSolveTour = async () => {
+    if (selectedTourIds.length < 2) {
+      alert('Vui lòng chọn ít nhất 2 di tích để lập hành trình tour tối ưu.');
+      return;
+    }
+
+    setIsTspSolving(true);
+    try {
+      const selectedMonumentsList = monuments.filter((m) =>
+        selectedTourIds.includes(m.id)
+      );
+
+      const result = await solveTourTSP2Opt(userLocation, selectedMonumentsList);
+      setActiveTour(result);
+    } catch (err) {
+      console.error('Lỗi tối ưu TSP Tour:', err);
+    } finally {
+      setIsTspSolving(false);
+    }
+  };
+
+  const handleClearTour = () => {
+    setActiveTour(null);
+  };
+
+  // Geofencing verification
+  const geofence = validateDongThapBounds(userLocation[0], userLocation[1]);
 
   // Filtered & Sorted Monuments
   const filteredMonuments = useMemo(() => {
@@ -122,11 +208,9 @@ export default function MapView() {
         distance: userLocation ? calculateDistanceKm(userLocation, m.coordinates) : null,
       }))
       .sort((a, b) => {
-        // If radius active, sort by distance
         if (activeRadius && a.distance !== null && b.distance !== null) {
           return a.distance - b.distance;
         }
-        // Otherwise special first
         if (a.ranking === 'Quốc gia đặc biệt' && b.ranking !== 'Quốc gia đặc biệt') return -1;
         if (b.ranking === 'Quốc gia đặc biệt' && a.ranking !== 'Quốc gia đặc biệt') return 1;
         return 0;
@@ -144,232 +228,415 @@ export default function MapView() {
   return (
     <div className="relative w-full h-[calc(100vh-4rem)] flex overflow-hidden bg-canvas-bg">
       {/* ============================================================== */}
-      {/* CỘT TRÁI: SIDEBAR TRA CỨU & DANH SÁCH (Desktop 380px)           */}
+      {/* CỘT TRÁI: SIDEBAR ĐA NĂNG (TRA CỨU & LẬP TOUR TSP) (380px)      */}
       {/* ============================================================== */}
-      <aside className="hidden md:flex w-[380px] shrink-0 h-full bg-white flex-col z-20 shadow-[4px_0_24px_rgba(19,27,46,0.06)] relative border-r border-slate-200/80">
-        {/* Header tra cứu & Input Capsule */}
-        <div className="p-4 pb-3 bg-white border-b border-slate-100">
-          <div className="flex items-center justify-between pb-2">
+      <aside className="hidden md:flex w-[390px] shrink-0 h-full bg-white flex-col z-20 shadow-[4px_0_24px_rgba(19,27,46,0.06)] relative border-r border-slate-200/80">
+        {/* Top Tab Mode Switcher: Tra cứu vs Lập Tour TSP */}
+        <div className="p-3 pb-2 bg-slate-50 border-b border-slate-200/80">
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-200/80 text-xs font-bold">
+            <button
+              onClick={() => setSidebarMode('explore')}
+              className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                sidebarMode === 'explore'
+                  ? 'bg-white text-lotus-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Compass className="w-4 h-4" />
+              <span>Tra cứu di tích</span>
+            </button>
+
+            <button
+              onClick={() => setSidebarMode('tour')}
+              className={`py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                sidebarMode === 'tour'
+                  ? 'bg-lotus-600 text-white shadow-md shadow-lotus-600/25'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Route className="w-4 h-4" />
+              <span>Lập Tour TSP 2-Opt</span>
+            </button>
+          </div>
+        </div>
+
+        {/* SMART GPS 3-MODE HEADER BAR */}
+        <div className="px-4 py-2.5 bg-white border-b border-slate-100 flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
-              <span className="inline-flex w-2.5 h-2.5 rounded-full bg-tram-600 animate-pulse" />
-              <span className="text-[11px] text-tram-700 uppercase tracking-wider font-bold">
-                Web GIS Di Tích Trực Tuyến
+              <span className={`inline-flex w-2.5 h-2.5 rounded-full ${geofence.isValid ? 'bg-tram-500 animate-pulse' : 'bg-rose-500'}`} />
+              <span className="text-[11px] text-slate-700 uppercase tracking-wider font-extrabold">
+                Điểm xuất phát GPS
               </span>
             </div>
-            <span className="text-[11px] font-mono text-slate-500 px-2 py-0.5 rounded-full bg-slate-100">
-              {userLocation ? `${userLocation[0].toFixed(3)}° N, ${userLocation[1].toFixed(3)}° E` : 'Đồng Tháp'}
+
+            {/* Coordinates Badge */}
+            <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full" title="Kéo thả ghim trên bản đồ để đổi vị trí">
+              {userLocation[0].toFixed(3)}°N, {userLocation[1].toFixed(3)}°E
             </span>
           </div>
 
-          {/* Floating Search Capsule */}
-          <div className="relative flex items-center">
-            <Search className="absolute left-3.5 text-slate-400 w-4 h-4 pointer-events-none" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm tên di tích, anh hùng, địa danh..."
-              className="w-full h-11 pl-10 pr-9 rounded-full bg-slate-100 text-slate-800 text-[13px] placeholder:text-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-lotus-500 shadow-inner"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 w-5 h-5 rounded-full flex items-center justify-center text-slate-400 hover:text-lotus-600 transition-colors"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
-          {/* Filter Chips: Ranking */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-2.5 pb-1">
-            <button
-              onClick={() => setSelectedRanking('Tất cả cấp hạng')}
-              className={`shrink-0 h-7 px-3 rounded-full text-[11px] font-semibold transition-all ${
-                selectedRanking === 'Tất cả cấp hạng'
-                  ? 'bg-lotus-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              Tất cả ({monuments.length})
-            </button>
-
-            <button
-              onClick={() => setSelectedRanking('Quốc gia đặc biệt')}
-              className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
-                selectedRanking === 'Quốc gia đặc biệt'
-                  ? 'bg-lotus-600 text-white shadow-xs'
-                  : 'bg-lotus-50 text-lotus-700 hover:bg-lotus-100'
-              }`}
-            >
-              <span>★</span> Đặc biệt (2)
-            </button>
-
-            <button
-              onClick={() => setSelectedRanking('Quốc gia')}
-              className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
-                selectedRanking === 'Quốc gia'
-                  ? 'bg-tram-700 text-white shadow-xs'
-                  : 'bg-tram-50 text-tram-700 hover:bg-tram-100'
-              }`}
-            >
-              <span>🏛️</span> Quốc gia (14)
-            </button>
-
-            <button
-              onClick={() => setSelectedRanking('Cấp tỉnh')}
-              className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
-                selectedRanking === 'Cấp tỉnh'
-                  ? 'bg-sky-700 text-white shadow-xs'
-                  : 'bg-sky-50 text-sky-700 hover:bg-sky-100'
-              }`}
-            >
-              <span>📍</span> Cấp tỉnh (4)
-            </button>
-          </div>
-
-          {/* District & Radius Dropdown Row */}
-          <div className="grid grid-cols-2 gap-2 pt-2">
-            <select
-              value={selectedDistrict}
-              onChange={(e) => setSelectedDistrict(e.target.value)}
-              className="h-8 px-2.5 rounded-xl bg-slate-100 text-slate-700 text-[11px] font-medium outline-none border border-transparent focus:border-lotus-300 focus:bg-white"
-            >
-              {DISTRICTS.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={activeRadius || ''}
-              onChange={(e) => setActiveRadius(e.target.value ? Number(e.target.value) : null)}
-              className="h-8 px-2.5 rounded-xl bg-slate-100 text-slate-700 text-[11px] font-medium outline-none border border-transparent focus:border-lotus-300 focus:bg-white"
-            >
-              <option value="">Quét bán kính (Tất cả)</option>
-              <option value="5">Lân cận 5 km</option>
-              <option value="10">Lân cận 10 km</option>
-              <option value="20">Lân cận 20 km</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Count & Near Me Toggle Bar */}
-        <div className="px-4 py-2 bg-slate-50 flex items-center justify-between border-b border-slate-100 text-[11px]">
-          <span className="text-slate-600">
-            Tìm thấy <strong className="text-lotus-600 font-bold">{filteredMonuments.length}</strong> di tích
-          </span>
-          <button
-            onClick={handleLocateUser}
-            className="inline-flex items-center gap-1 text-tram-700 hover:text-tram-800 font-bold transition-colors"
+          {/* Quick Preset Selector */}
+          <select
+            value={selectedGpsPreset}
+            onChange={(e) => handlePresetChange(e.target.value)}
+            className="w-full h-8 px-2.5 rounded-xl bg-slate-100 border border-slate-200/80 text-slate-800 text-xs font-semibold outline-none focus:ring-1 focus:ring-lotus-500"
           >
-            <Navigation className="w-3.5 h-3.5" />
-            <span>{gpsActive ? 'GPS bật' : 'Bật định vị GPS'}</span>
-          </button>
+            {GPS_PRESETS.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+            {selectedGpsPreset === 'custom' && (
+              <option value="custom">Ghim kéo thả tự do trên bản đồ</option>
+            )}
+          </select>
+
+          {/* Geofence warning if user dragged pin out of Dong Thap */}
+          {!geofence.isValid && (
+            <div className="p-1.5 rounded-lg bg-rose-50 border border-rose-200 text-[10px] text-rose-700 flex items-center gap-1 font-semibold">
+              <AlertTriangle className="w-3 h-3 text-rose-600 shrink-0" />
+              <span className="truncate">Ghim nằm ngoài tỉnh Đồng Tháp. Vui lòng kéo lại vào địa phận tỉnh!</span>
+            </div>
+          )}
         </div>
 
-        {/* Danh sách cuộn độc lập */}
-        <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
-          {filteredMonuments.length === 0 ? (
-            <div className="py-12 text-center text-slate-400 space-y-2">
-              <Compass className="w-8 h-8 mx-auto opacity-50" />
-              <p className="text-xs">Không tìm thấy di tích phù hợp bộ lọc.</p>
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedRanking('Tất cả cấp hạng');
-                  setSelectedDistrict('Tất cả Huyện/TP');
-                  setSelectedCategory('Tất cả loại hình');
-                  setActiveRadius(null);
-                }}
-                className="text-[11px] text-lotus-600 font-semibold hover:underline"
-              >
-                Đặt lại bộ lọc
-              </button>
-            </div>
-          ) : (
-            filteredMonuments.map((m) => {
-              const isSelected = selectedMonument?.id === m.id;
-              const isSpecial = m.ranking === 'Quốc gia đặc biệt';
+        {/* ============================================================== */}
+        {/* CHẾ ĐỘ 1: TRA CỨU & DANH SÁCH DI TÍCH (EXPLORE MODE)           */}
+        {/* ============================================================== */}
+        {sidebarMode === 'explore' && (
+          <div className="flex-1 flex flex-col min-h-0">
+            {/* Search Capsule & Filters */}
+            <div className="p-4 pb-3 bg-white border-b border-slate-100 space-y-2.5">
+              {/* Floating Search Capsule */}
+              <div className="relative flex items-center">
+                <Search className="absolute left-3.5 text-slate-400 w-4 h-4 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Tìm tên di tích, anh hùng, địa danh..."
+                  className="w-full h-10 pl-10 pr-9 rounded-full bg-slate-100 text-slate-800 text-[13px] placeholder:text-slate-400 outline-none transition-all focus:bg-white focus:ring-2 focus:ring-lotus-500 shadow-inner"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 w-5 h-5 rounded-full flex items-center justify-center text-slate-400 hover:text-lotus-600 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
 
-              return (
-                <article
-                  key={m.id}
-                  onClick={() => setSelectedMonument(m)}
-                  className={`p-2.5 rounded-2xl transition-all cursor-pointer flex gap-3 group relative overflow-hidden border ${
-                    isSelected
-                      ? 'bg-lotus-50/80 border-lotus-300 shadow-md shadow-lotus-600/10'
-                      : 'bg-white hover:bg-slate-50/80 border-slate-100 hover:border-slate-200 shadow-xs'
+              {/* Filter Chips: Ranking */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
+                <button
+                  onClick={() => setSelectedRanking('Tất cả cấp hạng')}
+                  className={`shrink-0 h-7 px-3 rounded-full text-[11px] font-semibold transition-all ${
+                    selectedRanking === 'Tất cả cấp hạng'
+                      ? 'bg-lotus-600 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
-                  {/* Left accent bar on active */}
-                  {isSelected && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-lotus-600 rounded-l" />
-                  )}
+                  Tất cả ({monuments.length})
+                </button>
 
-                  {/* Thumbnail */}
-                  <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden shadow-xs bg-slate-100">
-                    <img
-                      src={m.thumbnail}
-                      alt={m.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src =
-                          'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=400&q=80';
-                      }}
-                    />
-                    {isSpecial && (
-                      <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-lotus-600 text-white text-[8px] font-extrabold tracking-tight">
-                        ★ TOP
-                      </span>
-                    )}
-                  </div>
+                <button
+                  onClick={() => setSelectedRanking('Quốc gia đặc biệt')}
+                  className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
+                    selectedRanking === 'Quốc gia đặc biệt'
+                      ? 'bg-lotus-600 text-white shadow-xs'
+                      : 'bg-lotus-50 text-lotus-700 hover:bg-lotus-100'
+                  }`}
+                >
+                  <span>★</span> Đặc biệt (2)
+                </button>
 
-                  {/* Text Details */}
-                  <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                    <div>
-                      <div className="flex items-center gap-1.5 mb-0.5">
-                        <span
-                          className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold leading-tight truncate ${
-                            isSpecial
-                              ? 'bg-lotus-100 text-lotus-700'
-                              : m.ranking === 'Quốc gia'
-                              ? 'bg-tram-100 text-tram-700'
-                              : 'bg-sky-100 text-sky-700'
-                          }`}
-                        >
-                          {m.ranking}
-                        </span>
-                        {m.distance !== null && (
-                          <span className="text-slate-400 text-[10px] font-mono shrink-0">
-                            {m.distance} km
+                <button
+                  onClick={() => setSelectedRanking('Quốc gia')}
+                  className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
+                    selectedRanking === 'Quốc gia'
+                      ? 'bg-tram-700 text-white shadow-xs'
+                      : 'bg-tram-50 text-tram-700 hover:bg-tram-100'
+                  }`}
+                >
+                  <span>🏛️</span> Quốc gia (14)
+                </button>
+
+                <button
+                  onClick={() => setSelectedRanking('Cấp tỉnh')}
+                  className={`shrink-0 h-7 px-2.5 rounded-full text-[11px] font-semibold transition-all flex items-center gap-1 ${
+                    selectedRanking === 'Cấp tỉnh'
+                      ? 'bg-sky-700 text-white shadow-xs'
+                      : 'bg-sky-50 text-sky-700 hover:bg-sky-100'
+                  }`}
+                >
+                  <span>📍</span> Cấp tỉnh (4)
+                </button>
+              </div>
+
+              {/* District & Radius Dropdowns */}
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <select
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  className="h-8 px-2 rounded-xl bg-slate-100 text-slate-700 text-[11px] font-medium outline-none border border-transparent focus:border-lotus-300 focus:bg-white"
+                >
+                  {DISTRICTS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={activeRadius || ''}
+                  onChange={(e) => setActiveRadius(e.target.value ? Number(e.target.value) : null)}
+                  className="h-8 px-2 rounded-xl bg-slate-100 text-slate-700 text-[11px] font-medium outline-none border border-transparent focus:border-lotus-300 focus:bg-white"
+                >
+                  <option value="">Bán kính (Tất cả)</option>
+                  <option value="5">Lân cận 5 km</option>
+                  <option value="10">Lân cận 10 km</option>
+                  <option value="20">Lân cận 20 km</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Result count */}
+            <div className="px-4 py-2 bg-slate-50 flex items-center justify-between border-b border-slate-100 text-[11px]">
+              <span className="text-slate-600">
+                Tìm thấy <strong className="text-lotus-600 font-bold">{filteredMonuments.length}</strong> di tích
+              </span>
+              <button
+                onClick={handleLocateUser}
+                className="inline-flex items-center gap-1 text-tram-700 hover:text-tram-800 font-bold transition-colors"
+              >
+                <Navigation className="w-3.5 h-3.5" />
+                <span>GPS thiết bị</span>
+              </button>
+            </div>
+
+            {/* Danh sách cuộn */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
+              {filteredMonuments.length === 0 ? (
+                <div className="py-12 text-center text-slate-400 space-y-2">
+                  <Compass className="w-8 h-8 mx-auto opacity-50" />
+                  <p className="text-xs">Không tìm thấy di tích phù hợp bộ lọc.</p>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedRanking('Tất cả cấp hạng');
+                      setSelectedDistrict('Tất cả Huyện/TP');
+                      setActiveRadius(null);
+                    }}
+                    className="text-[11px] text-lotus-600 font-semibold hover:underline"
+                  >
+                    Đặt lại bộ lọc
+                  </button>
+                </div>
+              ) : (
+                filteredMonuments.map((m) => {
+                  const isSelected = selectedMonument?.id === m.id;
+                  const isSpecial = m.ranking === 'Quốc gia đặc biệt';
+
+                  return (
+                    <article
+                      key={m.id}
+                      onClick={() => setSelectedMonument(m)}
+                      className={`p-2.5 rounded-2xl transition-all cursor-pointer flex gap-3 group relative overflow-hidden border ${
+                        isSelected
+                          ? 'bg-lotus-50/80 border-lotus-300 shadow-md shadow-lotus-600/10'
+                          : 'bg-white hover:bg-slate-50/80 border-slate-100 hover:border-slate-200 shadow-xs'
+                      }`}
+                    >
+                      {isSelected && (
+                        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-lotus-600 rounded-l" />
+                      )}
+
+                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden shadow-xs bg-slate-100">
+                        <img
+                          src={m.thumbnail}
+                          alt={m.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            e.target.src =
+                              'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=400&q=80';
+                          }}
+                        />
+                        {isSpecial && (
+                          <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-lotus-600 text-white text-[8px] font-extrabold tracking-tight">
+                            ★ TOP
                           </span>
                         )}
                       </div>
 
-                      <h3
-                        className={`text-[13px] font-bold truncate leading-snug ${
-                          isSelected
-                            ? 'text-lotus-700'
-                            : 'text-slate-800 group-hover:text-lotus-600 transition-colors'
-                        }`}
-                      >
-                        {m.name}
-                      </h3>
+                      <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                        <div>
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span
+                              className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold leading-tight truncate ${
+                                isSpecial
+                                  ? 'bg-lotus-100 text-lotus-700'
+                                  : m.ranking === 'Quốc gia'
+                                  ? 'bg-tram-100 text-tram-700'
+                                  : 'bg-sky-100 text-sky-700'
+                              }`}
+                            >
+                              {m.ranking}
+                            </span>
+                            {m.distance !== null && (
+                              <span className="text-slate-400 text-[10px] font-mono shrink-0">
+                                {m.distance} km
+                              </span>
+                            )}
+                          </div>
+
+                          <h3
+                            className={`text-[13px] font-bold truncate leading-snug ${
+                              isSelected
+                                ? 'text-lotus-700'
+                                : 'text-slate-800 group-hover:text-lotus-600 transition-colors'
+                            }`}
+                          >
+                            {m.name}
+                          </h3>
+                        </div>
+
+                        <p className="text-[11px] text-slate-500 truncate flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                          <span>{m.district || m.address}</span>
+                        </p>
+                      </div>
+                    </article>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================== */}
+        {/* CHẾ ĐỘ 2: LẬP TOUR NHIỀU ĐIỂM (MULTI-STOP TSP TOUR PLANNER)    */}
+        {/* ============================================================== */}
+        {sidebarMode === 'tour' && (
+          <div className="flex-1 flex flex-col min-h-0">
+            {/* Tour Planner Guidance & Action Card */}
+            <div className="p-4 bg-gradient-to-br from-lotus-50/70 via-white to-tram-50/50 border-b border-slate-200 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <CalendarCheck className="w-4 h-4 text-lotus-600" />
+                  <span>Chọn 2 - 6 Di tích Tham quan</span>
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-lotus-600 text-white font-extrabold text-[10px]">
+                  Đã chọn: {selectedTourIds.length}/6
+                </span>
+              </div>
+
+              <p className="text-[11px] text-slate-600 leading-relaxed">
+                Thuật toán <strong>Nearest Neighbor + 2-Opt TSP</strong> sẽ sắp xếp thứ tự các điểm dừng tối ưu để tiết kiệm tối đa thời gian và quãng đường di chuyển.
+              </p>
+
+              {/* Action Solve Button */}
+              <button
+                type="button"
+                onClick={handleSolveTour}
+                disabled={selectedTourIds.length < 2 || isTspSolving}
+                className="w-full py-2.5 px-4 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-extrabold text-xs shadow-md shadow-lotus-600/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isTspSolving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Đang tối ưu hóa hành trình 2-Opt...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    <span>Tối Ưu Hành Trình (2-Opt TSP)</span>
+                  </>
+                )}
+              </button>
+
+              {/* Active Tour Results Summary */}
+              {activeTour && (
+                <div className="p-3 rounded-xl bg-white border border-lotus-300 shadow-sm space-y-2 animate-in fade-in">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-xs text-slate-900">
+                      Kết quả Lộ trình Tối ưu:
+                    </span>
+                    <button
+                      onClick={handleClearTour}
+                      className="text-[10px] text-rose-600 font-bold hover:underline"
+                    >
+                      Xóa tour
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="p-1.5 rounded-lg bg-slate-50 border">
+                      <span className="text-slate-400 block text-[9px]">Tổng quãng đường</span>
+                      <strong className="text-lotus-700 text-xs">{activeTour.totalDistanceKm} km</strong>
+                    </div>
+                    <div className="p-1.5 rounded-lg bg-slate-50 border">
+                      <span className="text-slate-400 block text-[9px]">Thời gian di chuyển</span>
+                      <strong className="text-slate-800 text-xs">~{activeTour.totalDurationMin} phút</strong>
+                    </div>
+                  </div>
+                  {activeTour.savingPercent > 0 && (
+                    <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-800 font-bold text-[10px] flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Tiết kiệm {activeTour.savingPercent}% quãng đường so với thứ tự ngẫu nhiên!</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Checklist of Monuments */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-2">
+              {monuments.map((m) => {
+                const isChecked = selectedTourIds.includes(m.id);
+                const tourIndex = activeTour?.orderedMonuments?.findIndex((item) => item.id === m.id);
+
+                return (
+                  <div
+                    key={`tour-check-${m.id}`}
+                    onClick={() => toggleTourMonument(m.id)}
+                    className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                      isChecked
+                        ? 'bg-lotus-50/80 border-lotus-300 shadow-xs'
+                        : 'bg-white border-slate-100 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="text-lotus-600 shrink-0">
+                        {isChecked ? (
+                          <CheckSquare className="w-4 h-4 fill-lotus-600 text-white" />
+                        ) : (
+                          <Square className="w-4 h-4 text-slate-300" />
+                        )}
+                      </div>
+                      <img
+                        src={m.thumbnail}
+                        alt={m.name}
+                        className="w-10 h-10 rounded-lg object-cover bg-slate-100 shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <h4 className="text-xs font-bold text-slate-800 truncate">{m.name}</h4>
+                        <p className="text-[10px] text-slate-500 truncate">{m.district}</p>
+                      </div>
                     </div>
 
-                    <p className="text-[11px] text-slate-500 truncate flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                      <span>{m.district || m.address}</span>
-                    </p>
+                    {tourIndex !== undefined && tourIndex !== -1 && (
+                      <span className="w-6 h-6 rounded-full bg-lotus-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm">
+                        {tourIndex + 1}
+                      </span>
+                    )}
                   </div>
-                </article>
-              );
-            })
-          )}
-        </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Footer info */}
         <div className="p-3 bg-white border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
@@ -398,12 +665,15 @@ export default function MapView() {
           selectedMonument={selectedMonument}
           onSelectMonument={(m) => setSelectedMonument(m)}
           userLocation={userLocation}
+          onUserLocationChange={handleUserLocationDrag}
           activeRadius={activeRadius}
           onLocateUser={handleLocateUser}
+          activeTour={activeTour}
+          onClearTour={handleClearTour}
         />
 
         {/* ============================================================ */}
-        {/* MOBILE BOTTOM SHEET (chuan Stitch 577991b91e65462692f9d41fc0) */}
+        {/* MOBILE BOTTOM SHEET                                         */}
         {/* ============================================================ */}
         <div
           className={`md:hidden absolute left-0 right-0 bottom-0 z-30 bg-white rounded-t-3xl shadow-2xl border-t border-slate-200/80 transition-transform duration-300 ${
