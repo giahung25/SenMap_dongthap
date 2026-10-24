@@ -13,15 +13,15 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-[15px] sm:text-[17px] tracking-tight bg-gradient-to-r from-lotus-700 via-lotus-600 to-tram-700 bg-clip-text text-transparent">
-                ĐỒNG THÁP
+              <span className="font-extrabold text-[16px] sm:text-[18px] tracking-tight bg-gradient-to-r from-lotus-700 via-lotus-600 to-tram-700 bg-clip-text text-transparent">
+                SenMap
               </span>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-lotus-100 text-lotus-700 uppercase tracking-wider hidden sm:inline-block">
-                WebGIS 3.0
+                Đồng Tháp GIS
               </span>
             </div>
-            <span className="text-[11px] text-text-muted font-medium -mt-0.5 truncate max-w-[200px] sm:max-w-none">
-              Bản đồ số Di tích & Di sản Văn hóa Đất Sen Hồng
+            <span className="text-[11px] text-text-muted font-medium -mt-0.5 truncate max-w-[220px] sm:max-w-none">
+              Bản đồ số Di tích & Di sản Văn hóa Đồng Tháp
             </span>
           </div>
         </Link>

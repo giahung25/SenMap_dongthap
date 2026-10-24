@@ -7,7 +7,7 @@ BACKEND_ENV_PATH = Path(__file__).resolve().parents[2] / ".env"
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "SenMap Đồng Tháp - Hệ thống Bản đồ số Di tích Văn hóa"
+    PROJECT_NAME: str = "SenMap - Hệ thống Bản đồ số Di tích Văn hóa Đồng Tháp"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
 

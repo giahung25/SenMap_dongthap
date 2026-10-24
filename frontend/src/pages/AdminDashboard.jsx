@@ -235,12 +235,12 @@ export default function AdminDashboard() {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full bg-lotus-600 text-white text-[10px] font-bold uppercase tracking-wider">
-                Hệ thống Quản trị CMS
+                SenMap CMS
               </span>
-              <span className="text-xs text-slate-400">Đất Sen Hồng Đồng Tháp</span>
+              <span className="text-xs text-slate-400">SenMap Đồng Tháp — Đất Sen Hồng</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
-              Quản trị Hồ sơ Di tích & Ghim Tọa độ Bản đồ GIS
+              SenMap CMS — Quản trị Hồ sơ Di tích & Ghim Tọa độ Bản đồ GIS
             </h1>
           </div>
 
@@ -665,7 +665,7 @@ export default function AdminDashboard() {
                 <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs text-center space-y-3">
                   <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center justify-center gap-1.5">
                     <QrIcon className="w-4 h-4 text-tram-600" />
-                    <span>Preview Mã QR Định danh</span>
+                    <span>Preview Tem In QR A5 SenMap</span>
                   </h4>
 
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl inline-block shadow-inner">

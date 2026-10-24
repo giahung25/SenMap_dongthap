@@ -175,7 +175,7 @@ export default function WebGisMap({
         origin,
         bounds,
       });
-      setShowStepsList(true); // Open Turn-by-Turn drawer
+      setShowStepsList(false); // Collapsed by default so mobile screen stays clean and map is fully visible!
     } catch (err) {
       console.error('Lỗi khi tính toán lộ trình:', err);
     } finally {
@@ -519,29 +519,35 @@ export default function WebGisMap({
       {/* ============================================================== */}
       {/* FLOATING SINGLE ROUTE TURN-BY-TURN PANEL (Shown when active)   */}
       {/* ============================================================== */}
+      {/* FLOATING ROUTE PANEL (Compact on Mobile & Desktop)             */}
+      {/* ============================================================== */}
       {activeRoute && (
-        <div className="absolute top-4 left-4 z-20 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-glass-lg border border-tram-200 animate-in fade-in slide-in-from-top-4 space-y-2.5 max-h-[80vh] flex flex-col">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-tram-600 text-white flex items-center justify-center shadow-md shadow-tram-600/25 shrink-0">
-                <Navigation className="w-5 h-5" />
+        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-glass-lg border border-tram-200 animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[75vh] flex flex-col">
+          {/* Compact Top Header Bar */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-tram-600 text-white flex items-center justify-center shadow-sm shrink-0">
+                <Navigation className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tram-100 text-tram-800 uppercase tracking-wider">
-                    Lộ trình thông minh
+                    Lộ trình
                   </span>
                   <span className="text-xs font-mono font-bold text-slate-700">
                     ~{activeRoute.durationMin} phút
                   </span>
+                  <span className="text-xs font-extrabold text-tram-700 font-mono">
+                    ({activeRoute.distanceKm} km)
+                  </span>
                 </div>
-                <h4 className="text-xs font-bold text-slate-900 truncate max-w-[180px] sm:max-w-[220px] mt-0.5">
+                <h4 className="text-xs font-bold text-slate-900 truncate max-w-[190px] sm:max-w-[220px] mt-0.5">
                   Đến: {activeRoute.destination.name}
                 </h4>
               </div>
             </div>
 
-            {/* Close Route */}
+            {/* Close Button */}
             <button
               onClick={handleClearRoute}
               className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
@@ -551,19 +557,13 @@ export default function WebGisMap({
             </button>
           </div>
 
-          {/* Distance Result */}
-          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs flex items-center justify-between font-semibold">
-            <span className="text-slate-600">Quãng đường:</span>
-            <strong className="text-tram-700 font-extrabold text-sm">{activeRoute.distanceKm} km</strong>
-          </div>
-
           {/* Action Row */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 pt-0.5">
             <a
               href={getGoogleMapsDirUrl(userLocation, activeRoute.destination.coordinates)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-3 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 font-bold text-xs transition-colors border border-sky-200 text-center"
+              className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 font-bold text-[11px] sm:text-xs transition-colors border border-sky-200 text-center"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               <span>Mở Google Maps</span>
@@ -571,16 +571,16 @@ export default function WebGisMap({
 
             <button
               onClick={() => setShowStepsList(!showStepsList)}
-              className="py-1.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1 transition-colors"
+              className="py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] sm:text-xs flex items-center gap-1 transition-colors"
             >
               <span>{showStepsList ? 'Thu gọn' : `Chỉ dẫn (${activeRoute.steps?.length || 0})`}</span>
               {showStepsList ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           </div>
 
-          {/* Turn-by-Turn Steps List (Expandable) */}
+          {/* Turn-by-Turn Steps List (Only shown when user expands it) */}
           {showStepsList && activeRoute.steps && (
-            <div className="overflow-y-auto max-h-56 pr-1 space-y-1.5 pt-1 border-t border-slate-100 text-xs">
+            <div className="overflow-y-auto max-h-40 sm:max-h-52 pr-1 space-y-1.5 pt-1.5 border-t border-slate-100 text-xs">
               {activeRoute.steps.map((st, i) => {
                 const isTurnRight = st.instruction?.includes('phải');
                 const isTurnLeft = st.instruction?.includes('trái');
@@ -589,7 +589,7 @@ export default function WebGisMap({
                 return (
                   <div
                     key={i}
-                    className="p-2 rounded-xl bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 flex items-start gap-2 transition-all"
+                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 flex items-start gap-2 transition-all"
                   >
                     <div className="mt-0.5 text-tram-600 shrink-0">
                       {isArrive ? (
@@ -621,19 +621,19 @@ export default function WebGisMap({
       )}
 
       {/* ============================================================== */}
-      {/* FLOATING MULTI-STOP TOUR TSP BANNER (Shown when tour active)   */}
+      {/* FLOATING MULTI-STOP TOUR TSP BANNER (Compact on Mobile)        */}
       {/* ============================================================== */}
       {activeTour && (
-        <div className="absolute top-4 left-4 z-20 w-80 sm:w-96 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-glass-lg border border-lotus-300 animate-in fade-in slide-in-from-top-4 space-y-3 max-h-[80vh] flex flex-col">
+        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-glass-lg border border-lotus-300 animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[70vh] flex flex-col">
           <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-lotus-700 to-rose-500 text-white flex items-center justify-center shadow-md shadow-lotus-600/30 shrink-0 font-black text-sm">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-lotus-700 to-rose-500 text-white flex items-center justify-center shadow-sm shrink-0 font-black text-xs">
                 TSP
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-lotus-100 text-lotus-700 uppercase tracking-wider">
-                    Tour Tối Ưu 2-Opt
+                    Hành trình Tour
                   </span>
                   {activeTour.savingPercent > 0 && (
                     <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
@@ -641,7 +641,7 @@ export default function WebGisMap({
                     </span>
                   )}
                 </div>
-                <h4 className="text-xs font-bold text-slate-900 mt-0.5">
+                <h4 className="text-xs font-bold text-slate-900 mt-0.5 truncate">
                   {activeTour.orderedMonuments?.length} Điểm Di Tích Đồng Tháp
                 </h4>
               </div>
@@ -649,7 +649,7 @@ export default function WebGisMap({
 
             <button
               onClick={onClearTour}
-              className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors"
+              className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
               title="Hủy hành trình tour"
             >
               <X className="w-4 h-4" />
@@ -657,15 +657,16 @@ export default function WebGisMap({
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="p-2 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[10px] text-slate-400 block font-semibold">Tổng quãng đường</span>
-              <span className="font-extrabold text-lotus-700 text-sm">{activeTour.totalDistanceKm} km</span>
+            <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-[9px] text-slate-400 block font-semibold">Tổng quãng đường</span>
+              <span className="font-extrabold text-lotus-700 text-xs sm:text-sm">{activeTour.totalDistanceKm} km</span>
             </div>
-            <div className="p-2 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[10px] text-slate-400 block font-semibold">Thời gian di chuyển</span>
-              <span className="font-extrabold text-slate-800 text-sm">~{activeTour.totalDurationMin} phút</span>
+            <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="text-[9px] text-slate-400 block font-semibold">Thời gian di chuyển</span>
+              <span className="font-extrabold text-slate-800 text-xs sm:text-sm">~{activeTour.totalDurationMin} phút</span>
             </div>
           </div>
+
 
           {/* Numbered Itinerary Sequence */}
           <div className="overflow-y-auto max-h-48 pr-1 space-y-1.5 border-t border-slate-100 pt-2 text-xs">
@@ -694,9 +695,9 @@ export default function WebGisMap({
       )}
 
       {/* ============================================================== */}
-      {/* FLOATING MAP CONTROLS (Right Top / Side)                       */}
+      {/* FLOATING MAP CONTROLS (Bottom Right)                           */}
       {/* ============================================================== */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+      <div className="absolute bottom-6 right-4 z-20 flex flex-col gap-2">
         {/* Basemap Switcher Capsule with Full Name and Icon options */}
         <div className="glass-panel p-1 rounded-2xl shadow-glass flex flex-col gap-1">
           <button
@@ -763,8 +764,8 @@ export default function WebGisMap({
         <span className={`w-2 h-2 rounded-full ${geofenceCheck.isValid ? 'bg-tram-500 animate-pulse' : 'bg-rose-500'}`} />
         <span>
           {geofenceCheck.isValid
-            ? `Tọa độ hợp lệ Đồng Tháp • ${tileLayers[baseMap].shortName}`
-            : 'Vị trí ngoài tỉnh Đồng Tháp (Kéo ghim để dời)'}
+            ? `SenMap GIS Đồng Tháp • Tọa độ hợp lệ (${tileLayers[baseMap].shortName})`
+            : 'SenMap Cảnh báo: Vị trí ngoài tỉnh Đồng Tháp (Kéo ghim để dời)'}
         </span>
       </div>
     </div>

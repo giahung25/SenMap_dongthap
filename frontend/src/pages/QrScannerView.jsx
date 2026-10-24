@@ -94,9 +94,9 @@ export default function QrScannerView() {
         <div className="text-center">
           <h1 className="text-base font-extrabold tracking-tight text-white flex items-center justify-center gap-1.5">
             <QrCode className="w-4 h-4 text-lotus-400" />
-            <span>Quét Mã QR Di Tích</span>
+            <span>SenMap — Quét Mã QR Di Tích</span>
           </h1>
-          <p className="text-[11px] text-slate-400">Đồng Tháp Smart Heritage QR</p>
+          <p className="text-[11px] text-slate-400">SenMap Đồng Tháp • Smart Heritage QR</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export default function QrScannerView() {
 
         {/* User Guidance Instructions */}
         <p className="text-xs text-slate-300 font-medium text-center mt-5 max-w-sm px-4 leading-relaxed">
-          Hướng camera về phía tem QR in trên bia giới thiệu hoặc bảng chỉ dẫn tại di tích Đồng Tháp
+          Hướng camera về phía tem QR SenMap in trên bia giới thiệu hoặc bảng chỉ dẫn tại di tích Đồng Tháp
         </p>
       </div>
 
@@ -185,7 +185,7 @@ export default function QrScannerView() {
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[20px] text-tram-400">qr_code_scanner</span>
             <span className="text-xs font-bold text-white uppercase tracking-wider">
-              Chọn nhanh mã QR để kiểm thử (20 Di tích)
+              Chọn nhanh mã QR để kiểm thử (SenMap 20 Di tích)
             </span>
           </div>
 

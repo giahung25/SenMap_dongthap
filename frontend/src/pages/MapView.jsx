@@ -280,7 +280,7 @@ export default function MapView() {
             <div className="flex items-center gap-1.5">
               <span className={`inline-flex w-2.5 h-2.5 rounded-full ${geofence.isValid ? 'bg-tram-500 animate-pulse' : 'bg-rose-500'}`} />
               <span className="text-[11px] text-slate-700 uppercase tracking-wider font-extrabold">
-                Điểm xuất phát GPS
+                SenMap GPS • Điểm xuất phát
               </span>
             </div>
 
@@ -523,102 +523,34 @@ export default function MapView() {
                           </p>
                         </div>
                       </div>
+                      {/* Quick Action Buttons on Every Card */}
+                      <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/di-tich/${m.id}`);
+                          }}
+                          className="flex-1 py-1.5 px-2.5 rounded-xl bg-lotus-600 hover:bg-lotus-700 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-xs transition-colors"
+                          title="Xem chi tiết hồ sơ di tích & nghe Audio Tour"
+                        >
+                          <BookOpen className="w-3 h-3" />
+                          <span>Chi tiết & Audio</span>
+                        </button>
 
-                      {/* INLINE EXPANDABLE PREVIEW (When isSelected === true) */}
-                      {isSelected && (
-                        <div className="pt-2 border-t border-lotus-200/80 space-y-2 animate-in fade-in slide-in-from-top-1 text-xs">
-                          {/* Tóm tắt lịch sử */}
-                          <div className="bg-white/95 p-2.5 rounded-xl border border-lotus-100 text-slate-600 text-[11px] leading-relaxed line-clamp-3">
-                            {m.history}
-                          </div>
-
-                          {/* 2 Quick Info Chips */}
-                          <div className="grid grid-cols-2 gap-1.5 text-[10px]">
-                            <div className="px-2 py-1 rounded-lg bg-white/90 border border-slate-200/80 flex items-center gap-1 text-slate-600 truncate">
-                              <Clock className="w-3 h-3 text-tram-600 shrink-0" />
-                              <span className="truncate">{m.openingHours}</span>
-                            </div>
-                            <div className="px-2 py-1 rounded-lg bg-white/90 border border-slate-200/80 flex items-center gap-1 text-slate-600 truncate">
-                              <Ticket className="w-3 h-3 text-amber-600 shrink-0" />
-                              <span className="truncate">
-                                {m.ticketPrice > 0 ? formatCurrency(m.ticketPrice) : 'Miễn phí'}
-                              </span>
-                            </div>
-                          </div>
-
-                          {/* Prominent Full Action Buttons when expanded */}
-                          <div className="flex flex-col gap-1.5 pt-1">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(`/di-tich/${m.id}`);
-                              }}
-                              className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-extrabold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
-                            >
-                              <BookOpen className="w-3.5 h-3.5" />
-                              <span>Mở Hồ sơ Di tích & Nghe Audio Tour</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-
-                            <div className="flex items-center gap-1.5">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleTriggerRoute(m);
-                                }}
-                                className="flex-1 py-1.5 px-2.5 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all"
-                                title="Vẽ tuyến đường di chuyển thực tế"
-                              >
-                                <Navigation className="w-3.5 h-3.5" />
-                                <span>Vẽ Lộ trình Chỉ đường</span>
-                              </button>
-
-                              <a
-                                href={getGoogleMapsDirUrl(userLocation, m.coordinates)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="py-1.5 px-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-[11px] flex items-center gap-1 transition-all"
-                                title="Mở trên ứng dụng Google Maps"
-                              >
-                                <ExternalLink className="w-3.5 h-3.5" />
-                                <span>Google Maps</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* ALWAYS VISIBLE QUICK ACTION BUTTONS CLUSTER (When not expanded) */}
-                      {!isSelected && (
-                        <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/di-tich/${m.id}`);
-                            }}
-                            className="flex-1 py-1.5 px-2.5 rounded-xl bg-lotus-600 hover:bg-lotus-700 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-xs transition-colors"
-                          >
-                            <BookOpen className="w-3 h-3" />
-                            <span>Xem Chi tiết & Audio</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleTriggerRoute(m);
-                            }}
-                            className="py-1.5 px-2.5 rounded-xl bg-tram-50 hover:bg-tram-600 text-tram-700 hover:text-white border border-tram-200 font-bold text-[11px] flex items-center gap-1 transition-all"
-                          >
-                            <Navigation className="w-3 h-3" />
-                            <span>Chỉ đường</span>
-                          </button>
-                        </div>
-                      )}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTriggerRoute(m);
+                          }}
+                          className="py-1.5 px-2.5 rounded-xl bg-tram-50 hover:bg-tram-600 text-tram-700 hover:text-white border border-tram-200 font-bold text-[11px] flex items-center gap-1 transition-all"
+                          title="Chỉ đường trên bản đồ"
+                        >
+                          <Navigation className="w-3 h-3" />
+                          <span>Chỉ đường</span>
+                        </button>
+                      </div>
                     </article>
                   );
                 })
@@ -788,7 +720,7 @@ export default function MapView() {
           <div className="p-3 bg-white border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-tram-500 inline-block" />
-              <span>20/20 Di tích sẵn sàng</span>
+              <span>SenMap • 20/20 Di tích sẵn sàng</span>
             </span>
             <span className="text-slate-400 italic">Chọn di tích để xem nhanh</span>
           </div>
@@ -812,6 +744,134 @@ export default function MapView() {
           routeTargetMonument={requestedRouteTarget}
         />
 
+        {/* ============================================================== */}
+        {/* CỬA SỔ TÓM TẮT DI TÍCH NẰM BÊN PHẢI (FLOATING RIGHT PREVIEW)    */}
+        {/* ============================================================== */}
+        {selectedMonument && (
+          <aside className="hidden md:flex absolute top-4 right-4 z-30 w-[350px] sm:w-[380px] max-h-[calc(100vh-5rem)] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex-col animate-in fade-in slide-in-from-right-4 duration-200">
+            {/* 1. Fixed Header: Image Cover with Gradient & Close Button */}
+            <div className="relative w-full h-36 shrink-0 bg-slate-900 overflow-hidden">
+              <img
+                src={selectedMonument.thumbnail}
+                alt={selectedMonument.name}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src =
+                    'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=800&q=80';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-black/30" />
+
+              {/* Close button X */}
+              <button
+                onClick={() => setSelectedMonument(null)}
+                className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-md z-10"
+                title="Đóng cửa sổ xem nhanh"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Ranking Badge Top-Left */}
+              <div className="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-lotus-600/95 backdrop-blur-md text-white text-[10px] font-extrabold shadow-md z-10">
+                <span className="material-symbols-outlined text-[13px]">stars</span>
+                <span>{selectedMonument.ranking}</span>
+              </div>
+
+              {/* Title & Category over image */}
+              <div className="absolute bottom-2.5 left-3 right-3 text-white space-y-0.5">
+                <span className="text-[10px] uppercase font-semibold text-lotus-200 tracking-wider">
+                  {selectedMonument.category}
+                </span>
+                <h3 className="font-extrabold text-[15px] leading-snug drop-shadow-sm text-white line-clamp-1">
+                  {selectedMonument.name}
+                </h3>
+              </div>
+            </div>
+
+            {/* 2. Scrollable Middle Body (Vuốt cuộn lên xuống mượt mà) */}
+            <div className="flex-1 overflow-y-auto p-3.5 space-y-2.5 overscroll-contain">
+              {/* Address & Distance */}
+              <div className="flex items-start justify-between gap-2 text-xs">
+                <div className="flex items-start gap-1 text-slate-600 min-w-0">
+                  <MapPin className="w-3.5 h-3.5 text-lotus-600 shrink-0 mt-0.5" />
+                  <span className="truncate font-medium">{selectedMonument.address}</span>
+                </div>
+                {selectedMonument.distance !== null && selectedMonument.distance !== undefined && (
+                  <span className="px-2 py-0.5 rounded-full bg-tram-50 text-tram-700 font-bold font-mono text-[10px] shrink-0">
+                    Cách {selectedMonument.distance} km
+                  </span>
+                )}
+              </div>
+
+              {/* History Summary Text */}
+              <div className="text-[11px] text-slate-700 leading-relaxed bg-slate-50/90 p-3 rounded-2xl border border-slate-200/80">
+                <p className="font-semibold text-slate-900 mb-1 text-[11px] flex items-center gap-1">
+                  <BookOpen className="w-3.5 h-3.5 text-lotus-600" />
+                  <span>Tóm tắt lịch sử & di sản:</span>
+                </p>
+                <p className="text-slate-600">{selectedMonument.history}</p>
+              </div>
+
+              {/* 2 Quick Info Chips */}
+              <div className="grid grid-cols-2 gap-2 text-[10px]">
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-1.5 text-slate-700">
+                  <Clock className="w-3.5 h-3.5 text-tram-600 shrink-0" />
+                  <span className="truncate">{selectedMonument.openingHours}</span>
+                </div>
+                <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-1.5 text-slate-700">
+                  <Ticket className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="truncate font-semibold">
+                    {selectedMonument.ticketPrice > 0 ? formatCurrency(selectedMonument.ticketPrice) : 'Miễn phí'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Gợi ý lưu ý tham quan nếu có */}
+              {selectedMonument.note && (
+                <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/70 text-[10px] text-amber-900 leading-relaxed">
+                  <span className="font-bold">Lưu ý: </span>
+                  <span>{selectedMonument.note}</span>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Fixed Bottom Action Buttons (Luôn hiển thị cố định ở chân cửa sổ) */}
+            <div className="shrink-0 p-3 pt-2 bg-white/95 border-t border-slate-100 backdrop-blur-md flex flex-col gap-1.5">
+              <button
+                type="button"
+                onClick={() => navigate(`/di-tich/${selectedMonument.id}`)}
+                className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/25 transition-all"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Mở Hồ sơ Di tích & Nghe Audio Tour</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleTriggerRoute(selectedMonument)}
+                  className="flex-1 py-1.5 px-3 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Vẽ Lộ trình Chỉ đường</span>
+                </button>
+
+                <a
+                  href={getGoogleMapsDirUrl(userLocation, selectedMonument.coordinates)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-1.5 px-3 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-xs flex items-center gap-1 transition-all"
+                  title="Mở Google Maps chỉ đường"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Google Maps</span>
+                </a>
+              </div>
+            </div>
+          </aside>
+        )}
+
         {/* ============================================================ */}
         {/* MOBILE BOTTOM SHEET                                         */}
         {/* ============================================================ */}
@@ -828,7 +888,7 @@ export default function MapView() {
             <div className="w-10 h-1.5 bg-slate-300 rounded-full mb-2" />
             <div className="w-full flex items-center justify-between px-2">
               <span className="text-xs font-bold text-slate-800">
-                {selectedMonument ? selectedMonument.name : 'Danh sách 20 di tích'}
+                {selectedMonument ? selectedMonument.name : 'SenMap — 20 Di tích Đồng Tháp'}
               </span>
               <div className="flex items-center gap-1 text-[11px] font-semibold text-lotus-600">
                 <span>{mobileDrawerOpen ? 'Thu gọn' : `Xem thêm (${filteredMonuments.length})`}</span>
