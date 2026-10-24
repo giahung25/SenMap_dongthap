@@ -58,3 +58,17 @@ export function formatCurrency(amount) {
     currency: 'VND',
   }).format(amount);
 }
+
+/**
+ * Create Google Maps directions URL
+ * @param {[number, number]} origin [lat, lon]
+ * @param {[number, number]} destination [lat, lon]
+ * @returns {string} URL
+ */
+export function getGoogleMapsDirUrl(origin, destination) {
+  const userLat = origin && origin[0] ? origin[0] : 10.4494;
+  const userLon = origin && origin[1] ? origin[1] : 105.6295;
+  const destLat = destination[0];
+  const destLon = destination[1];
+  return `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLon}&destination=${destLat},${destLon}&travelmode=driving`;
+}

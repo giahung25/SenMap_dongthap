@@ -8,10 +8,15 @@ import {
   Polyline,
   useMap,
 } from 'react-leaflet';
+import L from 'leaflet';
 import { useNavigate } from 'react-router-dom';
 import { createMonumentIcon, createUserGpsIcon } from './leafletIcons';
 import { DONG_THAP_BOUNDS } from '../../data/monumentsData';
-import { calculateDistanceKm, formatCurrency } from '../../utils/geoUtils';
+import {
+  calculateDistanceKm,
+  formatCurrency,
+  getGoogleMapsDirUrl,
+} from '../../utils/geoUtils';
 import {
   Layers,
   Crosshair,
@@ -23,6 +28,9 @@ import {
   MapPin,
   Sparkles,
   Map,
+  ExternalLink,
+  X,
+  Loader2,
 } from 'lucide-react';
 
 // Subcomponent to handle programmatic map camera movement
@@ -31,7 +39,7 @@ function MapController({ center, zoom, bounds }) {
 
   useEffect(() => {
     if (bounds) {
-      map.fitBounds(bounds, { padding: [50, 50], animate: true });
+      map.fitBounds(bounds, { padding: [60, 60], animate: true });
     } else if (center) {
       map.setView(center, zoom || map.getZoom(), { animate: true });
     }
@@ -79,18 +87,9 @@ export default function WebGisMap({
   const navigate = useNavigate();
   // Default to Google Maps Standard Street Map with full Vietnamese road network
   const [baseMap, setBaseMap] = useState('street'); 
-  const [routePolyline, setRoutePolyline] = useState(null);
-  const [showLayerMenu, setShowLayerMenu] = useState(false);
+  const [activeRoute, setActiveRoute] = useState(null);
+  const [isRoutingLoading, setIsRoutingLoading] = useState(false);
   const mapRef = useRef(null);
-
-  // When selected monument changes, update routing line if user location is available
-  useEffect(() => {
-    if (selectedMonument && userLocation) {
-      setRoutePolyline([userLocation, selectedMonument.coordinates]);
-    } else {
-      setRoutePolyline(null);
-    }
-  }, [selectedMonument, userLocation]);
 
   // 3 high-speed, reliable basemap layer options
   const tileLayers = {
@@ -124,12 +123,81 @@ export default function WebGisMap({
     },
   };
 
+  // Reset Dong Thap full view
   const resetDongThapView = () => {
+    setActiveRoute(null);
     if (mapRef.current) {
       mapRef.current.setView(DONG_THAP_BOUNDS.center, DONG_THAP_BOUNDS.defaultZoom, {
         animate: true,
       });
     }
+  };
+
+  // On-demand route calculation via OSRM API (only when user clicks 'Lộ trình WebGIS')
+  const handleRequestRoute = async (destMonument) => {
+    if (!destMonument) return;
+
+    let origin = userLocation;
+    if (!origin) {
+      onLocateUser();
+      origin = [10.4494, 105.6295]; // Default: TP. Cao Lãnh
+    }
+
+    const [userLat, userLon] = origin;
+    const [destLat, destLon] = destMonument.coordinates;
+
+    setIsRoutingLoading(true);
+
+    try {
+      const url = `https://router.project-osrm.org/route/v1/driving/${userLon},${userLat};${destLon},${destLat}?overview=full&geometries=geojson`;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const res = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.routes && data.routes.length > 0) {
+          const route = data.routes[0];
+          // OSRM coordinates are [lon, lat], convert to Leaflet [lat, lon]
+          const latLngs = route.geometry.coordinates.map(([lon, lat]) => [lat, lon]);
+          const distKm = Math.round((route.distance / 1000) * 10) / 10;
+          const durMin = Math.round(route.duration / 60);
+
+          const routeBounds = L.latLngBounds(latLngs);
+          setActiveRoute({
+            coords: latLngs,
+            distanceKm: distKm,
+            durationMin: durMin,
+            destination: destMonument,
+            bounds: routeBounds,
+          });
+          setIsRoutingLoading(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('OSRM routing request failed or timed out, using direct route fallback:', err);
+    }
+
+    // Fallback direct line if OSRM is unreachable
+    const directDist = calculateDistanceKm(origin, destMonument.coordinates);
+    const estMinutes = Math.round((directDist / 40) * 60);
+    const fallbackCoords = [origin, destMonument.coordinates];
+    const fallbackBounds = L.latLngBounds(fallbackCoords);
+
+    setActiveRoute({
+      coords: fallbackCoords,
+      distanceKm: directDist,
+      durationMin: estMinutes,
+      destination: destMonument,
+      bounds: fallbackBounds,
+    });
+    setIsRoutingLoading(false);
+  };
+
+  const handleClearRoute = () => {
+    setActiveRoute(null);
   };
 
   return (
@@ -155,10 +223,12 @@ export default function WebGisMap({
           {/* Fix layout shifts and container invalidation */}
           <MapResizeFix />
 
-          {/* Map Controller for smoothly moving camera */}
-          {selectedMonument && (
+          {/* Map Controller: fitBounds when route is active, or view when monument is selected */}
+          {activeRoute ? (
+            <MapController bounds={activeRoute.bounds} />
+          ) : selectedMonument ? (
             <MapController center={selectedMonument.coordinates} zoom={13} />
-          )}
+          ) : null}
 
           {/* User GPS Location Marker */}
           {userLocation && (
@@ -192,17 +262,32 @@ export default function WebGisMap({
             />
           )}
 
-          {/* Route Line from User to Monument */}
-          {routePolyline && (
-            <Polyline
-              positions={routePolyline}
-              pathOptions={{
-                color: '#E11D48',
-                weight: 4.5,
-                opacity: 0.9,
-                dashArray: '8, 8',
-              }}
-            />
+          {/* REAL DRIVING ROUTE POLYLINE (Only rendered on-demand when user clicks Lộ trình) */}
+          {activeRoute && (
+            <>
+              {/* White casing outline for road line */}
+              <Polyline
+                positions={activeRoute.coords}
+                pathOptions={{
+                  color: '#ffffff',
+                  weight: 8,
+                  opacity: 0.95,
+                  lineCap: 'round',
+                  lineJoin: 'round',
+                }}
+              />
+              {/* Main solid route line */}
+              <Polyline
+                positions={activeRoute.coords}
+                pathOptions={{
+                  color: '#059669',
+                  weight: 5,
+                  opacity: 1,
+                  lineCap: 'round',
+                  lineJoin: 'round',
+                }}
+              />
+            </>
           )}
 
           {/* 20 Monuments Markers */}
@@ -274,28 +359,46 @@ export default function WebGisMap({
                         )}
                       </div>
 
-                      {/* Action buttons matching Stitch */}
-                      <div className="pt-2 flex items-center gap-2">
-                        <button
-                          onClick={() => navigate(`/di-tich/${m.id}`)}
-                          className="flex-1 py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-semibold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
-                        >
-                          <span>Chi tiết & Audio</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
+                      {/* Action buttons with OSRM and Google Maps navigation */}
+                      <div className="pt-2 flex flex-col gap-1.5">
+                        <div className="flex items-center gap-1.5">
+                          {/* Button 1: Chỉ đường WebGIS OSRM */}
+                          <button
+                            type="button"
+                            onClick={() => handleRequestRoute(m)}
+                            disabled={isRoutingLoading}
+                            className="flex-1 py-2 px-2.5 rounded-xl bg-tram-600 hover:bg-tram-700 active:bg-tram-800 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all disabled:opacity-60"
+                            title="Vẽ lộ trình đường giao thông thực tế"
+                          >
+                            {isRoutingLoading ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Navigation className="w-3.5 h-3.5" />
+                            )}
+                            <span>{isRoutingLoading ? 'Đang vẽ...' : 'Lộ trình WebGIS'}</span>
+                          </button>
 
+                          {/* Button 2: Mở Google Maps chỉ đường */}
+                          <a
+                            href={getGoogleMapsDirUrl(userLocation, m.coordinates)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 font-bold text-[11px] flex items-center justify-center gap-1 transition-all"
+                            title="Mở Google Maps chỉ đường trong tab mới"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5 text-sky-600" />
+                            <span>Google Maps</span>
+                          </a>
+                        </div>
+
+                        {/* Button 3: Xem chi tiết & Audio */}
                         <button
-                          onClick={() => {
-                            if (userLocation) {
-                              setRoutePolyline([userLocation, m.coordinates]);
-                            } else {
-                              onLocateUser();
-                            }
-                          }}
-                          title="Vẽ tuyến đường đi"
-                          className="p-2 rounded-xl bg-slate-100 hover:bg-tram-50 hover:text-tram-700 text-slate-600 transition-colors"
+                          type="button"
+                          onClick={() => navigate(`/di-tich/${m.id}`)}
+                          className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-bold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
                         >
-                          <Navigation className="w-4 h-4" />
+                          <span>Xem Chi tiết & Thuyết minh Audio</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </div>
@@ -307,7 +410,62 @@ export default function WebGisMap({
         </MapContainer>
       </div>
 
-      {/* FLOATING MAP CONTROLS (Right Top / Side) */}
+      {/* ============================================================== */}
+      {/* FLOATING ROUTE INFORMATION BANNER (Shown when route is active)  */}
+      {/* ============================================================== */}
+      {activeRoute && (
+        <div className="absolute top-4 left-4 z-20 max-w-sm sm:max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-glass-lg border border-tram-200 animate-in fade-in slide-in-from-top-4 space-y-2">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-tram-600 text-white flex items-center justify-center shadow-md shadow-tram-600/25 shrink-0">
+                <Navigation className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tram-100 text-tram-800 uppercase tracking-wider">
+                    Lộ trình giao thông
+                  </span>
+                  <span className="text-xs font-mono font-bold text-slate-700">
+                    ~{activeRoute.durationMin} phút lái xe
+                  </span>
+                </div>
+                <h4 className="text-xs font-bold text-slate-900 truncate max-w-[200px] sm:max-w-[250px] mt-0.5">
+                  Đến: {activeRoute.destination.name}
+                </h4>
+              </div>
+            </div>
+
+            {/* Close / Clear Route Button */}
+            <button
+              onClick={handleClearRoute}
+              className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors"
+              title="Tắt chỉ đường"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
+            <span className="text-slate-600 font-medium">
+              Quãng đường: <strong className="text-tram-700 font-bold">{activeRoute.distanceKm} km</strong>
+            </span>
+
+            <a
+              href={getGoogleMapsDirUrl(userLocation, activeRoute.destination.coordinates)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 font-bold text-[11px] transition-colors border border-sky-200"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Mở Google Maps</span>
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* FLOATING MAP CONTROLS (Right Top / Side)                       */}
+      {/* ============================================================== */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         {/* Basemap Switcher Capsule with Full Name and Icon options */}
         <div className="glass-panel p-1 rounded-2xl shadow-glass flex flex-col gap-1">

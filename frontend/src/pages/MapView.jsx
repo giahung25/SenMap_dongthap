@@ -44,11 +44,8 @@ export default function MapView() {
     monumentApi.getAll().then((data) => {
       if (mounted) {
         setMonuments(data);
-        if (data.length > 0) {
-          // Default select the first or Gò Tháp
-          const goThap = data.find((m) => m.id === 6 || m.name.includes('Gò Tháp')) || data[0];
-          setSelectedMonument(goThap);
-        }
+        // Do not auto select a single monument on load - show full Dong Thap overview
+        setSelectedMonument(null);
         setLoading(false);
       }
     });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { monumentApi } from '../services/api';
-import { calculateDistanceKm, formatCurrency } from '../utils/geoUtils';
+import { calculateDistanceKm, formatCurrency, getGoogleMapsDirUrl } from '../utils/geoUtils';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { createMonumentIcon } from '../components/map/leafletIcons';
 import QRCode from 'qrcode';
@@ -28,6 +28,7 @@ import {
   Compass,
   ArrowRight,
   ShieldCheck,
+  ExternalLink,
 } from 'lucide-react';
 
 // Subcomponent to fix container size & resize issues (eliminating blank/grey tiles)
@@ -61,6 +62,19 @@ export default function MonumentDetail() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const durationSeconds = 265; // 04:25
+  const [userLocation, setUserLocation] = useState([10.4494, 105.6295]);
+
+  // Get user GPS position
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setUserLocation([pos.coords.latitude, pos.coords.longitude]);
+        },
+        () => {}
+      );
+    }
+  }, []);
 
   // Load Monument & Nearby
   useEffect(() => {
@@ -171,6 +185,16 @@ export default function MonumentDetail() {
           </div>
 
           <div className="flex items-center gap-2">
+            <a
+              href={getGoogleMapsDirUrl(userLocation, monument.coordinates)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-xs shadow-xs transition-colors"
+              title="Chỉ đường tới di tích qua Google Maps"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Mở Google Maps</span>
+            </a>
             <button
               onClick={() => setIsSaved(!isSaved)}
               className={`p-2 rounded-xl border transition-all ${
@@ -509,13 +533,14 @@ export default function MonumentDetail() {
                 </button>
 
                 <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${monument.lat},${monument.lon}`}
+                  href={getGoogleMapsDirUrl(userLocation, monument.coordinates)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-2 px-3 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors text-center"
+                  title="Mở chỉ đường trên ứng dụng Google Maps"
                 >
-                  <Navigation className="w-3.5 h-3.5" />
-                  <span>Google Maps</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Mở Google Maps</span>
                 </a>
               </div>
             </div>
