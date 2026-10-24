@@ -1,8 +1,0 @@
-{
-  "schemaVersion": 1,
-  "command": "deliver",
-  "status": "pending",
-  "receiptId": "c10f57d6-8abe-48a8-81d9-ccd2b479c7af",
-  "input": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_Activity_Diagram_CRUD_DiTich.json",
-  "output": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_Activity_Diagram_CRUD_DiTich.html"
-}

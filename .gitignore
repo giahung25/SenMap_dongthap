@@ -26,19 +26,32 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# AI Agents & IDE
+# AI Agents, Rules, Logs & Tools (Local Only - Do not push to GitHub)
 .agents/
 .claude/
 .pi/
 .omp/
 .agy/
 archify/
+archify
+AGENTS.md
+CLAUDE.md
+QUY_TAC_DAT_GACH_KLTN.md
+NHAT_KY_HOAT_DONG.md
+TIEN_DO_DU_AN.md
+
+# Local Admin Docs & Drafts (Keep local only)
+01_TaiLieu/
+bản nộp/
+doc/
+*.bak
+03_MaNguon/test.yml
+
+# IDE & OS Temporary Files
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS Temporary Files
 Thumbs.db
 ehthumbs.db
 Desktop.ini
