@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sơ đồ Kiến trúc Hệ thống Web GIS Đồng Tháp",
+    "output": "01_TaiLieu/Thiet_Ke_He_Thong/04_Nhom_Cau_Truc_He_Thong/02_Architecture_Diagram.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    { "id": "users", "type": "external", "label": "Du khách", "sublabel": "Mobile/Browser", "pos": [50, 220], "size": [130, 60] },
+    { "id": "admin", "type": "external", "label": "Quản trị viên", "sublabel": "CMS Browser", "pos": [50, 380], "size": [130, 60] },
+    
+    { "id": "react", "type": "frontend", "label": "Web GIS Frontend", "sublabel": "React.js + Leaflet", "pos": [280, 300], "size": [140, 60], "tag": "Vite" },
+    
+    { "id": "osrm", "type": "cloud", "label": "Map Services", "sublabel": "OSM / Mapbox", "pos": [550, 150], "size": [130, 60], "tag": "API" },
+    { "id": "fastapi", "type": "backend", "label": "API Server", "sublabel": "FastAPI", "pos": [550, 300], "size": [130, 60], "tag": "Python" },
+    { "id": "storage", "type": "messagebus", "label": "Media Storage", "sublabel": "Images & QR Codes", "pos": [550, 450], "size": [130, 60] },
+    
+    { "id": "postgis", "type": "database", "label": "Database", "sublabel": "PostgreSQL + PostGIS", "pos": [820, 300], "size": [150, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Môi trường Client (Trình duyệt)", "wraps": ["react"] },
+    { "kind": "region", "label": "Máy chủ Sở VHTTDL (Backend & CSDL)", "wraps": ["fastapi", "storage", "postgis"] },
+    { "kind": "security-group", "label": "Dịch vụ Bản đồ bên thứ 3", "wraps": ["osrm"] }
+  ],
+  "connections": [
+    { "id": "user-to-react", "from": "users", "to": "react", "label": "Quét QR / Truy cập", "variant": "emphasis" },
+    { "id": "admin-to-react", "from": "admin", "to": "react", "label": "Nhập liệu (JWT)", "variant": "security" },
+    
+    { "id": "react-to-api", "from": "react", "to": "fastapi", "label": "REST API (JSON)", "variant": "emphasis" },
+    { "id": "react-to-osrm", "from": "react", "to": "osrm", "label": "Map Tiles / Routing", "variant": "dashed", "fromSide": "top", "toSide": "left", "via": [[350, 180]] },
+    
+    { "id": "api-to-db", "from": "fastapi", "to": "postgis", "label": "Truy vấn Không gian (SQL)", "variant": "emphasis" },
+    { "id": "api-to-storage", "from": "fastapi", "to": "storage", "label": "Lưu file", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    { 
+      "dot": "emerald", 
+      "title": "Phân tầng rõ rệt (Microservices-lite)", 
+      "items": [
+        "Frontend React chỉ đảm nhiệm UI và thao tác bản đồ (Leaflet).",
+        "FastAPI độc lập xử lý logic nghiệp vụ và sinh mã QR.",
+        "Dễ dàng nâng cấp hoặc thay thế Frontend mà không ảnh hưởng CSDL."
+      ] 
+    },
+    { 
+      "dot": "cyan", 
+      "title": "Quản lý dữ liệu Không gian (GIS)", 
+      "items": [
+        "Database sử dụng PostGIS (Extension của PostgreSQL) để lưu chuẩn WGS84.",
+        "FastAPI query trực tiếp với PostGIS để tìm di tích lân cận."
+      ] 
+    },
+    { 
+      "dot": "orange", 
+      "title": "Tối ưu hóa Băng thông", 
+      "items": [
+        "Các tile bản đồ nặng được load trực tiếp từ dịch vụ thứ 3 (OSM) tới Client.",
+        "Server Đồng Tháp không bị quá tải do không phải gánh traffic bản đồ nền."
+      ] 
+    }
+  ]
+}

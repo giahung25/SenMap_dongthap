@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sơ đồ Tuần tự: Quét mã QR Tra cứu Di tích",
+    "output": "01_TaiLieu/Thiet_Ke_He_Thong/03_Nhom_Luong_Xu_Ly/01_Sequence_Diagram_QuetQR.html",
+    "column_fit": "spread",
+    "animation": "trace",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    { "id": "user", "type": "external", "label": "Du khách", "sublabel": "Mobile Camera" },
+    { "id": "web", "type": "frontend", "label": "Frontend Web GIS", "sublabel": "React.js" },
+    { "id": "api", "type": "backend", "label": "Backend API", "sublabel": "FastAPI" },
+    { "id": "db", "type": "database", "label": "Database", "sublabel": "PostgreSQL/PostGIS" },
+    { "id": "osrm", "type": "external", "label": "Routing Service", "sublabel": "OSRM / Mapbox" }
+  ],
+  "segments": [
+    { "from": 140, "to": 350, "label": "Quét mã & Truy xuất thông tin" },
+    { "from": 370, "to": 580, "label": "Yêu cầu chỉ đường (Routing)" }
+  ],
+  "messages": [
+    { "id": "scan-qr", "from": "user", "to": "web", "y": 160, "label": "Quét QR (Mở URL)", "variant": "emphasis" },
+    { "id": "load-page", "from": "web", "to": "api", "y": 195, "label": "GET /api/di-tich/{id}", "variant": "default" },
+    { "id": "query-db", "from": "api", "to": "db", "y": 230, "label": "SELECT * FROM di_tich", "variant": "default" },
+    { "id": "db-return", "from": "db", "to": "api", "y": 265, "label": "Trả về dữ liệu + Tọa độ", "variant": "return" },
+    { "id": "api-return", "from": "api", "to": "web", "y": 300, "label": "200 OK (JSON)", "variant": "return" },
+    { "id": "render-ui", "from": "web", "to": "user", "y": 335, "label": "Hiển thị trang chi tiết", "variant": "return" },
+    
+    { "id": "click-route", "from": "user", "to": "web", "y": 390, "label": "Click 'Chỉ đường'", "variant": "emphasis" },
+    { "id": "get-gps", "from": "web", "to": "user", "y": 425, "label": "Yêu cầu quyền Vị trí GPS", "variant": "security" },
+    { "id": "allow-gps", "from": "user", "to": "web", "y": 460, "label": "Cho phép (Lat, Lng)", "variant": "return" },
+    { "id": "call-osrm", "from": "web", "to": "osrm", "y": 495, "label": "Tính toán đường đi ngắn nhất", "variant": "dashed" },
+    { "id": "osrm-return", "from": "osrm", "to": "web", "y": 530, "label": "Trả về tuyến đường (Polyline)", "variant": "return" },
+    { "id": "render-route", "from": "web", "to": "user", "y": 565, "label": "Vẽ đường đi trên bản đồ", "variant": "return" }
+  ],
+  "activations": [
+    { "participant": "web", "from": 170, "to": 570, "type": "frontend" },
+    { "participant": "api", "from": 195, "to": 305, "type": "backend" },
+    { "participant": "db", "from": 230, "to": 270, "type": "database" },
+    { "participant": "osrm", "from": 495, "to": 535, "type": "external" }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Luồng truy xuất dữ liệu",
+      "items": [
+        "Du khách không cần tải app, chỉ cần mở Camera điện thoại.",
+        "Mã QR chứa URL trỏ thẳng tới trang chi tiết di tích (React Router).",
+        "FastAPI truy xuất CSDL không gian PostGIS trả về dữ liệu nhanh chóng."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Xử lý Định vị & Chỉ đường",
+      "items": [
+        "Yêu cầu quyền truy cập GPS của người dùng phải được bảo mật (HTTPS).",
+        "Tuyến đường được vẽ bằng Polyline dựa trên dữ liệu từ Routing Engine (như OSRM)."
+      ]
+    }
+  ]
+}

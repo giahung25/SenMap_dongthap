@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "archify": {
+      "source": "./archify",
+      "sourceType": "local",
+      "computedHash": "db99ef1fdb3cec313f89e5ec19bcfdc8f867b3039925c02609fa3b7e43ea4edc"
+    }
+  }
+}

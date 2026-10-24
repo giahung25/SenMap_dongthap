@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Sơ đồ Luồng Dữ Liệu (DFD Mức 1) - Web GIS Đồng Tháp",
+    "output": "01_TaiLieu/Thiet_Ke_He_Thong/05_Nhom_Mo_Hinh_Khac/02_DataFlow_Diagram.html",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase"
+  },
+  "stages": [
+    { "label": "Thực Thể Ngoài (External Entities)" },
+    { "label": "Tiến Trình (Processes)" },
+    { "label": "Kho Dữ Liệu (Data Stores)" }
+  ],
+  "nodes": [
+    { "id": "du_khach", "type": "external", "label": "Du khách", "sublabel": "Người dùng public", "stage": 0, "row": 0 },
+    { "id": "admin", "type": "security", "label": "Quản trị viên", "sublabel": "Admin CMS", "stage": 0, "row": 2, "tag": "JWT Auth" },
+    
+    { "id": "p_tracuu", "type": "frontend", "label": "1.0 Tra cứu & Bản đồ", "sublabel": "Tìm kiếm, Định vị", "stage": 1, "row": 0 },
+    { "id": "p_quetqr", "type": "frontend", "label": "2.0 Quét QR", "sublabel": "Truy xuất nhanh", "stage": 1, "row": 1 },
+    { "id": "p_quanly", "type": "backend", "label": "3.0 Quản lý Di tích", "sublabel": "CRUD & Gen QR", "stage": 1, "row": 2 },
+    
+    { "id": "d_ditich", "type": "database", "label": "D1. CSDL Di Tích", "sublabel": "PostgreSQL / PostGIS", "stage": 2, "row": 0 },
+    { "id": "osm", "type": "cloud", "label": "Bản đồ & Routing", "sublabel": "OpenStreetMap / OSRM", "stage": 2, "row": 1 },
+    { "id": "d_media", "type": "messagebus", "label": "D2. File Storage", "sublabel": "Hình ảnh, Mã QR", "stage": 2, "row": 2 }
+  ],
+  "flows": [
+    { "from": "du_khach", "to": "p_tracuu", "label": "Tiêu chí tìm kiếm", "classification": "Text/GPS" },
+    { "from": "p_tracuu", "to": "du_khach", "label": "Bản đồ & Danh sách", "classification": "UI Render", "variant": "emphasis" },
+    
+    { "from": "p_tracuu", "to": "d_ditich", "label": "Query Không gian", "classification": "ST_Distance" },
+    { "from": "d_ditich", "to": "p_tracuu", "label": "Danh sách JSON", "classification": "REST Response", "variant": "emphasis" },
+    
+    { "from": "du_khach", "to": "p_quetqr", "label": "Quét URL Di tích", "classification": "Camera Scan" },
+    { "from": "p_quetqr", "to": "d_ditich", "label": "Query theo ID", "classification": "SELECT" },
+    { "from": "d_ditich", "to": "p_quetqr", "label": "Chi tiết Di tích", "classification": "Dữ liệu Bài viết", "variant": "emphasis" },
+    { "from": "p_quetqr", "to": "du_khach", "label": "Trang chi tiết", "classification": "UI Render", "variant": "emphasis" },
+    
+    { "from": "admin", "to": "p_quanly", "label": "Dữ liệu form & Tọa độ", "classification": "HTTP POST", "variant": "security" },
+    { "from": "p_quanly", "to": "admin", "label": "Thông báo lưu thành công", "classification": "200 OK", "variant": "emphasis" },
+    
+    { "from": "p_quanly", "to": "d_ditich", "label": "Insert/Update dữ liệu", "classification": "Transaction", "variant": "emphasis" },
+    { "from": "p_quanly", "to": "d_media", "label": "Lưu Ảnh & Sinh file QR", "classification": "File I/O", "variant": "emphasis" },
+    
+    { "from": "p_tracuu", "to": "osm", "label": "Lấy Map Tiles & Route", "classification": "API Call", "variant": "dashed" }
+  ],
+  "cards": [
+    { 
+      "dot": "emerald", 
+      "title": "Luồng Dữ liệu Công khai (Public Flow)", 
+      "items": [
+        "Du khách tương tác 2 chiều với hệ thống để lấy dữ liệu.",
+        "Dữ liệu bản đồ nặng (Map Tiles) được fetch trực tiếp từ cloud, giúp giảm tải Database."
+      ] 
+    },
+    { 
+      "dot": "rose", 
+      "title": "Luồng Quản trị (Admin Flow)", 
+      "items": [
+        "Mọi luồng lưu dữ liệu từ Admin đều được dán nhãn bảo mật (Security).",
+        "Tiến trình 3.0 phân phối dữ liệu Text/GIS về CSDL, và ghi dữ liệu Ảnh/QR vào Storage riêng biệt."
+      ] 
+    }
+  ]
+}

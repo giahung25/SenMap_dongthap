@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_Activity_Diagram_CRUD_DiTich.json",
+    "sha256": "921210ad2d6b4679e5dca307f632e7f2d90b3fd6ef9ab087864affe1d71b2b0a",
+    "bytes": 3310
+  },
+  "artifact": {
+    "path": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_Activity_Diagram_CRUD_DiTich.html"
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[0] \"error\" -> \"input_data\" shares a 15px corridor with edges[5] \"pick_map\" -> \"upload_img\" at [394, 199] -> [394, 214] (segments 1 and 2; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 0,
+        "from": "error",
+        "to": "input_data"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 5,
+          "from": "pick_map",
+          "to": "upload_img"
+        },
+        "overlapLengthPx": 15,
+        "minimumPx": 8,
+        "from": [
+          394,
+          199
+        ],
+        "to": [
+          394,
+          214
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 2
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    },
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[1] \"gen_qr\" -> \"save_db\" shares a 30.2px corridor with edges[10] \"validate\" -> \"gen_qr\" at [740.8, 586] -> [771, 586] (segments 0 and 3; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 1,
+        "from": "gen_qr",
+        "to": "save_db"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 10,
+          "from": "validate",
+          "to": "gen_qr"
+        },
+        "overlapLengthPx": 30.2,
+        "minimumPx": 8,
+        "from": [
+          740.8,
+          586
+        ],
+        "to": [
+          771,
+          586
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 3
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 2,
+    "shown": 2,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_activity_diagram_crud_ditich.finalize.json",
+    "summaryReceipt": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_activity_diagram_crud_ditich.finalize-summary.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-10T04:33:20.363Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 903,
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\03_Nhom_Luong_Xu_Ly\\02_Activity_Diagram_CRUD_DiTich.json",
+    "constraint": "Preserve unaffected semantics and geometry; do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

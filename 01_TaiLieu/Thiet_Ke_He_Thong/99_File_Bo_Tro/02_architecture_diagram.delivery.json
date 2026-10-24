@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "b54b50ac-a7d2-473b-931e-c6f4810f6f55",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\04_Nhom_Cau_Truc_He_Thong\\02_Architecture_Diagram.json",
+  "output": "D:\\KLTN24\\01_TaiLieu\\Thiet_Ke_He_Thong\\04_Nhom_Cau_Truc_He_Thong\\02_Architecture_Diagram.html",
+  "specification": {
+    "sha256": "88db83ad0235e58fc861a4e9a9fa0f44f0aa4458c1f9bd67e46e3fd34945b676",
+    "bytes": 3514
+  },
+  "artifact": {
+    "sha256": "4e941d2d7bd2d4e266f34712d04ef218ef4f3b25fbd5a0a226f2e287eb7fb896",
+    "bytes": 759878
+  }
+}
