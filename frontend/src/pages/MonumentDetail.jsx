@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { monumentApi } from '../services/api';
 import { calculateDistanceKm, formatCurrency } from '../utils/geoUtils';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { createMonumentIcon } from '../components/map/leafletIcons';
 import QRCode from 'qrcode';
 import {
@@ -29,6 +29,18 @@ import {
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
+
+// Subcomponent to fix container size & resize issues (eliminating blank/grey tiles)
+function MapResizeFix() {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+}
 
 export default function MonumentDetail() {
   const { id } = useParams();
@@ -468,7 +480,7 @@ export default function MonumentDetail() {
                 </span>
               </div>
 
-              <div className="h-48 rounded-2xl overflow-hidden border border-slate-200">
+              <div className="relative h-52 rounded-2xl overflow-hidden border border-slate-200 bg-slate-100">
                 <MapContainer
                   center={monument.coordinates}
                   zoom={14}
@@ -477,7 +489,12 @@ export default function MonumentDetail() {
                   dragging={false}
                   scrollWheelZoom={false}
                 >
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <TileLayer
+                    url="https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}"
+                    attribution="&copy; Google Maps"
+                    maxZoom={20}
+                  />
+                  <MapResizeFix />
                   <Marker position={monument.coordinates} icon={createMonumentIcon(monument, true)} />
                 </MapContainer>
               </div>

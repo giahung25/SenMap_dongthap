@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { monumentApi } from '../services/api';
 import { validateDongThapBounds, formatCurrency } from '../utils/geoUtils';
 import { DISTRICTS, RANKINGS, CATEGORIES, DONG_THAP_BOUNDS } from '../data/monumentsData';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import QRCode from 'qrcode';
 import {
@@ -24,6 +24,28 @@ import {
   RotateCcw,
   Sparkles,
 } from 'lucide-react';
+
+// Subcomponent to fix container size & resize issues (eliminating blank/grey tiles)
+function MapResizeFix() {
+  const map = useMap();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [map]);
+  return null;
+}
+
+function MapRecenter({ position }) {
+  const map = useMap();
+  useEffect(() => {
+    if (position && position[0] && position[1]) {
+      map.setView(position, map.getZoom(), { animate: true });
+    }
+  }, [position, map]);
+  return null;
+}
 
 // Subcomponent to capture map click and update pin coordinates
 function LocationPicker({ position, onSelectPosition }) {
@@ -569,13 +591,19 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Leaflet Click-to-Pin Canvas */}
-                  <div className="h-64 rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
+                  <div className="relative h-64 rounded-2xl overflow-hidden border border-slate-200 shadow-inner bg-slate-100">
                     <MapContainer
                       center={[formData.lat, formData.lon]}
                       zoom={11}
                       className="w-full h-full"
                     >
-                      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                      <TileLayer
+                        url="https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}"
+                        attribution="&copy; Google Maps"
+                        maxZoom={20}
+                      />
+                      <MapResizeFix />
+                      <MapRecenter position={[formData.lat, formData.lon]} />
                       <LocationPicker
                         position={[formData.lat, formData.lon]}
                         onSelectPosition={handleMapPinSelected}
