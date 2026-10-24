@@ -1,96 +1,60 @@
-# 🪷 SenMap Đồng Tháp — Hệ Thống Bản Đồ Số Di Tích & Văn Hóa Đất Sen Hồng
-> **Khóa Luận Tốt Nghiệp Ngành Công Nghệ Thông Tin (IN4299N) — Trường Đại Học Đồng Tháp**
+# 🗺️ SenMap Đồng Tháp — Hệ thống Bản đồ số Di tích & Văn hóa (Web GIS)
 
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![PostGIS](https://img.shields.io/badge/PostGIS-3.4-green?logo=postgis&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
-![Leaflet](https://img.shields.io/badge/Leaflet-1.9-199900?logo=leaflet&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)
+**Tên đề tài:** Xây dựng hệ thống bản đồ số giới thiệu và tra cứu các di tích, địa điểm văn hóa trên địa bàn tỉnh Đồng Tháp.
 
 ---
 
-## 📌 Giới Thiệu Đề Tài
-* **Tên đề tài:** Xây dựng hệ thống bản đồ số giới thiệu và tra cứu các di tích, địa điểm văn hóa trên địa bàn tỉnh Đồng Tháp.
-* **Tên thương mại:** **SenMap Đồng Tháp**
-* **Sinh viên thực hiện:** Phan Trần Gia Hưng — MSSV: `0024417689` (Lớp ĐHCNTT24B-IT)
-* **Giảng viên hướng dẫn:** ThS. GVC. Huỳnh Lê Uyên Minh
-* **Khoa:** Công nghệ và Kỹ thuật — Trường Đại học Đồng Tháp (DThU)
+## 👨‍🎓 Thông tin Sinh viên & Giảng viên Hướng dẫn
+- **Sinh viên thực hiện:** Phan Trần Gia Hưng (MSSV: 0024417689 - Lớp: ĐHCNTT24B-IT)
+- **Giảng viên hướng dẫn:** ThS. GVC. Huỳnh Lê Uyên Minh
+- **Khóa đào tạo:** 2024 – 2028 | Khoa Công nghệ và Kỹ Thuật - Trường Đại học Đồng Tháp.
+- **Thời gian thực hiện:** Tháng 09/2026 – Tháng 05/2027.
 
 ---
 
-## 🏛️ Kiến Trúc Hệ Thống (Clean Architecture & GIS)
-
-```
-                     ┌────────────────────────────────────────┐
-                     │   Frontend WebGIS (React + Leaflet)    │
-                     │  - Bản đồ tương tác di tích            │
-                     │  - Tra cứu, bộ lọc & định tuyến lộ trình│
-                     │  - Design System: Đất Sen Hồng         │
-                     └───────────────────▲────────────────────┘
-                                         │ REST API / GeoJSON
-                                         ▼
-                     ┌────────────────────────────────────────┐
-                     │       Backend API (FastAPI)            │
-                     │  - Router: /api/v1/monuments, /routes  │
-                     │  - Services: Spatial queries, GeoJSON  │
-                     │  - Domain Models & Schemas (Pydantic)  │
-                     └───────────────────▲────────────────────┘
-                                         │ SQLAlchemy / GeoAlchemy2
-                                         ▼
-                     ┌────────────────────────────────────────┐
-                     │   Database: PostgreSQL 16 + PostGIS    │
-                     │  - Hệ tọa độ chuẩn: WGS84 (EPSG:4326)  │
-                     │  - Bounding Box Guard: Tỉnh Đồng Tháp  │
-                     │  - Spatial Indexing: GiST Index        │
-                     └────────────────────────────────────────┘
-```
+## 🎯 Mục tiêu cốt lõi (Core Objectives)
+Dự án tập trung vào việc số hóa và trực quan hóa các di tích lịch sử, văn hóa tại Đồng Tháp thông qua nền tảng Web GIS, giải quyết bài toán tra cứu rời rạc hiện tại. Bao gồm:
+1. **Web GIS tương tác:** Bản đồ số hiển thị 20 di tích tiêu biểu, gom cụm (marker cluster), lọc và tìm kiếm.
+2. **Định vị & Chỉ đường (Routing):** Tích hợp GPS tìm đường đi ngắn nhất đến di tích.
+3. **Mã QR Động:** Tự động sinh tem mã QR, hỗ trợ du khách quét bằng điện thoại tại thực địa để xem thông tin ngay lập tức.
+4. **Hệ thống Quản trị (CMS):** Giao diện quản lý thông tin di tích, tọa độ không gian, hình ảnh và thống kê.
 
 ---
 
-## 📂 Cấu Trúc Thư Mục Chuẩn
+## 🛠️ Công nghệ sử dụng (Tech Stack)
+- **Frontend (Web GIS):** React.js (Vite) + Tailwind CSS (Thiết kế Mobile-First, Design System Đất Sen Hồng).
+- **Thư viện Bản đồ:** Leaflet.js + OpenStreetMap (`EPSG:4326`).
+- **Backend API:** Python (FastAPI) + Pydantic v2 + SQLAlchemy 2.0 / GeoAlchemy2.
+- **Cơ sở dữ liệu:** PostgreSQL 16 kết hợp Extension **PostGIS 3.4** để lưu trữ và tính toán tọa độ địa lý.
 
-```
-KLTN24/
-├── 01_TaiLieu/                 # Đề cương, thuyết minh, 10 sơ đồ hệ thống & Wireframes
-├── 02_DuLieu_GIS/              # Dữ liệu không gian, ranh giới hành chính & tọa độ di tích
-├── 03_MaNguon/                 # Mã nguồn toàn bộ hệ thống
-│   ├── Backend_API/            # FastAPI + GeoAlchemy2 + PostGIS
-│   └── Frontend_WebGIS/        # React (Vite) + Tailwind + Leaflet.js
-├── 04_CoSoDuLieu/              # Script DDL, Seed Data, Migration & Docker Compose
-├── AGENTS.md                   # Quy tắc điều phối đa tác nhân trên Herdr
-├── NHAT_KY_HOAT_DONG.md        # Nhật ký kiểm toán thao tác (Audit Trail)
-├── TIEN_DO_DU_AN.md            # Báo cáo tiến độ chi tiết từng mốc đề cương
-└── README.md                   # Tài liệu tổng quan dự án
+---
+
+## 📂 Cấu trúc Thư mục Dự án (Project Structure)
+
+```text
+SenMap_dongthap/
+├── backend/                # Mã nguồn Backend API (FastAPI + GeoAlchemy2)
+├── frontend/               # Mã nguồn Frontend Web GIS (React + Vite + Tailwind + Leaflet)
+├── database/               # Thiết kế CSDL vật lý & Script khởi tạo PostGIS
+│   ├── Mock_Data/          # Dữ liệu mẫu (seed script) cho 20 di tích
+│   ├── Scripts/            # Tập lệnh DDL khởi tạo bảng, index GiST/GIN & trigger
+│   └── THIET_KE_CSDL_CHI_TIET.md
+├── gis_data/               # Tài nguyên số hóa không gian của 20 di tích
+│   ├── Hinh_Anh/           # Ảnh tư liệu, logo
+│   ├── QR_Code/            # Các mẫu tem QR xuất từ hệ thống
+│   └── Toa_Do/             # File tổng hợp tọa độ khảo sát (CSV, GeoJSON)
+└── docs/                   # Tài liệu phân tích & thiết kế hệ thống
+    └── Thiet_Ke_He_Thong/  # Use Case, ERD, Class Diagram, UI/UX Wireframes, Design System
 ```
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt & Chạy Nhanh
-
-### 1. Khởi chạy CSDL PostGIS qua Docker:
-```bash
-cd 04_CoSoDuLieu/Docker
-docker compose up -d
-```
-
-### 2. Khởi chạy Backend FastAPI:
-```bash
-cd 03_MaNguon/Backend_API
-python -m venv .venv
-source .venv/bin/activate  # Trên Windows: .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-```
-Swagger UI tài liệu API: `http://localhost:8000/docs`
-
-### 3. Khởi chạy Frontend WebGIS:
-```bash
-cd 03_MaNguon/Frontend_WebGIS
-npm install
-npm run dev
-```
-
----
-*Bản quyền khóa luận tốt nghiệp thuộc về Phan Trần Gia Hưng — Trường Đại học Đồng Tháp.*
+## 🚀 Tiến trình thực hiện (Roadmap)
+- [x] Giai đoạn 1: Lập kế hoạch và phê duyệt đề cương chi tiết.
+- [x] Giai đoạn 2: Khảo sát danh sách 20 di tích tiêu biểu tỉnh Đồng Tháp.
+- [x] Giai đoạn 3: Phân tích và đặc tả hệ thống (13 Use Cases & 10 sơ đồ UML/BPMN/ERD).
+- [x] Giai đoạn 4: Thiết kế CSDL vật lý PostGIS và Hệ thống Thiết kế UI/UX (Design System).
+- [ ] Giai đoạn 5: Triển khai CSDL PostGIS (Docker) & Lập trình Backend API (FastAPI).
+- [ ] Giai đoạn 6: Lập trình Web GIS Frontend (ReactJS + Leaflet).
+- [ ] Giai đoạn 7: Tích hợp QR Code, CMS và Kiểm thử thực địa.
+- [ ] Giai đoạn 8: Hoàn thiện báo cáo & Bảo vệ KLTN.

@@ -34,18 +34,22 @@ yarn-error.log*
 .agy/
 archify/
 archify
+_Archive/
 AGENTS.md
 CLAUDE.md
 QUY_TAC_DAT_GACH_KLTN.md
 NHAT_KY_HOAT_DONG.md
 TIEN_DO_DU_AN.md
+docs/QUY_TAC_DAT_GACH_KLTN.md
+docs/QUY_TAC_GIT_KLTN.md
+docs/Thiet_Ke_He_Thong/99_File_Bo_Tro/
 
-# Local Admin Docs & Drafts (Keep local only)
-01_TaiLieu/
+# Local Personal / Administrative Docs & Drafts (Keep local only, keep only README.md on GitHub)
+docs/
+database/THIET_KE_CSDL_CHI_TIET.md
 bản nộp/
 doc/
 *.bak
-03_MaNguon/test.yml
 
 # IDE & OS Temporary Files
 .vscode/
