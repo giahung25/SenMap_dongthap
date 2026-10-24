@@ -99,6 +99,7 @@ export default function WebGisMap({
   onLocateUser = () => {},
   activeTour = null, // Multi-stop TSP tour from Tour Planner
   onClearTour = () => {},
+  routeTargetMonument = null,
 }) {
   const navigate = useNavigate();
   // Default to Google Maps Standard Street Map with full Vietnamese road network
@@ -193,6 +194,14 @@ export default function WebGisMap({
       setActiveRoute(null);
     }
   }, [activeTour]);
+
+  // When routeTargetMonument is triggered from MapView sidebar/bottomsheet, build route immediately!
+  useEffect(() => {
+    if (routeTargetMonument) {
+      const target = routeTargetMonument.monument || routeTargetMonument;
+      handleRequestRoute(target);
+    }
+  }, [routeTargetMonument]);
 
   // Handle GPS Marker Drag End
   const handleGpsDragEnd = (e) => {
@@ -542,15 +551,10 @@ export default function WebGisMap({
             </button>
           </div>
 
-          {/* Algorithm Badge & Distance */}
-          <div className="p-2 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] space-y-1">
-            <div className="flex items-center justify-between font-semibold">
-              <span className="text-slate-600">Quãng đường:</span>
-              <strong className="text-tram-700 font-bold">{activeRoute.distanceKm} km</strong>
-            </div>
-            <div className="text-[10px] text-slate-400 font-mono truncate" title={activeRoute.algorithmUsed}>
-              Thuật toán: {activeRoute.algorithmUsed}
-            </div>
+          {/* Distance Result */}
+          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs flex items-center justify-between font-semibold">
+            <span className="text-slate-600">Quãng đường:</span>
+            <strong className="text-tram-700 font-extrabold text-sm">{activeRoute.distanceKm} km</strong>
           </div>
 
           {/* Action Row */}

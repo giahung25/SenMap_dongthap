@@ -5,6 +5,8 @@ import { monumentApi } from '../services/api';
 import {
   calculateDistanceKm,
   validateDongThapBounds,
+  formatCurrency,
+  getGoogleMapsDirUrl,
   GPS_PRESETS,
 } from '../utils/geoUtils';
 import { DISTRICTS, RANKINGS, CATEGORIES } from '../data/monumentsData';
@@ -28,6 +30,10 @@ import {
   Loader2,
   CalendarCheck,
   CheckCircle2,
+  BookOpen,
+  Clock,
+  Ticket,
+  ExternalLink,
 } from 'lucide-react';
 
 export default function MapView() {
@@ -58,6 +64,14 @@ export default function MapView() {
 
   // Mobile Bottom Sheet toggle
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  // Requested route target to trigger immediate routing on WebGisMap
+  const [requestedRouteTarget, setRequestedRouteTarget] = useState(null);
+
+  const handleTriggerRoute = (m) => {
+    setSelectedMonument(m);
+    setRequestedRouteTarget({ monument: m, timestamp: Date.now() });
+    setMobileDrawerOpen(false); // Collapse bottom sheet so mobile user sees map route immediately
+  };
 
   // Fetch monuments
   useEffect(() => {
@@ -444,9 +458,9 @@ export default function MapView() {
                     <article
                       key={m.id}
                       onClick={() => setSelectedMonument(m)}
-                      className={`p-2.5 rounded-2xl transition-all cursor-pointer flex gap-3 group relative overflow-hidden border ${
+                      className={`p-3 rounded-2xl transition-all cursor-pointer flex flex-col gap-2.5 group relative overflow-hidden border ${
                         isSelected
-                          ? 'bg-lotus-50/80 border-lotus-300 shadow-md shadow-lotus-600/10'
+                          ? 'bg-lotus-50/90 border-lotus-300 shadow-md shadow-lotus-600/10 ring-1 ring-lotus-300'
                           : 'bg-white hover:bg-slate-50/80 border-slate-100 hover:border-slate-200 shadow-xs'
                       }`}
                     >
@@ -454,25 +468,26 @@ export default function MapView() {
                         <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-lotus-600 rounded-l" />
                       )}
 
-                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden shadow-xs bg-slate-100">
-                        <img
-                          src={m.thumbnail}
-                          alt={m.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => {
-                            e.target.src =
-                              'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=400&q=80';
-                          }}
-                        />
-                        {isSpecial && (
-                          <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-lotus-600 text-white text-[8px] font-extrabold tracking-tight">
-                            ★ TOP
-                          </span>
-                        )}
-                      </div>
+                      {/* Card Header: Thumbnail + Title + Metadata */}
+                      <div className="flex gap-3 items-start">
+                        <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden shadow-xs bg-slate-100">
+                          <img
+                            src={m.thumbnail}
+                            alt={m.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              e.target.src =
+                                'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=400&q=80';
+                            }}
+                          />
+                          {isSpecial && (
+                            <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-lotus-600 text-white text-[8px] font-extrabold tracking-tight">
+                              ★ TOP
+                            </span>
+                          )}
+                        </div>
 
-                      <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
-                        <div>
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
                             <span
                               className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold leading-tight truncate ${
@@ -493,7 +508,7 @@ export default function MapView() {
                           </div>
 
                           <h3
-                            className={`text-[13px] font-bold truncate leading-snug ${
+                            className={`text-[13px] font-bold leading-snug ${
                               isSelected
                                 ? 'text-lotus-700'
                                 : 'text-slate-800 group-hover:text-lotus-600 transition-colors'
@@ -501,13 +516,109 @@ export default function MapView() {
                           >
                             {m.name}
                           </h3>
-                        </div>
 
-                        <p className="text-[11px] text-slate-500 truncate flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-                          <span>{m.district || m.address}</span>
-                        </p>
+                          <p className="text-[11px] text-slate-500 truncate flex items-center gap-1 mt-0.5">
+                            <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                            <span>{m.district || m.address}</span>
+                          </p>
+                        </div>
                       </div>
+
+                      {/* INLINE EXPANDABLE PREVIEW (When isSelected === true) */}
+                      {isSelected && (
+                        <div className="pt-2 border-t border-lotus-200/80 space-y-2 animate-in fade-in slide-in-from-top-1 text-xs">
+                          {/* Tóm tắt lịch sử */}
+                          <div className="bg-white/95 p-2.5 rounded-xl border border-lotus-100 text-slate-600 text-[11px] leading-relaxed line-clamp-3">
+                            {m.history}
+                          </div>
+
+                          {/* 2 Quick Info Chips */}
+                          <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                            <div className="px-2 py-1 rounded-lg bg-white/90 border border-slate-200/80 flex items-center gap-1 text-slate-600 truncate">
+                              <Clock className="w-3 h-3 text-tram-600 shrink-0" />
+                              <span className="truncate">{m.openingHours}</span>
+                            </div>
+                            <div className="px-2 py-1 rounded-lg bg-white/90 border border-slate-200/80 flex items-center gap-1 text-slate-600 truncate">
+                              <Ticket className="w-3 h-3 text-amber-600 shrink-0" />
+                              <span className="truncate">
+                                {m.ticketPrice > 0 ? formatCurrency(m.ticketPrice) : 'Miễn phí'}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Prominent Full Action Buttons when expanded */}
+                          <div className="flex flex-col gap-1.5 pt-1">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/di-tich/${m.id}`);
+                              }}
+                              className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-extrabold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
+                            >
+                              <BookOpen className="w-3.5 h-3.5" />
+                              <span>Mở Hồ sơ Di tích & Nghe Audio Tour</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </button>
+
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleTriggerRoute(m);
+                                }}
+                                className="flex-1 py-1.5 px-2.5 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all"
+                                title="Vẽ tuyến đường di chuyển thực tế"
+                              >
+                                <Navigation className="w-3.5 h-3.5" />
+                                <span>Vẽ Lộ trình Chỉ đường</span>
+                              </button>
+
+                              <a
+                                href={getGoogleMapsDirUrl(userLocation, m.coordinates)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="py-1.5 px-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-[11px] flex items-center gap-1 transition-all"
+                                title="Mở trên ứng dụng Google Maps"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                                <span>Google Maps</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* ALWAYS VISIBLE QUICK ACTION BUTTONS CLUSTER (When not expanded) */}
+                      {!isSelected && (
+                        <div className="pt-2 border-t border-slate-100 flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/di-tich/${m.id}`);
+                            }}
+                            className="flex-1 py-1.5 px-2.5 rounded-xl bg-lotus-600 hover:bg-lotus-700 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-xs transition-colors"
+                          >
+                            <BookOpen className="w-3 h-3" />
+                            <span>Xem Chi tiết & Audio</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleTriggerRoute(m);
+                            }}
+                            className="py-1.5 px-2.5 rounded-xl bg-tram-50 hover:bg-tram-600 text-tram-700 hover:text-white border border-tram-200 font-bold text-[11px] flex items-center gap-1 transition-all"
+                          >
+                            <Navigation className="w-3 h-3" />
+                            <span>Chỉ đường</span>
+                          </button>
+                        </div>
+                      )}
                     </article>
                   );
                 })
@@ -638,22 +749,50 @@ export default function MapView() {
           </div>
         )}
 
-        {/* Footer info */}
-        <div className="p-3 bg-white border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-          <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-tram-500 inline-block" />
-            <span>20/20 Di tích sẵn sàng</span>
-          </span>
-          {selectedMonument && (
-            <button
-              onClick={() => navigate(`/di-tich/${selectedMonument.id}`)}
-              className="text-lotus-600 hover:text-lotus-700 font-bold flex items-center gap-0.5"
-            >
-              <span>Xem chi tiết</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </div>
+        {/* Footer: Prominent bottom CTA bar when a monument is selected */}
+        {selectedMonument ? (
+          <div className="p-3 bg-gradient-to-r from-lotus-50 to-white border-t border-lotus-200/90 shadow-md space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <div className="min-w-0 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-lotus-600 shrink-0 animate-pulse" />
+                <span className="font-extrabold text-slate-900 truncate max-w-[210px]">
+                  {selectedMonument.name}
+                </span>
+              </div>
+              <span className="text-[10px] text-slate-500 font-medium">
+                {selectedMonument.district}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => navigate(`/di-tich/${selectedMonument.id}`)}
+                className="flex-1 py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-extrabold text-xs shadow-md shadow-lotus-600/25 flex items-center justify-center gap-1.5 transition-all"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Xem Chi tiết & Audio Tour</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              <button
+                onClick={() => handleTriggerRoute(selectedMonument)}
+                className="py-2 px-3 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition-all"
+                title="Vẽ lộ trình đường đi tới di tích này"
+              >
+                <Navigation className="w-3.5 h-3.5" />
+                <span>Chỉ đường</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="p-3 bg-white border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-tram-500 inline-block" />
+              <span>20/20 Di tích sẵn sàng</span>
+            </span>
+            <span className="text-slate-400 italic">Chọn di tích để xem nhanh</span>
+          </div>
+        )}
       </aside>
 
       {/* ============================================================== */}
@@ -670,6 +809,7 @@ export default function MapView() {
           onLocateUser={handleLocateUser}
           activeTour={activeTour}
           onClearTour={handleClearTour}
+          routeTargetMonument={requestedRouteTarget}
         />
 
         {/* ============================================================ */}
@@ -712,37 +852,67 @@ export default function MapView() {
             </div>
 
             {/* List */}
+            {/* List with prominent action buttons */}
             {filteredMonuments.map((m) => (
               <div
                 key={m.id}
                 onClick={() => {
                   setSelectedMonument(m);
-                  setMobileDrawerOpen(false);
                 }}
-                className={`p-2 rounded-xl flex items-center gap-2.5 border ${
+                className={`p-2.5 rounded-2xl flex flex-col gap-2 border transition-all ${
                   selectedMonument?.id === m.id
-                    ? 'bg-lotus-50 border-lotus-300'
+                    ? 'bg-lotus-50/90 border-lotus-300 shadow-sm'
                     : 'bg-white border-slate-100'
                 }`}
               >
-                <img
-                  src={m.thumbnail}
-                  alt={m.name}
-                  className="w-12 h-12 rounded-lg object-cover"
-                />
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-bold text-slate-800 truncate">{m.name}</h4>
-                  <p className="text-[10px] text-slate-500 truncate">{m.address}</p>
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src={m.thumbnail}
+                    alt={m.name}
+                    className="w-12 h-12 rounded-xl object-cover shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1 mb-0.5">
+                      <span className="px-1.5 py-0.2 rounded text-[9px] font-bold bg-lotus-100 text-lotus-700 truncate">
+                        {m.ranking}
+                      </span>
+                      {m.distance !== null && (
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {m.distance} km
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="text-xs font-bold text-slate-800 truncate">{m.name}</h4>
+                    <p className="text-[10px] text-slate-500 truncate">{m.district}</p>
+                  </div>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/di-tich/${m.id}`);
-                  }}
-                  className="px-2 py-1 rounded-lg bg-lotus-600 text-white text-[10px] font-bold"
-                >
-                  Xem
-                </button>
+
+                {/* Action Buttons in Mobile Sheet */}
+                <div className="flex items-center gap-1.5 pt-1 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/di-tich/${m.id}`);
+                    }}
+                    className="flex-1 py-1.5 px-2 rounded-xl bg-lotus-600 hover:bg-lotus-700 text-white font-bold text-[11px] flex items-center justify-center gap-1"
+                  >
+                    <BookOpen className="w-3 h-3" />
+                    <span>Xem Chi tiết & Audio</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleTriggerRoute(m);
+                    }}
+                    className="py-1.5 px-3 rounded-xl bg-tram-600 hover:bg-tram-700 text-white font-bold text-[11px] flex items-center justify-center gap-1"
+                  >
+                    <Navigation className="w-3 h-3" />
+                    <span>Chỉ đường</span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
