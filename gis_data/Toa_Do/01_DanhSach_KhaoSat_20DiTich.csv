@@ -1,21 +1,21 @@
 STT,Tên Di Tích / Địa Điểm,Cấp Xếp Hạng,Huyện/Thành Phố,Địa Chỉ Cụ Thể,Vĩ Độ (Latitude),Kinh Độ (Longitude),Loại Hình,Ghi Chú
-1,Khu di tích Nguyễn Sinh Sắc,Quốc gia,TP Cao Lãnh,123/1 Phạm Hữu Lầu Phường 4,,,Lịch sử,
-2,Khu di tích khảo cổ Gò Tháp,Quốc gia đặc biệt,Huyện Tháp Mười,Xã Tân Kiều,,,Khảo cổ,
-3,Khu di tích Xẻo Quýt,Quốc gia,Huyện Cao Lãnh,Xã Mỹ Long và Mỹ Hiệp,,,Lịch sử - Cách mạng,
-4,Nhà cổ Huỳnh Thủy Lê,Quốc gia,TP Sa Đéc,255A Nguyễn Huệ Phường 2,,,Kiến trúc nghệ thuật,
-5,Chùa Kiến An Cung,Quốc gia,TP Sa Đéc,Khóm 1 Phường 2,,,Kiến trúc nghệ thuật,
-6,Vườn quốc gia Tràm Chim,Danh lam thắng cảnh,Huyện Tam Nông,Xã Phú Hiệp,,,Sinh thái,
-7,Khu du lịch sinh thái Gáo Giồng,Điểm du lịch,Huyện Cao Lãnh,Xã Gáo Giồng,,,Sinh thái,
-8,Làng hoa Sa Đéc,Làng nghề,TP Sa Đéc,Đường Hoa Sa Đéc Phường Tân Quy Đông,,,Văn hóa - Du lịch,
-9,Làng nghề dệt chiếu Định Yên,Di sản phi vật thể,Huyện Lấp Vò,Xã Định Yên,,,Văn hóa truyền thống,
-10,Đền thờ Thượng tướng Trần Văn Năng,Quốc gia,Huyện Thanh Bình,Xã Tân Thạnh,,,Lịch sử,
-11,Căn cứ Tỉnh ủy Kiến Phong,Cấp tỉnh,Huyện Tân Hồng,Xã Thông Bình,,,Lịch sử - Cách mạng,
-12,Bảo tàng Đồng Tháp,Cấp tỉnh,TP Cao Lãnh,226 Nguyễn Thái Học Phường 4,,,Lịch sử - Văn hóa,
-13,Tượng đài Tập kết ra Bắc 1954,Cấp tỉnh,TP Cao Lãnh,Phường 6,,,Lịch sử,
-14,Chùa Phước Kiển (Chùa Lá Sen),Điểm du lịch,Huyện Châu Thành,Xã Hòa Tân,,,Văn hóa - Tín ngưỡng,
-15,Căn cứ Bình Thành,Cấp tỉnh,Huyện Thanh Bình,Xã Bình Thành,,,Lịch sử - Cách mạng,
-16,Đình Tân Phú Trung,Cấp tỉnh,TP Sa Đéc,Xã Tân Phú Trung,,,Kiến trúc nghệ thuật,
-17,Chùa Hưng Thiền,Điểm du lịch,Huyện Cao Lãnh,Xã Mỹ Hội,,,Văn hóa - Tín ngưỡng,
-18,Đình Long Thuận,Cấp tỉnh,Huyện Hồng Ngự,Xã Long Thuận,,,Kiến trúc nghệ thuật,
-19,Đình Phú Mỹ,Cấp tỉnh,Huyện Thanh Bình,Xã Phú Lợi,,,Kiến trúc nghệ thuật,
-20,Khu di tích Gò Quản Cung - Giồng Thị Đam,Quốc gia,Huyện Tân Hồng,Xã An Phước,,,Lịch sử - Cách mạng,
+1,Khu di tích Nguyễn Sinh Sắc,Quốc gia,TP Cao Lãnh,123/1 Phạm Hữu Lầu Phường 4,10.4494,105.6295,Lịch sử,Tọa độ tham khảo (chờ khảo sát thực địa)
+2,Khu di tích khảo cổ Gò Tháp,Quốc gia đặc biệt,Huyện Tháp Mười,Xã Tân Kiều,10.5936,105.8153,Khảo cổ,Tọa độ tham khảo (chờ khảo sát thực địa)
+3,Khu di tích Xẻo Quýt,Quốc gia,Huyện Cao Lãnh,Xã Mỹ Long và Mỹ Hiệp,10.4222,105.7528,Lịch sử - Cách mạng,Tọa độ tham khảo (chờ khảo sát thực địa)
+4,Nhà cổ Huỳnh Thủy Lê,Quốc gia,TP Sa Đéc,255A Nguyễn Huệ Phường 2,10.2925,105.7618,Kiến trúc nghệ thuật,Tọa độ tham khảo (chờ khảo sát thực địa)
+5,Chùa Kiến An Cung,Quốc gia,TP Sa Đéc,Khóm 1 Phường 2,10.2932,105.7592,Kiến trúc nghệ thuật,Tọa độ tham khảo (chờ khảo sát thực địa)
+6,Vườn quốc gia Tràm Chim,Quốc gia,Huyện Tam Nông,Xã Phú Hiệp,10.7167,105.5167,Sinh thái,Tọa độ tham khảo (chờ khảo sát thực địa)
+7,Khu du lịch sinh thái Gáo Giồng,Điểm du lịch/Làng nghề,Huyện Cao Lãnh,Xã Gáo Giồng,10.5333,105.6833,Sinh thái,Tọa độ tham khảo (chờ khảo sát thực địa)
+8,Làng hoa Sa Đéc,Điểm du lịch/Làng nghề,TP Sa Đéc,Đường Hoa Sa Đéc Phường Tân Quy Đông,10.3111,105.7486,Văn hóa - Du lịch,Tọa độ tham khảo (chờ khảo sát thực địa)
+9,Làng nghề dệt chiếu Định Yên,Quốc gia,Huyện Lấp Vò,Xã Định Yên,10.3347,105.5264,Văn hóa truyền thống,Tọa độ tham khảo (chờ khảo sát thực địa)
+10,Đền thờ Thượng tướng Trần Văn Năng,Quốc gia,Huyện Thanh Bình,Xã Tân Thạnh,10.5986,105.4542,Lịch sử,Tọa độ tham khảo (chờ khảo sát thực địa)
+11,Căn cứ Tỉnh ủy Kiến Phong,Cấp tỉnh,Huyện Tân Hồng,Xã Thông Bình,10.9012,105.4235,Lịch sử - Cách mạng,Tọa độ tham khảo (chờ khảo sát thực địa)
+12,Bảo tàng Đồng Tháp,Cấp tỉnh,TP Cao Lãnh,226 Nguyễn Thái Học Phường 4,10.4561,105.6319,Lịch sử - Văn hóa,Tọa độ tham khảo (chờ khảo sát thực địa)
+13,Tượng đài Tập kết ra Bắc 1954,Cấp tỉnh,TP Cao Lãnh,Phường 6,10.4358,105.6422,Lịch sử,Tọa độ tham khảo (chờ khảo sát thực địa)
+14,Chùa Phước Kiển (Chùa Lá Sen),Điểm du lịch/Làng nghề,Huyện Châu Thành,Xã Hòa Tân,10.2189,105.8475,Văn hóa - Tín ngưỡng,Tọa độ tham khảo (chờ khảo sát thực địa)
+15,Căn cứ Bình Thành,Cấp tỉnh,Huyện Thanh Bình,Xã Bình Thành,10.5625,105.5122,Lịch sử - Cách mạng,Tọa độ tham khảo (chờ khảo sát thực địa)
+16,Đình Tân Phú Trung,Cấp tỉnh,Huyện Châu Thành,Xã Tân Phú Trung,10.2614,105.8147,Kiến trúc nghệ thuật,Tọa độ tham khảo (chờ khảo sát thực địa)
+17,Chùa Hưng Thiền,Điểm du lịch/Làng nghề,Huyện Cao Lãnh,Xã Mỹ Hội,10.4842,105.7125,Văn hóa - Tín ngưỡng,Tọa độ tham khảo (chờ khảo sát thực địa)
+18,Đình Long Thuận,Cấp tỉnh,Huyện Hồng Ngự,Xã Long Thuận,10.7689,105.3342,Kiến trúc nghệ thuật,Tọa độ tham khảo (chờ khảo sát thực địa)
+19,Đình Phú Mỹ,Cấp tỉnh,Huyện Thanh Bình,Xã Phú Lợi,10.6311,105.4289,Kiến trúc nghệ thuật,Tọa độ tham khảo (chờ khảo sát thực địa)
+20,Khu di tích Gò Quản Cung - Giồng Thị Đam,Quốc gia,Huyện Tân Hồng,Xã An Phước,10.8356,105.4892,Lịch sử - Cách mạng,Tọa độ tham khảo (chờ khảo sát thực địa)

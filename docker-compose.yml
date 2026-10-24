@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: senmap_dongthap_postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres123}
+      POSTGRES_DB: ${POSTGRES_DB:-ditich_dongthap}
+      TZ: Asia/Ho_Chi_Minh
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+      - ./database/Scripts/01_init_schema.sql:/docker-entrypoint-initdb.d/01_init_schema.sql:ro
+      - ./database/Mock_Data/02_seed_20_di_tich.sql:/docker-entrypoint-initdb.d/02_seed_20_di_tich.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-ditich_dongthap}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgis_data:

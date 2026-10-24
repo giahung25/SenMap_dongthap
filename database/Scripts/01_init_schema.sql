@@ -60,7 +60,10 @@ CREATE TABLE di_tich (
     dia_chi VARCHAR(255) NOT NULL,
     
     -- Cột Không gian PostGIS: Điểm tọa độ theo hệ quy chiếu quốc tế WGS 84
-    geom GEOMETRY(Point, 4326) NOT NULL,
+    geom GEOMETRY(Point, 4326) NOT NULL CONSTRAINT chk_dong_thap_bbox CHECK (
+        ST_X(geom) BETWEEN 105.15 AND 105.95
+        AND ST_Y(geom) BETWEEN 10.10 AND 10.95
+    ),
     
     lich_su TEXT NOT NULL,
     thoi_gian_mo_cua VARCHAR(100) DEFAULT 'Tự do tham quan',
