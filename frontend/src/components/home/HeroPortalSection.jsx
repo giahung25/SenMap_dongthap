@@ -116,7 +116,7 @@ export default function HeroPortalSection({
               </span>
 
               {/* Verse lines */}
-              <blockquote className="font-serif italic text-base sm:text-xl md:text-2xl text-amber-200/95 font-semibold tracking-wide leading-relaxed">
+              <blockquote className="font-serif italic text-base sm:text-xl md:text-2xl text-amber-200/95 font-semibold tracking-normal leading-relaxed select-text">
                 {isEn ? (
                   <>
                     &ldquo;{verse.translation_en}&rdquo;
