@@ -45,6 +45,7 @@ import {
   Flag,
   Milestone,
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 // Subcomponent to handle programmatic map camera movement
 function MapController({ center, zoom, bounds }) {
@@ -52,7 +53,7 @@ function MapController({ center, zoom, bounds }) {
 
   useEffect(() => {
     if (bounds) {
-      map.fitBounds(bounds, { padding: [50, 50], animate: true });
+      map.fitBounds(bounds, { padding: [60, 60], animate: true });
     } else if (center) {
       map.setView(center, zoom || map.getZoom(), { animate: true });
     }
@@ -100,8 +101,10 @@ export default function WebGisMap({
   activeTour = null, // Multi-stop TSP tour from Tour Planner
   onClearTour = () => {},
   routeTargetMonument = null,
+  hideTourBanner = false,
 }) {
   const navigate = useNavigate();
+  const { lang, t } = useLanguage();
   // Default to Google Maps Standard Street Map with full Vietnamese road network
   const [baseMap, setBaseMap] = useState('street');
   const [activeRoute, setActiveRoute] = useState(null);
@@ -113,17 +116,17 @@ export default function WebGisMap({
   const tileLayers = {
     street: {
       id: 'street',
-      name: 'Bản đồ Đường phố (Google)',
-      shortName: 'Đường phố',
+      name: lang === 'en' ? 'Google Street Map' : 'Bản đồ Đường phố (Google)',
+      shortName: t('streetMapLabel'),
       icon: 'map',
-      url: 'https://mt1.google.com/vt/lyrs=m&hl=vi&x={x}&y={y}&z={z}',
-      attribution: '&copy; Google Maps (Đồng Tháp, Việt Nam)',
+      url: `https://mt1.google.com/vt/lyrs=m&hl=${lang === 'en' ? 'en' : 'vi'}&x={x}&y={y}&z={z}`,
+      attribution: '&copy; Google Maps',
       maxZoom: 20,
     },
     osm: {
       id: 'osm',
-      name: 'Bản đồ CARTO Voyager / OSM',
-      shortName: 'CARTO/OSM',
+      name: lang === 'en' ? 'CARTO Voyager / OSM' : 'Bản đồ CARTO Voyager / OSM',
+      shortName: t('cartoOsmLabel'),
       icon: 'public',
       url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
       attribution: '&copy; CARTO &copy; OpenStreetMap contributors',
@@ -132,10 +135,10 @@ export default function WebGisMap({
     },
     satellite: {
       id: 'satellite',
-      name: 'Ảnh Vệ tinh (Google Hybrid)',
-      shortName: 'Vệ tinh',
+      name: lang === 'en' ? 'Google Satellite Hybrid' : 'Ảnh Vệ tinh (Google Hybrid)',
+      shortName: t('satelliteLabel'),
       icon: 'satellite_alt',
-      url: 'https://mt1.google.com/vt/lyrs=y&hl=vi&x={x}&y={y}&z={z}',
+      url: `https://mt1.google.com/vt/lyrs=y&hl=${lang === 'en' ? 'en' : 'vi'}&x={x}&y={y}&z={z}`,
       attribution: '&copy; Google Earth / Satellite Hybrid',
       maxZoom: 20,
     },
@@ -166,7 +169,7 @@ export default function WebGisMap({
     onClearTour(); // Clear multi-tour if single route requested
 
     try {
-      const routeResult = await findOptimalRoute(origin, destMonument.coordinates);
+      const routeResult = await findOptimalRoute(origin, destMonument.coordinates, lang);
       const bounds = L.latLngBounds(routeResult.coords);
 
       setActiveRoute({
@@ -239,7 +242,7 @@ export default function WebGisMap({
         >
           {/* Key ensures TileLayer dynamically updates URL when baseMap state changes */}
           <TileLayer
-            key={baseMap}
+            key={`${baseMap}-${lang}`}
             url={tileLayers[baseMap].url}
             attribution={tileLayers[baseMap].attribution}
             maxZoom={tileLayers[baseMap].maxZoom || 19}
@@ -286,12 +289,12 @@ export default function WebGisMap({
                     <div className="inline-flex p-1.5 rounded-full bg-tram-100 text-tram-700 mb-1">
                       <Navigation className="w-4 h-4" />
                     </div>
-                    <h4 className="font-bold text-xs text-slate-800">Vị trí của bạn (Kéo thả để dời)</h4>
+                    <h4 className="font-bold text-xs text-slate-800">{t('userGpsTitle')}</h4>
                     <p className="text-[11px] font-mono text-slate-500 mt-0.5">
                       {userLocation[0].toFixed(4)}° N, {userLocation[1].toFixed(4)}° E
                     </p>
                     <p className="text-[10px] text-tram-700 font-semibold mt-1">
-                      Kéo ghim trên bản đồ để đổi điểm xuất phát
+                      {t('userGpsHint')}
                     </p>
                   </div>
                 </Popup>
@@ -381,15 +384,15 @@ export default function WebGisMap({
               <Popup className="custom-leaflet-popup">
                 <div className="p-3 text-center bg-white min-w-[200px]">
                   <span className="px-2 py-0.5 rounded-full bg-lotus-100 text-lotus-700 font-extrabold text-[10px]">
-                    Điểm dừng số {idx + 1}
+                    {t('stopNumberBadge', { num: idx + 1 })}
                   </span>
-                  <h4 className="font-bold text-xs text-slate-800 mt-1">{m.name}</h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{m.district}</p>
+                  <h4 className="font-bold text-xs text-slate-800 mt-1">{m.displayName || m.name}</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{m.displayDistrict || m.district}</p>
                   <button
                     onClick={() => navigate(`/di-tich/${m.id}`)}
                     className="mt-2 w-full py-1.5 rounded-lg bg-lotus-600 text-white font-bold text-[11px]"
                   >
-                    Xem chi tiết
+                    {t('stopDetailBtn')}
                   </button>
                 </div>
               </Popup>
@@ -415,14 +418,15 @@ export default function WebGisMap({
                 <Popup className="custom-leaflet-popup" maxWidth={320}>
                   <div className="w-[290px] sm:w-[310px] bg-white rounded-2xl overflow-hidden shadow-2xl">
                     {/* Hero Thumbnail */}
-                    <div className="relative w-full h-36 bg-slate-900 overflow-hidden">
+                    <div className="relative w-full h-36 bg-slate-900 overflow-hidden flex items-center justify-center">
                       <img
-                        src={m.thumbnail}
-                        alt={m.name}
+                        src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
+                        alt=""
+                        aria-label={m.displayName || m.name}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         onError={(e) => {
-                          e.target.src =
-                            'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=800&q=80';
+                          e.target.onerror = null;
+                          e.target.src = `/images/monuments/monument_${m.id}.jpg`;
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
@@ -432,16 +436,16 @@ export default function WebGisMap({
                         <span className="material-symbols-outlined text-[13px]">
                           stars
                         </span>
-                        <span>{m.ranking}</span>
+                        <span>{m.displayRanking || m.ranking}</span>
                       </div>
 
                       {/* Title over dark overlay */}
                       <div className="absolute bottom-2 left-3 right-3 text-white">
                         <span className="text-[10px] uppercase font-semibold text-lotus-200 tracking-wider">
-                          {m.category}
+                          {m.displayCategory || m.category}
                         </span>
                         <h3 className="font-bold text-[15px] leading-snug truncate drop-shadow-sm text-white">
-                          {m.name}
+                          {m.displayName || m.name}
                         </h3>
                       </div>
                     </div>
@@ -450,17 +454,17 @@ export default function WebGisMap({
                     <div className="p-3.5 space-y-2.5 bg-white">
                       <div className="flex items-start gap-1.5 text-slate-600 text-[12px] leading-relaxed">
                         <MapPin className="w-3.5 h-3.5 text-lotus-600 shrink-0 mt-0.5" />
-                        <span className="line-clamp-2">{m.address}</span>
+                        <span className="line-clamp-2">{m.displayAddress || m.address}</span>
                       </div>
 
                       <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[11px] text-slate-500">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3 text-tram-600" />
-                          <span>{m.openingHours}</span>
+                          <span>{m.displayOpeningHours || m.openingHours}</span>
                         </span>
                         {dist !== null && (
                           <span className="px-2 py-0.5 rounded-full bg-tram-50 text-tram-700 font-bold font-mono">
-                            Cách {dist} km
+                            {t('distanceKmAway')} {dist} km
                           </span>
                         )}
                       </div>
@@ -474,14 +478,14 @@ export default function WebGisMap({
                             onClick={() => handleRequestRoute(m)}
                             disabled={isRoutingLoading}
                             className="flex-1 py-2 px-2.5 rounded-xl bg-tram-600 hover:bg-tram-700 active:bg-tram-800 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all disabled:opacity-60"
-                            title="Vẽ lộ trình đường bộ thực tế qua OSRM / A*"
+                            title={t('drawDrivingRoute')}
                           >
                             {isRoutingLoading ? (
                               <Loader2 className="w-3.5 h-3.5 animate-spin" />
                             ) : (
                               <Navigation className="w-3.5 h-3.5" />
                             )}
-                            <span>{isRoutingLoading ? 'Đang vẽ...' : 'Lộ trình WebGIS'}</span>
+                            <span>{isRoutingLoading ? '...' : t('cardDirections')}</span>
                           </button>
 
                           {/* Button 2: Mở Google Maps chỉ đường */}
@@ -490,10 +494,10 @@ export default function WebGisMap({
                             target="_blank"
                             rel="noopener noreferrer"
                             className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 font-bold text-[11px] flex items-center justify-center gap-1 transition-all"
-                            title="Mở Google Maps chỉ đường trong tab mới"
+                            title={t('openGoogleMaps')}
                           >
                             <ExternalLink className="w-3.5 h-3.5 text-sky-600" />
-                            <span>Google Maps</span>
+                            <span>{t('googleMapsBtn')}</span>
                           </a>
                         </div>
 
@@ -503,7 +507,7 @@ export default function WebGisMap({
                           onClick={() => navigate(`/di-tich/${m.id}`)}
                           className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-bold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
                         >
-                          <span>Xem Chi tiết & Thuyết minh Audio</span>
+                          <span>{t('cardDetailsAndAudio')}</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -516,8 +520,6 @@ export default function WebGisMap({
         </MapContainer>
       </div>
 
-      {/* ============================================================== */}
-      {/* FLOATING SINGLE ROUTE TURN-BY-TURN PANEL (Shown when active)   */}
       {/* ============================================================== */}
       {/* FLOATING ROUTE PANEL (Compact on Mobile & Desktop)             */}
       {/* ============================================================== */}
@@ -532,17 +534,17 @@ export default function WebGisMap({
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tram-100 text-tram-800 uppercase tracking-wider">
-                    Lộ trình
+                    {t('routeBannerTitle')}
                   </span>
                   <span className="text-xs font-mono font-bold text-slate-700">
-                    ~{activeRoute.durationMin} phút
+                    {t('approxDuration', { min: activeRoute.durationMin })}
                   </span>
                   <span className="text-xs font-extrabold text-tram-700 font-mono">
                     ({activeRoute.distanceKm} km)
                   </span>
                 </div>
                 <h4 className="text-xs font-bold text-slate-900 truncate max-w-[190px] sm:max-w-[220px] mt-0.5">
-                  Đến: {activeRoute.destination.name}
+                  {t('routeDestination')}: {activeRoute.destination.displayName || activeRoute.destination.name}
                 </h4>
               </div>
             </div>
@@ -551,7 +553,7 @@ export default function WebGisMap({
             <button
               onClick={handleClearRoute}
               className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
-              title="Tắt chỉ đường"
+              title={t('closeBanner')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -566,14 +568,14 @@ export default function WebGisMap({
               className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 font-bold text-[11px] sm:text-xs transition-colors border border-sky-200 text-center"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              <span>Mở Google Maps</span>
+              <span>{t('openGoogleMaps')}</span>
             </a>
 
             <button
               onClick={() => setShowStepsList(!showStepsList)}
               className="py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] sm:text-xs flex items-center gap-1 transition-colors"
             >
-              <span>{showStepsList ? 'Thu gọn' : `Chỉ dẫn (${activeRoute.steps?.length || 0})`}</span>
+              <span>{showStepsList ? t('hideDirections') : t('directionsSteps', { count: activeRoute.steps?.length || 0 })}</span>
               {showStepsList ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           </div>
@@ -582,9 +584,9 @@ export default function WebGisMap({
           {showStepsList && activeRoute.steps && (
             <div className="overflow-y-auto max-h-40 sm:max-h-52 pr-1 space-y-1.5 pt-1.5 border-t border-slate-100 text-xs">
               {activeRoute.steps.map((st, i) => {
-                const isTurnRight = st.instruction?.includes('phải');
-                const isTurnLeft = st.instruction?.includes('trái');
-                const isArrive = st.instruction?.includes('Đến');
+                const isTurnRight = st.instruction?.includes('phải') || st.instruction?.includes('right');
+                const isTurnLeft = st.instruction?.includes('trái') || st.instruction?.includes('left');
+                const isArrive = st.instruction?.includes('Đến') || st.instruction?.includes('Arrive');
 
                 return (
                   <div
@@ -608,7 +610,7 @@ export default function WebGisMap({
                       </p>
                       {st.distanceKm > 0 && (
                         <span className="text-[10px] text-slate-400 font-mono">
-                          Sau {st.distanceKm} km
+                          {t('stepAfterKm', { km: st.distanceKm })}
                         </span>
                       )}
                     </div>
@@ -623,7 +625,7 @@ export default function WebGisMap({
       {/* ============================================================== */}
       {/* FLOATING MULTI-STOP TOUR TSP BANNER (Compact on Mobile)        */}
       {/* ============================================================== */}
-      {activeTour && (
+      {!hideTourBanner && activeTour && (
         <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-glass-lg border border-lotus-300 animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[70vh] flex flex-col">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
@@ -633,16 +635,16 @@ export default function WebGisMap({
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-lotus-100 text-lotus-700 uppercase tracking-wider">
-                    Hành trình Tour
+                    {t('tourBannerTitle')}
                   </span>
                   {activeTour.savingPercent > 0 && (
                     <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                      Tiết kiệm {activeTour.savingPercent}%
+                      {t('tourSavingsMessage', { percent: activeTour.savingPercent })}
                     </span>
                   )}
                 </div>
                 <h4 className="text-xs font-bold text-slate-900 mt-0.5 truncate">
-                  {activeTour.orderedMonuments?.length} Điểm Di Tích Đồng Tháp
+                  {t('monumentStopsCount', { count: activeTour.orderedMonuments?.length })}
                 </h4>
               </div>
             </div>
@@ -650,7 +652,7 @@ export default function WebGisMap({
             <button
               onClick={onClearTour}
               className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
-              title="Hủy hành trình tour"
+              title={t('clearTourBtn')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -658,20 +660,19 @@ export default function WebGisMap({
 
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[9px] text-slate-400 block font-semibold">Tổng quãng đường</span>
+              <span className="text-[9px] text-slate-400 block font-semibold">{t('totalDistance')}</span>
               <span className="font-extrabold text-lotus-700 text-xs sm:text-sm">{activeTour.totalDistanceKm} km</span>
             </div>
             <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[9px] text-slate-400 block font-semibold">Thời gian di chuyển</span>
-              <span className="font-extrabold text-slate-800 text-xs sm:text-sm">~{activeTour.totalDurationMin} phút</span>
+              <span className="text-[9px] text-slate-400 block font-semibold">{t('travelDuration')}</span>
+              <span className="font-extrabold text-slate-800 text-xs sm:text-sm">{t('approxDuration', { min: activeTour.totalDurationMin })}</span>
             </div>
           </div>
-
 
           {/* Numbered Itinerary Sequence */}
           <div className="overflow-y-auto max-h-48 pr-1 space-y-1.5 border-t border-slate-100 pt-2 text-xs">
             <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
-              Thứ tự tham quan tối ưu:
+              {t('optimalSequenceTitle')}
             </p>
             {activeTour.orderedMonuments?.map((m, idx) => (
               <div
@@ -684,7 +685,7 @@ export default function WebGisMap({
                     {idx + 1}
                   </span>
                   <span className="font-bold text-slate-800 text-xs truncate group-hover:text-lotus-700">
-                    {m.name}
+                    {m.displayName || m.name}
                   </span>
                 </div>
                 <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-lotus-600 shrink-0" />
@@ -707,10 +708,10 @@ export default function WebGisMap({
                 ? 'bg-lotus-600 text-white shadow-xs'
                 : 'text-slate-700 hover:bg-slate-100/80'
             }`}
-            title="Bản đồ đường phố tiêu chuẩn Google Maps (Đồng Tháp có tên đường, sông Tiền, sông Hậu tiếng Việt)"
+            title={t('streetMapDesc')}
           >
             <span className="material-symbols-outlined text-[18px]">map</span>
-            <span className="hidden sm:inline">Đường phố</span>
+            <span className="hidden sm:inline">{t('streetMapLabel')}</span>
           </button>
 
           <button
@@ -720,10 +721,10 @@ export default function WebGisMap({
                 ? 'bg-lotus-600 text-white shadow-xs'
                 : 'text-slate-700 hover:bg-slate-100/80'
             }`}
-            title="Bản đồ CARTO Voyager / OpenStreetMap"
+            title={t('cartoOsmDesc')}
           >
             <span className="material-symbols-outlined text-[18px]">public</span>
-            <span className="hidden sm:inline">CARTO/OSM</span>
+            <span className="hidden sm:inline">{t('cartoOsmLabel')}</span>
           </button>
 
           <button
@@ -733,10 +734,10 @@ export default function WebGisMap({
                 ? 'bg-lotus-600 text-white shadow-xs'
                 : 'text-slate-700 hover:bg-slate-100/80'
             }`}
-            title="Bản đồ ảnh vệ tinh Google Hybrid có nhãn đường"
+            title={t('satelliteDesc')}
           >
             <span className="material-symbols-outlined text-[18px]">satellite_alt</span>
-            <span className="hidden sm:inline">Vệ tinh</span>
+            <span className="hidden sm:inline">{t('satelliteLabel')}</span>
           </button>
         </div>
 
@@ -744,7 +745,7 @@ export default function WebGisMap({
         <button
           onClick={onLocateUser}
           className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-tram-700 hover:bg-tram-50 transition-all flex items-center justify-center group"
-          title="Định vị vị trí GPS của bạn"
+          title={t('locateMeTooltip')}
         >
           <Crosshair className="w-5 h-5 group-hover:scale-110 transition-transform text-tram-600" />
         </button>
@@ -753,7 +754,7 @@ export default function WebGisMap({
         <button
           onClick={resetDongThapView}
           className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-lotus-600 hover:bg-lotus-50 transition-all flex items-center justify-center group"
-          title="Toàn cảnh tỉnh Đồng Tháp"
+          title={t('dongThapOverviewTooltip')}
         >
           <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform text-lotus-600" />
         </button>
@@ -764,8 +765,8 @@ export default function WebGisMap({
         <span className={`w-2 h-2 rounded-full ${geofenceCheck.isValid ? 'bg-tram-500 animate-pulse' : 'bg-rose-500'}`} />
         <span>
           {geofenceCheck.isValid
-            ? `SenMap GIS Đồng Tháp • Tọa độ hợp lệ (${tileLayers[baseMap].shortName})`
-            : 'SenMap Cảnh báo: Vị trí ngoài tỉnh Đồng Tháp (Kéo ghim để dời)'}
+            ? t('mapWatermarkValid', { layer: tileLayers[baseMap].shortName })
+            : t('mapWatermarkInvalid')}
         </span>
       </div>
     </div>

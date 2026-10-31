@@ -10,7 +10,13 @@ function getStoredMonuments() {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+        // Auto-migrate cached items to ensure valid thumbnails
+        return parsed.map((item) => {
+          if (!item.thumbnail || item.thumbnail === 'undefined' || item.thumbnail.includes('upload.wikimedia.org')) {
+            item.thumbnail = `/images/monuments/monument_${item.id}.jpg`;
+          }
+          return item;
+        });
       }
     }
   } catch (err) {
@@ -37,9 +43,17 @@ function normalizeFeature(f) {
   if (f.type === 'Feature' && f.properties) {
     const p = f.properties || {};
     const [lon, lat] = f.geometry?.coordinates || [105.63, 10.45];
+    const monumentId = p.id || f.id;
+    const localThumb = monumentId ? `/images/monuments/monument_${monumentId}.jpg` : null;
     const thumbFromImages = Array.isArray(p.hinh_anh) && p.hinh_anh.length > 0 ? p.hinh_anh[0].url : null;
+    const validThumb =
+      p.thumbnail_url ||
+      (p.thumbnail && !p.thumbnail.includes('upload.wikimedia.org') ? p.thumbnail : null) ||
+      thumbFromImages ||
+      localThumb;
+
     return {
-      id: p.id || f.id,
+      id: monumentId,
       name: p.ten_di_tich || p.name,
       otherName: p.ten_khac || p.otherName || '',
       ranking: p.cap_xep_hang || p.ranking || 'Cấp tỉnh',
@@ -50,8 +64,8 @@ function normalizeFeature(f) {
       openingHours: p.thoi_gian_mo_cua || p.openingHours || '07:00 - 17:00',
       ticketPrice: p.gia_ve !== undefined ? Number(p.gia_ve) : 0,
       note: p.luu_y_tham_quan || p.note || '',
-      thumbnail: p.thumbnail || thumbFromImages,
-      qrUrl: p.qr_url || (p.qr_code && p.qr_code.qr_url) || `https://senmap.dongthap.gov.vn/di-tich/${p.id || f.id}`,
+      thumbnail: validThumb,
+      qrUrl: p.qr_url || (p.qr_code && p.qr_code.qr_url) || `https://senmap.dongthap.gov.vn/di-tich/${monumentId}`,
       views: p.luot_xem || p.views || 0,
       qrScans: p.luot_quet_qr || p.qrScans || 0,
       coordinates: [lat, lon],
@@ -61,8 +75,15 @@ function normalizeFeature(f) {
   }
   const lat = f.lat || (f.coordinates ? f.coordinates[0] : 10.45);
   const lon = f.lon || (f.coordinates ? f.coordinates[1] : 105.63);
+  const monumentId = f.id || (f.properties && f.properties.id);
+  const localThumb = monumentId ? `/images/monuments/monument_${monumentId}.jpg` : null;
+  const validThumb =
+    f.thumbnail_url ||
+    (f.thumbnail && !f.thumbnail.includes('upload.wikimedia.org') ? f.thumbnail : null) ||
+    localThumb;
   return {
     ...f,
+    thumbnail: validThumb,
     coordinates: [lat, lon],
     lat,
     lon,

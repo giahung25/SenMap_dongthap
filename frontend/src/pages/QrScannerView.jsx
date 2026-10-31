@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { monumentApi } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedMonument } from '../data/monumentsTranslationsEn';
 import {
   ArrowLeft,
   Flashlight,
@@ -19,6 +21,7 @@ import {
 
 export default function QrScannerView() {
   const navigate = useNavigate();
+  const { lang, t } = useLanguage();
   const [monuments, setMonuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +30,6 @@ export default function QrScannerView() {
   const [soundOn, setSoundOn] = useState(true);
   const [cameraActive, setCameraActive] = useState(false);
   const [scanSuccessItem, setScanSuccessItem] = useState(null);
-  const [selectedSimulateTab, setSelectedSimulateTab] = useState('all');
 
   const videoRef = useRef(null);
 
@@ -66,15 +68,20 @@ export default function QrScannerView() {
     };
   }, []);
 
+  // Localize monuments list
+  const localizedMonuments = useMemo(() => {
+    return monuments.map((m) => getLocalizedMonument(m, lang));
+  }, [monuments, lang]);
+
   // Simulate scanning a monument's QR code
   const handleScanMonument = async (m) => {
     // Record scan in API
     await monumentApi.recordQrScan(m.id);
     setScanSuccessItem(m);
 
-    // After 1.2s show effect, redirect to monument detail
+    // After 1.2s show effect, redirect to monument detail with language preserved
     setTimeout(() => {
-      navigate(`/di-tich/${m.id}`);
+      navigate(`/di-tich/${m.id}?lang=${lang}`);
     }, 1200);
   };
 
@@ -94,18 +101,20 @@ export default function QrScannerView() {
         <div className="text-center">
           <h1 className="text-base font-extrabold tracking-tight text-white flex items-center justify-center gap-1.5">
             <QrCode className="w-4 h-4 text-lotus-400" />
-            <span>SenMap — Quét Mã QR Di Tích</span>
+            <span>{t('qrScannerTitle')}</span>
           </h1>
-          <p className="text-[11px] text-slate-400">SenMap Đồng Tháp • Smart Heritage QR</p>
+          <p className="text-[11px] text-slate-400">{t('qrScannerSubtitle')}</p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => setTorchOn(!torchOn)}
             className={`p-2.5 rounded-full backdrop-blur-md transition-all ${
-              torchOn ? 'bg-amber-400 text-slate-900 shadow-lg shadow-amber-400/30' : 'bg-white/10 text-white hover:bg-white/20'
+              torchOn
+                ? 'bg-amber-400 text-slate-900 shadow-lg shadow-amber-400/30'
+                : 'bg-white/10 text-white hover:bg-white/20'
             }`}
-            title="Bật/Tắt đèn Flash"
+            title="Flash"
           >
             {torchOn ? <Flashlight className="w-5 h-5" /> : <FlashlightOff className="w-5 h-5" />}
           </button>
@@ -113,7 +122,7 @@ export default function QrScannerView() {
           <button
             onClick={() => setSoundOn(!soundOn)}
             className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white transition-colors"
-            title="Âm thanh phản hồi"
+            title="Audio"
           >
             {soundOn ? <Volume2 className="w-5 h-5 text-tram-400" /> : <VolumeX className="w-5 h-5 text-slate-400" />}
           </button>
@@ -137,14 +146,14 @@ export default function QrScannerView() {
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-900/80">
               <Camera className="w-10 h-10 text-slate-500 mb-2 animate-pulse" />
-              <p className="text-xs text-slate-300 font-semibold">Ống kính thực địa sẵn sàng</p>
-              <p className="text-[10px] text-slate-400 mt-1 max-w-[200px]">
-                Bạn có thể quét camera hoặc chọn nhanh 1 trong 20 di tích bên dưới để mô phỏng.
+              <p className="text-xs text-slate-300 font-semibold">{t('cameraReady')}</p>
+              <p className="text-[10px] text-slate-400 mt-1 max-w-[220px]">
+                {t('cameraHint')}
               </p>
             </div>
           )}
 
-          {/* 4 Corner Targeting Marks (Matching Stitch Design) */}
+          {/* 4 Corner Targeting Marks */}
           <div className="absolute top-2 left-2 w-7 h-7 border-t-4 border-l-4 border-lotus-500 rounded-tl-xl pointer-events-none" />
           <div className="absolute top-2 right-2 w-7 h-7 border-t-4 border-r-4 border-lotus-500 rounded-tr-xl pointer-events-none" />
           <div className="absolute bottom-2 left-2 w-7 h-7 border-b-4 border-l-4 border-lotus-500 rounded-bl-xl pointer-events-none" />
@@ -162,18 +171,18 @@ export default function QrScannerView() {
           {scanSuccessItem && (
             <div className="absolute inset-0 bg-tram-600/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-4 animate-in fade-in zoom-in-95">
               <CheckCircle2 className="w-14 h-14 text-white mb-2 animate-bounce" />
-              <h3 className="text-base font-extrabold text-white">Quét mã thành công!</h3>
+              <h3 className="text-base font-extrabold text-white">{t('scanSuccess')}</h3>
               <p className="text-xs text-tram-100 font-medium truncate max-w-[240px] mt-0.5">
-                {scanSuccessItem.name}
+                {scanSuccessItem.displayName || scanSuccessItem.name}
               </p>
-              <span className="text-[10px] text-tram-200 mt-2">Đang mở hồ sơ thuyết minh...</span>
+              <span className="text-[10px] text-tram-200 mt-2">{t('openingDetailMsg')}</span>
             </div>
           )}
         </div>
 
         {/* User Guidance Instructions */}
         <p className="text-xs text-slate-300 font-medium text-center mt-5 max-w-sm px-4 leading-relaxed">
-          Hướng camera về phía tem QR SenMap in trên bia giới thiệu hoặc bảng chỉ dẫn tại di tích Đồng Tháp
+          {t('qrAimGuidance')}
         </p>
       </div>
 
@@ -185,19 +194,20 @@ export default function QrScannerView() {
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[20px] text-tram-400">qr_code_scanner</span>
             <span className="text-xs font-bold text-white uppercase tracking-wider">
-              Chọn nhanh mã QR để kiểm thử (SenMap 20 Di tích)
+              {t('quickTestTitle')}
             </span>
           </div>
 
           <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/10 text-slate-300">
-            Chế độ thực địa
+            {t('fieldMode')}
           </span>
         </div>
 
         {/* Scrollable List of 20 Monuments for 1-Click Simulated Scanning */}
         <div className="flex-1 overflow-y-auto pt-3 space-y-2 no-scrollbar">
-          {monuments.map((m) => {
-            const isSpecial = m.ranking === 'Quốc gia đặc biệt';
+          {localizedMonuments.map((m) => {
+            const isSpecial =
+              m.ranking === 'Quốc gia đặc biệt' || m.cap_xep_hang === 'Quốc gia đặc biệt';
             return (
               <div
                 key={m.id}
@@ -206,7 +216,16 @@ export default function QrScannerView() {
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 rounded-xl overflow-hidden bg-slate-800 shrink-0">
-                    <img src={m.thumbnail} alt={m.name} className="w-full h-full object-cover" />
+                    <img
+                      src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
+                      alt=""
+                      aria-label={m.displayName}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = `/images/monuments/monument_${m.id}.jpg`;
+                      }}
+                    />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 mb-0.5">
@@ -215,12 +234,14 @@ export default function QrScannerView() {
                           isSpecial ? 'bg-lotus-500/20 text-lotus-400' : 'bg-tram-500/20 text-tram-400'
                         }`}
                       >
-                        {m.ranking}
+                        {m.displayRanking}
                       </span>
-                      <span className="text-[10px] text-slate-400 truncate">{m.district}</span>
+                      <span className="text-[10px] text-slate-400 truncate">
+                        {m.displayDistrict || m.district}
+                      </span>
                     </div>
                     <h4 className="text-xs font-bold text-white truncate group-hover:text-lotus-300 transition-colors">
-                      {m.name}
+                      {m.displayName}
                     </h4>
                   </div>
                 </div>
@@ -230,7 +251,7 @@ export default function QrScannerView() {
                   className="px-3 py-1.5 rounded-xl bg-lotus-600 group-hover:bg-lotus-500 text-white font-bold text-[11px] shrink-0 flex items-center gap-1 shadow-sm transition-all"
                 >
                   <Scan className="w-3.5 h-3.5" />
-                  <span>Quét QR</span>
+                  <span>{t('scanBtn')}</span>
                 </button>
               </div>
             );

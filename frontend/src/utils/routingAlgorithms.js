@@ -221,7 +221,8 @@ export function findNearestRoadNode(coord) {
  * @param {[number, number]} destination [lat, lon]
  * @returns {{ coords: Array<[number, number]>, distanceKm: number, durationMin: number, steps: Array<object> }}
  */
-export function aStarPath(origin, destination) {
+export function aStarPath(origin, destination, lang = 'vi') {
+  const isEn = lang === 'en';
   const startNodeId = findNearestRoadNode(origin);
   const endNodeId = findNearestRoadNode(destination);
 
@@ -234,11 +235,11 @@ export function aStarPath(origin, destination) {
       distanceKm: dist,
       durationMin: dur,
       steps: [
-        { instruction: `Khởi hành từ vị trí của bạn`, distanceKm: Math.round(dist * 0.5 * 10) / 10 },
-        { instruction: `Di chuyển vào ${DONG_THAP_ROAD_NODES[startNodeId].name}`, distanceKm: Math.round(dist * 0.5 * 10) / 10 },
-        { instruction: `Đến điểm di tích đích`, distanceKm: 0 }
+        { instruction: isEn ? 'Depart from your location' : 'Khởi hành từ vị trí của bạn', distanceKm: Math.round(dist * 0.5 * 10) / 10 },
+        { instruction: isEn ? `Proceed towards ${DONG_THAP_ROAD_NODES[startNodeId].name}` : `Di chuyển vào ${DONG_THAP_ROAD_NODES[startNodeId].name}`, distanceKm: Math.round(dist * 0.5 * 10) / 10 },
+        { instruction: isEn ? 'Arrive at destination' : 'Đến điểm di tích đích', distanceKm: 0 }
       ],
-      algorithmUsed: 'A* Heuristic Search (Nội bộ Đồng Tháp)',
+      algorithmUsed: isEn ? 'A* Heuristic Search (Đồng Tháp Road Graph)' : 'A* Heuristic Search (Nội bộ Đồng Tháp)',
     };
   }
 
@@ -282,13 +283,13 @@ export function aStarPath(origin, destination) {
       let totalDist = calculateDistanceKm(origin, DONG_THAP_ROAD_NODES[pathNodeIds[0]].coords);
       let totalTime = (totalDist / 40) * 60;
       const steps = [];
-
       steps.push({
-        instruction: `Khởi hành từ vị trí của bạn, nhập vào ${DONG_THAP_ROAD_NODES[pathNodeIds[0]].name}`,
+        instruction: isEn
+          ? `Depart from your location, merge towards ${DONG_THAP_ROAD_NODES[pathNodeIds[0]].name}`
+          : `Khởi hành từ vị trí của bạn, nhập vào ${DONG_THAP_ROAD_NODES[pathNodeIds[0]].name}`,
         distanceKm: Math.round(totalDist * 10) / 10,
-        road: 'Đường tiếp cận',
+        road: isEn ? 'Access Road' : 'Đường tiếp cận',
       });
-
       for (let i = 0; i < pathNodeIds.length - 1; i++) {
         const u = pathNodeIds[i];
         const v = pathNodeIds[i + 1];
@@ -305,9 +306,11 @@ export function aStarPath(origin, destination) {
         totalTime += legTime;
 
         steps.push({
-          instruction: `Đi theo ${edgeInfo?.road || 'Tuyến tỉnh lộ'} về hướng ${nodeV.name}`,
+          instruction: isEn
+            ? `Follow ${edgeInfo?.road || 'Provincial Road'} towards ${nodeV.name}`
+            : `Đi theo ${edgeInfo?.road || 'Tuyến tỉnh lộ'} về hướng ${nodeV.name}`,
           distanceKm: Math.round(legDist * 10) / 10,
-          road: edgeInfo?.road || 'Đường bộ',
+          road: edgeInfo?.road || (isEn ? 'Road' : 'Đường bộ'),
         });
       }
 
@@ -320,9 +323,9 @@ export function aStarPath(origin, destination) {
       fullCoords.push(destination);
 
       steps.push({
-        instruction: `Rẽ vào lối vào di tích và đến đích`,
+        instruction: isEn ? 'Turn into heritage site entrance and arrive' : 'Rẽ vào lối vào di tích và đến đích',
         distanceKm: Math.round(finalLeg * 10) / 10,
-        road: 'Điểm đến',
+        road: isEn ? 'Destination' : 'Điểm đến',
       });
 
       return {
@@ -330,10 +333,9 @@ export function aStarPath(origin, destination) {
         distanceKm: Math.round(totalDist * 10) / 10,
         durationMin: Math.max(5, Math.round(totalTime)),
         steps,
-        algorithmUsed: 'A* Shortest Path (Đồ thị Giao thông Đồng Tháp)',
+        algorithmUsed: isEn ? 'A* Shortest Path (Đồng Tháp Road Graph)' : 'A* Shortest Path (Đồ thị Giao thông Đồng Tháp)',
       };
     }
-
     // Duyệt các đỉnh kề
     const neighbors = ADJ_LIST[current] || [];
     for (const edge of neighbors) {
@@ -359,7 +361,7 @@ export function aStarPath(origin, destination) {
   }
 
   // Fallback an toàn (nếu đồ thị bị ngắt đoạn)
-  return aStarPath(origin, destination);
+  return aStarPath(origin, destination, lang);
 }
 
 /**
@@ -371,7 +373,8 @@ export function aStarPath(origin, destination) {
  * @param {[number, number]} destination [lat, lon]
  * @returns {Promise<object>}
  */
-export async function findOptimalRoute(origin, destination) {
+export async function findOptimalRoute(origin, destination, lang = 'vi') {
+  const isEn = lang === 'en';
   const [userLat, userLon] = origin;
   const [destLat, destLon] = destination;
 
@@ -403,21 +406,20 @@ export async function findOptimalRoute(origin, destination) {
             const stepDist = Math.round((s.distance / 1000) * 10) / 10;
 
             if (inst === 'depart') {
-              inst = `Khởi hành từ vị trí của bạn`;
+              inst = isEn ? 'Depart from your current location' : 'Khởi hành từ vị trí của bạn';
             } else if (inst === 'arrive') {
-              inst = `Đến điểm di tích đích đến`;
+              inst = isEn ? 'Arrive at destination' : 'Đến điểm di tích đích đến';
             } else if (inst === 'turn') {
-              if (modifier.includes('right')) inst = `Rẽ phải vào ${roadName}`;
-              else if (modifier.includes('left')) inst = `Rẽ trái vào ${roadName}`;
-              else inst = `Rẽ vào ${roadName}`;
+              if (modifier.includes('right')) inst = isEn ? `Turn right onto ${roadName}` : `Rẽ phải vào ${roadName}`;
+              else if (modifier.includes('left')) inst = isEn ? `Turn left onto ${roadName}` : `Rẽ trái vào ${roadName}`;
+              else inst = isEn ? `Turn onto ${roadName}` : `Rẽ vào ${roadName}`;
             } else if (inst === 'new name' || inst === 'continue') {
-              inst = `Tiếp tục đi thẳng trên ${roadName}`;
+              inst = isEn ? `Continue straight on ${roadName}` : `Tiếp tục đi thẳng trên ${roadName}`;
             } else if (inst === 'roundabout' || inst === 'rotary') {
-              inst = `Đi vào vòng xoay và rẽ lối ra vào ${roadName}`;
+              inst = isEn ? `Enter roundabout and take exit onto ${roadName}` : `Đi vào vòng xoay và rẽ lối ra vào ${roadName}`;
             } else {
-              inst = `Đi theo ${roadName}`;
+              inst = isEn ? `Follow ${roadName}` : `Đi theo ${roadName}`;
             }
-
             if (stepDist > 0 || inst.includes('Đến') || inst.includes('Khởi hành')) {
               steps.push({
                 instruction: inst,
@@ -432,8 +434,10 @@ export async function findOptimalRoute(origin, destination) {
           coords: latLngs,
           distanceKm: distKm,
           durationMin: durMin,
-          steps: steps.length > 0 ? steps : [{ instruction: 'Đi theo lộ trình đường bộ hiển thị trên bản đồ', distanceKm: distKm }],
-          algorithmUsed: 'OSRM Contraction Hierarchies (Giao thông Thực tế)',
+          steps: steps.length > 0
+            ? steps
+            : [{ instruction: isEn ? 'Follow the road route indicated on the map' : 'Đi theo lộ trình đường bộ hiển thị trên bản đồ', distanceKm: distKm }],
+          algorithmUsed: isEn ? 'OSRM Contraction Hierarchies (Live Traffic)' : 'OSRM Contraction Hierarchies (Giao thông Thực tế)',
         };
       }
     }
@@ -442,7 +446,7 @@ export async function findOptimalRoute(origin, destination) {
   }
 
   // 2. Fallback hoàn toàn tự động sang thuật toán A* trên Đồ thị Giao thông bộ Đồng Tháp
-  return aStarPath(origin, destination);
+  return aStarPath(origin, destination, lang);
 }
 
 /**
@@ -454,13 +458,14 @@ export async function findOptimalRoute(origin, destination) {
  * @param {Array<object>} monuments Danh sách các di tích du khách chọn (N điểm)
  * @returns {Promise<object>} Thứ tự thăm tối ưu, quãng đường, thời gian, % tiết kiệm, đường đi
  */
-export async function solveTourTSP2Opt(origin, monuments) {
+export async function solveTourTSP2Opt(origin, monuments, lang = 'vi') {
+  const isEn = lang === 'en';
   if (!monuments || monuments.length === 0) {
     return null;
   }
 
   if (monuments.length === 1) {
-    const singleRoute = await findOptimalRoute(origin, monuments[0].coordinates);
+    const singleRoute = await findOptimalRoute(origin, monuments[0].coordinates, lang);
     return {
       orderedMonuments: monuments,
       legs: [singleRoute],
@@ -579,10 +584,10 @@ export async function solveTourTSP2Opt(origin, monuments) {
   let currentCoord = origin;
   for (let i = 0; i < orderedMonuments.length; i++) {
     const nextMonument = orderedMonuments[i];
-    const legRoute = await findOptimalRoute(currentCoord, nextMonument.coordinates);
+    const legRoute = await findOptimalRoute(currentCoord, nextMonument.coordinates, lang);
     legs.push({
-      fromName: i === 0 ? 'Điểm xuất phát' : orderedMonuments[i - 1].name,
-      toName: nextMonument.name,
+      fromName: i === 0 ? (isEn ? 'Departure Point' : 'Điểm xuất phát') : (orderedMonuments[i - 1].displayName || orderedMonuments[i - 1].name),
+      toName: nextMonument.displayName || nextMonument.name,
       toMonument: nextMonument,
       distanceKm: legRoute.distanceKm,
       durationMin: legRoute.durationMin,
