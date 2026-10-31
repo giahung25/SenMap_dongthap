@@ -42,7 +42,7 @@ export default {
       fontFamily: {
         sans: ["Be Vietnam Pro", "Plus Jakarta Sans", "system-ui", "sans-serif"],
         display: ["Plus Jakarta Sans", "Be Vietnam Pro", "sans-serif"],
-        serif: ["Lora", "Be Vietnam Pro", "serif"],
+        serif: ["Be Vietnam Pro", "Lora", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       boxShadow: {

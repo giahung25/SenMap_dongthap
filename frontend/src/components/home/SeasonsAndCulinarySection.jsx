@@ -571,7 +571,7 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
               <Flower2 className="w-5 h-5 text-lotus-400" />
             </div>
 
-            <blockquote className="text-lg sm:text-xl md:text-2xl font-serif italic text-rose-100 leading-relaxed drop-shadow-sm">
+            <blockquote className="text-lg sm:text-xl md:text-2xl font-sans italic text-rose-100 leading-relaxed drop-shadow-sm font-semibold select-text">
               {lang === 'en'
                 ? `"${HOMEPAGE_STORYTELLING.folk_verse.translation_en}"`
                 : `"${HOMEPAGE_STORYTELLING.folk_verse.original_vi.replace('\n', ' • ')}"`}

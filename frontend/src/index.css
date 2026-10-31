@@ -9,7 +9,16 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* Vietnamese Typography Guard: Force serif classes to Be Vietnam Pro to eliminate detached diacritics */
+.font-serif, [class*="font-serif"] {
+  font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif !important;
 }
 
 /* Leaflet positioning and Tailwind preflight fix */

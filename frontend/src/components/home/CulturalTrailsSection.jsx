@@ -232,7 +232,7 @@ export default function CulturalTrailsSection({
               >
                 {isEn ? 'Curated Trail Narrative' : 'Câu Chuyện Hành Trình Tuyến:'}
               </span>
-              <p className="italic font-serif leading-relaxed text-slate-300">
+              <p className="italic font-sans text-xs sm:text-sm leading-relaxed text-slate-200 select-text">
                 &ldquo;{activeTrail.displayStory}&rdquo;
               </p>
             </div>
