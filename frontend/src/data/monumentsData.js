@@ -3,12 +3,12 @@
 // Tọa độ chuẩn WGS84: Leaflet sử dụng [lat, lon], GeoJSON sử dụng [lon, lat]
 
 export const DONG_THAP_BOUNDS = {
-  minLat: 10.10,
-  maxLat: 10.95,
-  minLon: 105.15,
-  maxLon: 105.95,
-  center: [10.455, 105.635], // [lat, lon] trung tâm tỉnh Đồng Tháp
-  defaultZoom: 10,
+  minLat: 10.05,
+  maxLat: 11.00,
+  minLon: 105.10,
+  maxLon: 106.85,
+  center: [10.48, 105.85], // [lat, lon] trung tâm tỉnh Đồng Tháp Mới (sau sáp nhập)
+  defaultZoom: 9.5,
 };
 
 export const DISTRICTS = [

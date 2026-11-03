@@ -160,12 +160,17 @@ export default function WebGisMap({
     setActiveRoute(null);
     onClearTour();
     if (mapRef.current) {
-      if (typeof mapRef.current.flyTo === 'function') {
-        mapRef.current.flyTo(DONG_THAP_BOUNDS.center, 10, {
+      if (DONG_THAP_PROVINCE_POLYGON && DONG_THAP_PROVINCE_POLYGON.length > 0) {
+        mapRef.current.fitBounds(DONG_THAP_PROVINCE_POLYGON, {
+          padding: [24, 24],
+          animate: true,
+        });
+      } else if (typeof mapRef.current.flyTo === 'function') {
+        mapRef.current.flyTo(DONG_THAP_BOUNDS.center, DONG_THAP_BOUNDS.defaultZoom || 9.5, {
           duration: 1.2,
         });
       } else {
-        mapRef.current.setView(DONG_THAP_BOUNDS.center, 10, {
+        mapRef.current.setView(DONG_THAP_BOUNDS.center, DONG_THAP_BOUNDS.defaultZoom || 9.5, {
           animate: true,
         });
       }
@@ -807,6 +812,7 @@ export default function WebGisMap({
 
         {/* Toggle Province Spotlight Mask & Border */}
         <button
+          data-testid="toggle-province-mask"
           onClick={() => setShowProvinceMask((prev) => !prev)}
           className={`glass-panel p-3 rounded-2xl shadow-glass transition-all flex items-center justify-center group ${
             showProvinceMask
@@ -832,6 +838,7 @@ export default function WebGisMap({
 
         {/* GPS Locate Me Button */}
         <button
+          data-testid="gps-locate-me"
           onClick={onLocateUser}
           className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-tram-700 hover:bg-tram-50 transition-all flex items-center justify-center group"
           title={t('locateMeTooltip')}
@@ -841,6 +848,7 @@ export default function WebGisMap({
 
         {/* Reset View Button */}
         <button
+          data-testid="reset-dongthap-view"
           onClick={resetDongThapView}
           className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-lotus-600 hover:bg-lotus-50 transition-all flex items-center justify-center group"
           title={lang === 'en' ? 'Reset to full Đồng Tháp Province view' : 'Về toàn cảnh Tỉnh Đồng Tháp'}
