@@ -249,7 +249,7 @@ export default function WebGisMap({
     : null;
 
   return (
-    <div className="relative w-full h-full overflow-hidden select-none bg-slate-200">
+    <div className="relative w-full h-full overflow-hidden select-none bg-[#FAF7F2]">
       {/* Absolute container ensuring 100% dimensions for Leaflet */}
       <div className="absolute inset-0 w-full h-full">
         <MapContainer
@@ -322,8 +322,8 @@ export default function WebGisMap({
                 center={userLocation}
                 radius={45}
                 pathOptions={{
-                  color: '#059669',
-                  fillColor: '#10B981',
+                  color: '#1E5631',
+                  fillColor: '#1E5631',
                   fillOpacity: 0.15,
                   weight: 1.5,
                 }}
@@ -338,15 +338,15 @@ export default function WebGisMap({
                 }}
               >
                 <Popup className="custom-leaflet-popup">
-                  <div className="p-3 text-center bg-white min-w-[200px]">
-                    <div className="inline-flex p-1.5 rounded-full bg-tram-100 text-tram-700 mb-1">
+                  <div className="p-3 text-center bg-white min-w-[200px] rounded-2xl border border-[#E6DEC8] shadow-md">
+                    <div className="inline-flex p-1.5 rounded-full bg-[#1E5631]/10 text-[#1E5631] mb-1">
                       <Navigation className="w-4 h-4" />
                     </div>
-                    <h4 className="font-bold text-xs text-slate-800">{t('userGpsTitle')}</h4>
-                    <p className="text-[11px] font-mono text-slate-500 mt-0.5">
+                    <h4 className="font-serif font-bold text-xs text-[#1E1B18]">{t('userGpsTitle')}</h4>
+                    <p className="text-[11px] font-mono text-[#766E65] mt-0.5">
                       {userLocation[0].toFixed(4)}° N, {userLocation[1].toFixed(4)}° E
                     </p>
-                    <p className="text-[10px] text-tram-700 font-semibold mt-1">
+                    <p className="text-[10px] text-[#1E5631] font-semibold mt-1">
                       {t('userGpsHint')}
                     </p>
                   </div>
@@ -361,8 +361,8 @@ export default function WebGisMap({
               center={userLocation}
               radius={activeRadius * 1000}
               pathOptions={{
-                color: '#059669',
-                fillColor: '#10B981',
+                color: '#1E5631',
+                fillColor: '#1E5631',
                 fillOpacity: 0.08,
                 weight: 2,
                 dashArray: '6, 6',
@@ -388,7 +388,7 @@ export default function WebGisMap({
               <Polyline
                 positions={activeRoute.coords}
                 pathOptions={{
-                  color: '#059669',
+                  color: '#1E5631',
                   weight: 5,
                   opacity: 1,
                   lineCap: 'round',
@@ -416,7 +416,7 @@ export default function WebGisMap({
               <Polyline
                 positions={activeTour.combinedPolyline}
                 pathOptions={{
-                  color: '#E11D48',
+                  color: '#9E1B32',
                   weight: 5.5,
                   opacity: 1,
                   lineCap: 'round',
@@ -435,15 +435,15 @@ export default function WebGisMap({
               zIndexOffset={1000 + idx}
             >
               <Popup className="custom-leaflet-popup">
-                <div className="p-3 text-center bg-white min-w-[200px]">
-                  <span className="px-2 py-0.5 rounded-full bg-lotus-100 text-lotus-700 font-extrabold text-[10px]">
+                <div className="p-3 text-center bg-white min-w-[200px] rounded-2xl border border-[#E6DEC8] shadow-md">
+                  <span className="px-2 py-0.5 rounded-full bg-[#9E1B32]/10 text-[#9E1B32] border border-[#9E1B32]/20 font-extrabold text-[10px]">
                     {t('stopNumberBadge', { num: idx + 1 })}
                   </span>
-                  <h4 className="font-bold text-xs text-slate-800 mt-1">{m.displayName || m.name}</h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{m.displayDistrict || m.district}</p>
+                  <h4 className="font-serif font-bold text-xs text-[#1E1B18] mt-1">{m.displayName || m.name}</h4>
+                  <p className="text-[11px] text-[#766E65] mt-0.5">{m.displayDistrict || m.district}</p>
                   <button
                     onClick={() => navigate(`/di-tich/${m.id}`)}
-                    className="mt-2 w-full py-1.5 rounded-lg bg-lotus-600 text-white font-bold text-[11px]"
+                    className="mt-2 w-full py-1.5 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white font-bold text-[11px] shadow-xs transition-colors cursor-pointer"
                   >
                     {t('stopDetailBtn')}
                   </button>
@@ -469,7 +469,7 @@ export default function WebGisMap({
                 }}
               >
                 <Popup className="custom-leaflet-popup" maxWidth={320}>
-                  <div className="w-[290px] sm:w-[310px] bg-white rounded-2xl overflow-hidden shadow-2xl">
+                  <div className="w-[290px] sm:w-[310px] bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-2xl border border-[#E6DEC8]">
                     {/* Hero Thumbnail */}
                     <div className="relative w-full h-36 bg-slate-900 overflow-hidden flex items-center justify-center">
                       <img
@@ -482,10 +482,16 @@ export default function WebGisMap({
                           e.target.src = `/images/monuments/monument_${m.id}.jpg`;
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
 
                       {/* Ranking Tag Badge */}
-                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-lotus-600/95 backdrop-blur-md text-white text-[11px] font-bold shadow-md">
+                      <div
+                        className={`absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] shadow-md ${
+                          m.ranking === 'Quốc gia đặc biệt' || m.cap_xep_hang === 'Quốc gia đặc biệt'
+                            ? 'bg-[#D5C390] text-[#1E1B18] font-black border border-[#D5C390]'
+                            : 'bg-[#9E1B32]/95 backdrop-blur-md text-white font-bold'
+                        }`}
+                      >
                         <span className="material-symbols-outlined text-[13px]">
                           stars
                         </span>
@@ -494,29 +500,29 @@ export default function WebGisMap({
 
                       {/* Title over dark overlay */}
                       <div className="absolute bottom-2 left-3 right-3 text-white">
-                        <span className="text-[10px] uppercase font-semibold text-lotus-200 tracking-wider">
+                        <span className="text-[10px] uppercase font-semibold text-[#D5C390] tracking-wider">
                           {m.displayCategory || m.category}
                         </span>
-                        <h3 className="font-bold text-[15px] leading-snug truncate drop-shadow-sm text-white">
+                        <h3 className="font-serif font-bold text-[15px] sm:text-[16px] leading-snug truncate drop-shadow-sm text-white">
                           {m.displayName || m.name}
                         </h3>
                       </div>
                     </div>
 
                     {/* Body Content */}
-                    <div className="p-3.5 space-y-2.5 bg-white">
-                      <div className="flex items-start gap-1.5 text-slate-600 text-[12px] leading-relaxed">
-                        <MapPin className="w-3.5 h-3.5 text-lotus-600 shrink-0 mt-0.5" />
+                    <div className="p-3.5 space-y-2.5 bg-[#FFFFFF]">
+                      <div className="flex items-start gap-1.5 text-[#4A453E] text-[12px] leading-relaxed">
+                        <MapPin className="w-3.5 h-3.5 text-[#9E1B32] shrink-0 mt-0.5" />
                         <span className="line-clamp-2">{m.displayAddress || m.address}</span>
                       </div>
 
-                      <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[11px] text-slate-500">
+                      <div className="flex items-center justify-between pt-1 border-t border-[#E6DEC8] text-[11px] text-[#766E65]">
                         <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3 text-tram-600" />
+                          <Clock className="w-3 h-3 text-[#1E5631]" />
                           <span>{m.displayOpeningHours || m.openingHours}</span>
                         </span>
                         {dist !== null && (
-                          <span className="px-2 py-0.5 rounded-full bg-tram-50 text-tram-700 font-bold font-mono">
+                          <span className="px-2 py-0.5 rounded-full bg-[#1E5631]/10 text-[#1E5631] border border-[#1E5631]/20 font-bold font-mono">
                             {t('distanceKmAway')} {dist} km
                           </span>
                         )}
@@ -530,7 +536,7 @@ export default function WebGisMap({
                             type="button"
                             onClick={() => handleRequestRoute(m)}
                             disabled={isRoutingLoading}
-                            className="flex-1 py-2 px-2.5 rounded-xl bg-tram-600 hover:bg-tram-700 active:bg-tram-800 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm transition-all disabled:opacity-60"
+                            className="flex-1 py-2 px-2.5 rounded-xl bg-[#1E5631] hover:bg-[#164024] active:bg-[#0f2d19] text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-xs transition-all disabled:opacity-60 cursor-pointer"
                             title={t('drawDrivingRoute')}
                           >
                             {isRoutingLoading ? (
@@ -546,10 +552,10 @@ export default function WebGisMap({
                             href={getGoogleMapsDirUrl(userLocation, m.coordinates)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-sky-50 text-slate-700 hover:text-sky-700 border border-slate-200 font-bold text-[11px] flex items-center justify-center gap-1 transition-all"
+                            className="py-2 px-2.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F4ECE7] text-[#1E1B18] border border-[#E6DEC8] hover:border-[#D5C390] font-bold text-[11px] flex items-center justify-center gap-1 transition-all shadow-2xs"
                             title={t('openGoogleMaps')}
                           >
-                            <ExternalLink className="w-3.5 h-3.5 text-sky-600" />
+                            <ExternalLink className="w-3.5 h-3.5 text-sky-700" />
                             <span>{t('googleMapsBtn')}</span>
                           </a>
                         </div>
@@ -558,7 +564,7 @@ export default function WebGisMap({
                         <button
                           type="button"
                           onClick={() => navigate(`/di-tich/${m.id}`)}
-                          className="w-full py-2 px-3 rounded-xl bg-lotus-600 hover:bg-lotus-700 active:bg-lotus-800 text-white font-bold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-lotus-600/20 transition-all"
+                          className="w-full py-2 px-3 rounded-xl bg-[#9E1B32] hover:bg-[#831427] active:bg-[#721021] text-white font-bold text-[12px] flex items-center justify-center gap-1.5 shadow-md shadow-[#9E1B32]/25 transition-all cursor-pointer"
                         >
                           <span>{t('cardDetailsAndAudio')}</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -577,26 +583,26 @@ export default function WebGisMap({
       {/* FLOATING ROUTE PANEL (Compact on Mobile & Desktop)             */}
       {/* ============================================================== */}
       {activeRoute && (
-        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-glass-lg border border-tram-200 animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[75vh] flex flex-col">
+        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-[#FAF7F2]/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-xl border border-[#E6DEC8] animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[75vh] flex flex-col">
           {/* Compact Top Header Bar */}
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-tram-600 text-white flex items-center justify-center shadow-sm shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#1E5631] text-white flex items-center justify-center shadow-sm shrink-0">
                 <Navigation className="w-4 h-4" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tram-100 text-tram-800 uppercase tracking-wider">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#1E5631]/10 text-[#1E5631] border border-[#1E5631]/20 uppercase tracking-wider">
                     {t('routeBannerTitle')}
                   </span>
-                  <span className="text-xs font-mono font-bold text-slate-700">
+                  <span className="text-xs font-mono font-bold text-[#1E1B18]">
                     {t('approxDuration', { min: activeRoute.durationMin })}
                   </span>
-                  <span className="text-xs font-extrabold text-tram-700 font-mono">
+                  <span className="text-xs font-extrabold text-[#1E5631] font-mono">
                     ({activeRoute.distanceKm} km)
                   </span>
                 </div>
-                <h4 className="text-xs font-bold text-slate-900 truncate max-w-[190px] sm:max-w-[220px] mt-0.5">
+                <h4 className="font-serif text-xs font-bold text-[#1E1B18] truncate max-w-[190px] sm:max-w-[220px] mt-0.5">
                   {t('routeDestination')}: {activeRoute.destination.displayName || activeRoute.destination.name}
                 </h4>
               </div>
@@ -605,7 +611,7 @@ export default function WebGisMap({
             {/* Close Button */}
             <button
               onClick={handleClearRoute}
-              className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
+              className="p-1.5 rounded-lg bg-[#FFFFFF] hover:bg-rose-50 hover:text-rose-600 text-[#766E65] border border-[#E6DEC8] transition-colors shrink-0 cursor-pointer"
               title={t('closeBanner')}
             >
               <X className="w-4 h-4" />
@@ -618,15 +624,15 @@ export default function WebGisMap({
               href={getGoogleMapsDirUrl(userLocation, activeRoute.destination.coordinates)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-xl bg-sky-50 text-sky-700 hover:bg-sky-100 font-bold text-[11px] sm:text-xs transition-colors border border-sky-200 text-center"
+              className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2.5 rounded-xl bg-[#FFFFFF] text-[#1E1B18] hover:bg-[#F4ECE7] font-bold text-[11px] sm:text-xs transition-colors border border-[#E6DEC8] hover:border-[#D5C390] text-center shadow-2xs"
             >
-              <ExternalLink className="w-3.5 h-3.5" />
+              <ExternalLink className="w-3.5 h-3.5 text-sky-700" />
               <span>{t('openGoogleMaps')}</span>
             </a>
 
             <button
               onClick={() => setShowStepsList(!showStepsList)}
-              className="py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[11px] sm:text-xs flex items-center gap-1 transition-colors"
+              className="py-1.5 px-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#F4ECE7] text-[#1E1B18] border border-[#E6DEC8] font-bold text-[11px] sm:text-xs flex items-center gap-1 transition-colors cursor-pointer shadow-2xs"
             >
               <span>{showStepsList ? t('hideDirections') : t('directionsSteps', { count: activeRoute.steps?.length || 0 })}</span>
               {showStepsList ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -635,7 +641,7 @@ export default function WebGisMap({
 
           {/* Turn-by-Turn Steps List (Only shown when user expands it) */}
           {showStepsList && activeRoute.steps && (
-            <div className="overflow-y-auto max-h-40 sm:max-h-52 pr-1 space-y-1.5 pt-1.5 border-t border-slate-100 text-xs">
+            <div className="overflow-y-auto max-h-40 sm:max-h-52 pr-1 space-y-1.5 pt-1.5 border-t border-[#E6DEC8] text-xs">
               {activeRoute.steps.map((st, i) => {
                 const isTurnRight = st.instruction?.includes('phải') || st.instruction?.includes('right');
                 const isTurnLeft = st.instruction?.includes('trái') || st.instruction?.includes('left');
@@ -644,25 +650,25 @@ export default function WebGisMap({
                 return (
                   <div
                     key={i}
-                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-white border border-transparent hover:border-slate-200 flex items-start gap-2 transition-all"
+                    className="p-1.5 sm:p-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4ECE7]/40 border border-[#E6DEC8] flex items-start gap-2 transition-all shadow-2xs"
                   >
-                    <div className="mt-0.5 text-tram-600 shrink-0">
+                    <div className="mt-0.5 text-[#1E5631] shrink-0">
                       {isArrive ? (
-                        <Flag className="w-3.5 h-3.5 text-lotus-600" />
+                        <Flag className="w-3.5 h-3.5 text-[#9E1B32]" />
                       ) : isTurnRight ? (
-                        <CornerUpRight className="w-3.5 h-3.5 text-sky-600" />
+                        <CornerUpRight className="w-3.5 h-3.5 text-sky-700" />
                       ) : isTurnLeft ? (
-                        <CornerUpLeft className="w-3.5 h-3.5 text-sky-600" />
+                        <CornerUpLeft className="w-3.5 h-3.5 text-sky-700" />
                       ) : (
-                        <ArrowUp className="w-3.5 h-3.5 text-slate-400" />
+                        <ArrowUp className="w-3.5 h-3.5 text-[#766E65]" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[11px] font-medium text-slate-800 leading-tight">
+                      <p className="text-[11px] font-medium text-[#1E1B18] leading-tight">
                         {st.instruction}
                       </p>
                       {st.distanceKm > 0 && (
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[10px] text-[#766E65] font-mono">
                           {t('stepAfterKm', { km: st.distanceKm })}
                         </span>
                       )}
@@ -679,24 +685,24 @@ export default function WebGisMap({
       {/* FLOATING MULTI-STOP TOUR TSP BANNER (Compact on Mobile)        */}
       {/* ============================================================== */}
       {!hideTourBanner && activeTour && (
-        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-3 shadow-glass-lg border border-lotus-300 animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[70vh] flex flex-col">
+        <div className="absolute top-3 left-3 right-3 sm:right-auto sm:w-96 z-20 bg-[#FAF7F2]/95 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-[#D5C390] animate-in fade-in slide-in-from-top-2 space-y-2 max-h-[70vh] flex flex-col">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-lotus-700 to-rose-500 text-white flex items-center justify-center shadow-sm shrink-0 font-black text-xs">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#9E1B32] text-white flex items-center justify-center shadow-sm shrink-0 font-black text-xs">
                 TSP
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-lotus-100 text-lotus-700 uppercase tracking-wider">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#9E1B32]/10 text-[#9E1B32] border border-[#9E1B32]/20 uppercase tracking-wider">
                     {t('tourBannerTitle')}
                   </span>
                   {activeTour.savingPercent > 0 && (
-                    <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                    <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
                       {t('tourSavingsMessage', { percent: activeTour.savingPercent })}
                     </span>
                   )}
                 </div>
-                <h4 className="text-xs font-bold text-slate-900 mt-0.5 truncate">
+                <h4 className="font-serif text-xs font-bold text-[#1E1B18] mt-0.5 truncate">
                   {t('monumentStopsCount', { count: activeTour.orderedMonuments?.length })}
                 </h4>
               </div>
@@ -704,7 +710,7 @@ export default function WebGisMap({
 
             <button
               onClick={onClearTour}
-              className="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-500 transition-colors shrink-0"
+              className="p-1.5 rounded-lg bg-[#FFFFFF] hover:bg-rose-50 hover:text-rose-600 text-[#766E65] border border-[#E6DEC8] transition-colors shrink-0 cursor-pointer"
               title={t('clearTourBtn')}
             >
               <X className="w-4 h-4" />
@@ -712,36 +718,36 @@ export default function WebGisMap({
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[9px] text-slate-400 block font-semibold">{t('totalDistance')}</span>
-              <span className="font-extrabold text-lotus-700 text-xs sm:text-sm">{activeTour.totalDistanceKm} km</span>
+            <div className="p-1.5 rounded-xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-2xs">
+              <span className="text-[9px] text-[#766E65] block font-semibold">{t('totalDistance')}</span>
+              <span className="font-extrabold text-[#9E1B32] text-xs sm:text-sm font-mono">{activeTour.totalDistanceKm} km</span>
             </div>
-            <div className="p-1.5 rounded-xl bg-slate-50 border border-slate-200">
-              <span className="text-[9px] text-slate-400 block font-semibold">{t('travelDuration')}</span>
-              <span className="font-extrabold text-slate-800 text-xs sm:text-sm">{t('approxDuration', { min: activeTour.totalDurationMin })}</span>
+            <div className="p-1.5 rounded-xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-2xs">
+              <span className="text-[9px] text-[#766E65] block font-semibold">{t('travelDuration')}</span>
+              <span className="font-extrabold text-[#1E1B18] text-xs sm:text-sm">{t('approxDuration', { min: activeTour.totalDurationMin })}</span>
             </div>
           </div>
 
           {/* Numbered Itinerary Sequence */}
-          <div className="overflow-y-auto max-h-48 pr-1 space-y-1.5 border-t border-slate-100 pt-2 text-xs">
-            <p className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+          <div className="overflow-y-auto max-h-48 pr-1 space-y-1.5 border-t border-[#E6DEC8] pt-2 text-xs">
+            <p className="text-[11px] font-bold text-[#1E1B18] uppercase tracking-wider">
               {t('optimalSequenceTitle')}
             </p>
             {activeTour.orderedMonuments?.map((m, idx) => (
               <div
                 key={m.id}
                 onClick={() => navigate(`/di-tich/${m.id}`)}
-                className="p-2 rounded-xl bg-slate-50 hover:bg-lotus-50/60 border border-slate-100 hover:border-lotus-200 cursor-pointer flex items-center justify-between gap-2 transition-all group"
+                className="p-2 rounded-xl bg-[#FFFFFF] hover:bg-[#F4ECE7]/50 border border-[#E6DEC8] hover:border-[#D5C390] cursor-pointer flex items-center justify-between gap-2 transition-all group shadow-2xs"
               >
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="w-5 h-5 rounded-full bg-lotus-600 text-white flex items-center justify-center font-black text-[10px] shrink-0">
+                  <span className="w-5 h-5 rounded-full bg-[#9E1B32] text-white flex items-center justify-center font-black text-[10px] shrink-0 shadow-2xs">
                     {idx + 1}
                   </span>
-                  <span className="font-bold text-slate-800 text-xs truncate group-hover:text-lotus-700">
+                  <span className="font-serif font-bold text-[#1E1B18] text-xs truncate group-hover:text-[#9E1B32] transition-colors">
                     {m.displayName || m.name}
                   </span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-lotus-600 shrink-0" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#766E65] group-hover:text-[#9E1B32] shrink-0 transition-colors" />
               </div>
             ))}
           </div>
@@ -753,13 +759,13 @@ export default function WebGisMap({
       {/* ============================================================== */}
       <div className="absolute bottom-6 right-4 z-20 flex flex-col gap-2">
         {/* Basemap Switcher Capsule with Full Name and Icon options */}
-        <div className="glass-panel p-1 rounded-2xl shadow-glass flex flex-col gap-1">
+        <div className="bg-white/95 backdrop-blur-md p-1 rounded-2xl shadow-md border border-[#E6DEC8] flex flex-col gap-1">
           <button
             onClick={() => setBaseMap('street')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold ${
+            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
               baseMap === 'street'
-                ? 'bg-lotus-600 text-white shadow-xs'
-                : 'text-slate-700 hover:bg-slate-100/80'
+                ? 'bg-[#9E1B32] text-white shadow-xs'
+                : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
             title={t('streetMapDesc')}
           >
@@ -769,10 +775,10 @@ export default function WebGisMap({
 
           <button
             onClick={() => setBaseMap('osm')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold ${
+            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
               baseMap === 'osm'
-                ? 'bg-lotus-600 text-white shadow-xs'
-                : 'text-slate-700 hover:bg-slate-100/80'
+                ? 'bg-[#9E1B32] text-white shadow-xs'
+                : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
             title={t('cartoOsmDesc')}
           >
@@ -782,10 +788,10 @@ export default function WebGisMap({
 
           <button
             onClick={() => setBaseMap('satellite')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold ${
+            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
               baseMap === 'satellite'
-                ? 'bg-lotus-600 text-white shadow-xs'
-                : 'text-slate-700 hover:bg-slate-100/80'
+                ? 'bg-[#9E1B32] text-white shadow-xs'
+                : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
             title={t('satelliteDesc')}
           >
@@ -798,10 +804,10 @@ export default function WebGisMap({
         <button
           data-testid="toggle-province-mask"
           onClick={() => setShowProvinceMask((prev) => !prev)}
-          className={`glass-panel p-3 rounded-2xl shadow-glass transition-all flex items-center justify-center group ${
+          className={`bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] transition-all flex items-center justify-center group cursor-pointer active:scale-95 ${
             showProvinceMask
-              ? 'text-lotus-600 bg-lotus-50/90 ring-1 ring-lotus-300 shadow-sm'
-              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+              ? 'text-[#9E1B32] bg-[#FAF7F2] ring-1 ring-[#D5C390] shadow-sm'
+              : 'text-[#766E65] hover:text-[#1E1B18] hover:bg-[#FAF7F2]'
           }`}
           title={
             showProvinceMask
@@ -814,9 +820,9 @@ export default function WebGisMap({
           }
         >
           {showProvinceMask ? (
-            <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform text-lotus-600" />
+            <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform text-[#9E1B32]" />
           ) : (
-            <EyeOff className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-400" />
+            <EyeOff className="w-5 h-5 group-hover:scale-110 transition-transform text-[#766E65]" />
           )}
         </button>
 
@@ -824,26 +830,26 @@ export default function WebGisMap({
         <button
           data-testid="gps-locate-me"
           onClick={onLocateUser}
-          className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-tram-700 hover:bg-tram-50 transition-all flex items-center justify-center group"
+          className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] text-[#1E5631] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
           title={t('locateMeTooltip')}
         >
-          <Crosshair className="w-5 h-5 group-hover:scale-110 transition-transform text-tram-600" />
+          <Crosshair className="w-5 h-5 group-hover:scale-110 transition-transform text-[#1E5631]" />
         </button>
 
         {/* Reset View Button */}
         <button
           data-testid="reset-dongthap-view"
           onClick={resetDongThapView}
-          className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-lotus-600 hover:bg-lotus-50 transition-all flex items-center justify-center group"
+          className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] text-[#9E1B32] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
           title={lang === 'en' ? 'Reset to full Đồng Tháp Province view' : 'Về toàn cảnh Tỉnh Đồng Tháp'}
         >
-          <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform text-lotus-600" />
+          <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform text-[#9E1B32]" />
         </button>
       </div>
 
       {/* MAP WATERMARK / GEOFENCING STATUS CHIP (Bottom Left) */}
-      <div className="absolute bottom-4 left-4 z-20 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel shadow-sm text-[11px] font-mono text-slate-600">
-        <span className={`w-2 h-2 rounded-full ${geofenceCheck.isValid ? 'bg-tram-500 animate-pulse' : 'bg-rose-500'}`} />
+      <div className="absolute bottom-4 left-4 z-20 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E6DEC8] shadow-sm text-[11px] font-mono text-[#4A453E]">
+        <span className={`w-2 h-2 rounded-full ${geofenceCheck.isValid ? 'bg-emerald-600 animate-pulse' : 'bg-rose-500'}`} />
         <span>
           {geofenceCheck.isValid
             ? t('mapWatermarkValid', { layer: tileLayers[baseMap].shortName })
