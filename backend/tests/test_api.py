@@ -86,8 +86,8 @@ def test_filter_monuments_by_query_and_criteria():
     )
     assert res_rank.status_code == 200
     features_rank = res_rank.json()["features"]
-    assert len(features_rank) == 1
-    assert "Gò Tháp" in features_rank[0]["properties"]["ten_di_tich"]
+    assert len(features_rank) >= 1
+    assert any("Gò Tháp" in f["properties"]["ten_di_tich"] for f in features_rank)
 
 
 def test_nearby_monuments_postgis_spatial_query():

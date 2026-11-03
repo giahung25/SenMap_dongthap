@@ -4,11 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-background: #FAF7F2;
+  --color-section-alt: #F4ECE7;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1E1B18;
+  --color-foreground: #1E1B18;
+  --color-muted: #EFE8DC;
+  --color-muted-foreground: #4A453E;
+  --color-primary: #9E1B32;
+  --color-on-primary: #FFFFFF;
+  --color-secondary: #1E5631;
+  --color-on-secondary: #FFFFFF;
+  --color-accent: #D5C390;
+  --color-on-accent: #1E1B18;
+  --color-border: #E6DEC8;
+  --color-destructive: #DC2626;
+  --color-on-destructive: #FFFFFF;
+  --color-ring: #9E1B32;
+}
+
 @layer base {
   html, body, #root {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: #FAF7F2;
+    color: #1E1B18;
     font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -16,11 +38,89 @@
   }
 }
 
-/* Vietnamese Typography Guard: Force serif classes to Be Vietnam Pro to eliminate detached diacritics */
-.font-serif, [class*="font-serif"] {
-  font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif !important;
+/* Typography Stack: Noto Serif Display / Spectral for Headings */
+.font-serif {
+  font-family: 'Noto Serif Display', 'Spectral', 'Be Vietnam Pro', serif !important;
 }
 
+/* Heritage Washi Components */
+.card-heritage-washi {
+  background-color: #FFFFFF;
+  border: 1px solid #E6DEC8;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(30, 27, 24, 0.04);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-heritage-washi:hover {
+  transform: translateY(-2px);
+  border-color: #D5C390;
+  box-shadow: 0 12px 32px rgba(30, 27, 24, 0.08);
+}
+
+/* Primary CTA — Lotus Crimson (#9E1B32) */
+.btn-lotus-crimson {
+  background-color: #9E1B32;
+  color: #FFFFFF;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 14px rgba(158, 27, 50, 0.22);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-lotus-crimson:hover {
+  background-color: #831427;
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px rgba(158, 27, 50, 0.3);
+}
+
+/* Secondary CTA — Tram Chim Emerald (#1E5631) */
+.btn-tram-emerald {
+  background-color: #1E5631;
+  color: #FFFFFF;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 4px 14px rgba(30, 86, 49, 0.2);
+  transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-tram-emerald:hover {
+  background-color: #164024;
+  transform: translateY(-1.5px);
+}
+
+/* Washi Border Outline CTA (#E6DEC8) */
+.btn-washi-outline {
+  background-color: #FFFFFF;
+  color: #1E1B18;
+  border: 1.5px solid #E6DEC8;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-washi-outline:hover {
+  border-color: #D5C390;
+  background-color: #FAF7F2;
+  color: #9E1B32;
+}
 /* Leaflet positioning and Tailwind preflight fix */
 .leaflet-pane,
 .leaflet-tile,

@@ -4,15 +4,10 @@ import {
   Volume2,
   Square,
   MapPin,
-  Eye,
   Sparkles,
-  Compass,
-  Clock,
   Award,
   ChevronRight,
-  ShieldCheck,
-  Bookmark,
-  Radio,
+  BookOpen,
   Navigation,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
@@ -23,48 +18,36 @@ import { INITIAL_MONUMENTS } from '../../data/monumentsData';
  * =========================================================================================
  * COMPONENT: FeaturedMasterpiecesSection (Tầng 3 - Kiệt Tác Di Sản Đồng Tháp)
  * =========================================================================================
- * Tuyển chọn 6 di tích kiệt tác tiêu biểu nhất của Đất Sen Hồng:
- *   1. Khu di tích Nguyễn Sinh Sắc (ID: 1) - Quốc gia đặc biệt
- *   2. Khu di tích khảo cổ Gò Tháp (ID: 2) - Quốc gia đặc biệt (Óc Eo / Phù Nam)
- *   3. Khu di tích Xẻo Quýt (ID: 3) - Căn cứ cách mạng ngập nước
- *   4. Nhà cổ Huỳnh Thủy Lê (ID: 4) - Kiệt tác kiến trúc Đông - Tây & tiểu thuyết Người Tình
- *   5. Vườn quốc gia Tràm Chim (ID: 6) - Khu Ramsar Thế giới thứ 2.000
- *   6. Chùa Kiến An Cung (ID: 5/8) - Cổ tự Phúc Kiến trăm năm tuổi
- *
- * Tính năng nổi bật:
- *   - Bento Grid / Editorial Cards đậm chất nghệ thuật dark luxury đồng bộ toàn trang
- *   - Audio Preview sống động với window.speechSynthesis (vi-VN / en-US), hiệu ứng sóng âm đang phát
- *   - 2 nút hành động trên mỗi thẻ: [Xem Không Gian Di Tích] & [Định Vị Trên Bản Đồ]
- *   - Song ngữ Việt - Anh hoàn hảo, chuẩn tương phản WCAG AAA
+ * Định hướng thiết kế: Heritage Warm Editorial Style (Vietnam Travel & Kyoto Travel)
+ * - Nền Đất Nung Phù Sa: bg-[#F4ECE7], khoảng trắng --density 2 (py-20 md:py-28, gap-8 lg:gap-10)
+ * - Lưới Tạp Chí Bất Đối Xung: 1 Thẻ Tiêu Điểm Lớn + 4 Thẻ Dọc Washi #FFFFFF viền #E6DEC8
+ * - Tối đa 4 thông tin vàng/thẻ: Xếp hạng, Tên font-serif #1E1B18, Huyện/Thị, Mô tả ngắn font-sans #4A453E
+ * - 2 nút hành động: Đọc Hồ Sơ Di Sản (#9E1B32) và Định Vị Bản Đồ (#FFFFFF viền #E6DEC8)
+ * - Triệt tiêu hoàn toàn neon glow và nền đen công nghệ
  * =========================================================================================
  */
 export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMonument }) {
   const { lang } = useLanguage();
+  const isEn = lang === 'en';
   const [speakingId, setSpeakingId] = useState(null);
   const utteranceRef = useRef(null);
 
-  // 1. Tuyển chọn 6 di tích kiệt tác từ nguồn dữ liệu (props hoặc INITIAL_MONUMENTS)
+  // 1. Tuyển chọn 5 di tích kiệt tác trọng điểm (1 Tiêu điểm lớn + 4 thẻ dọc)
   const masterpieceList = useMemo(() => {
     const source = monuments && monuments.length > 0 ? monuments : INITIAL_MONUMENTS;
 
-    const id1 = source.find((m) => Number(m.id) === 1);
-    const id2 = source.find((m) => Number(m.id) === 2);
-    const id3 = source.find((m) => Number(m.id) === 3);
-    const id4 = source.find((m) => Number(m.id) === 4);
-    const id6 = source.find((m) => Number(m.id) === 6);
+    const id1 = source.find((m) => Number(m.id) === 1); // Nguyễn Sinh Sắc (Tiêu điểm)
+    const id2 = source.find((m) => Number(m.id) === 2); // Gò Tháp
+    const id3 = source.find((m) => Number(m.id) === 3); // Xẻo Quýt
+    const id4 = source.find((m) => Number(m.id) === 4); // Huỳnh Thủy Lê
+    const id6 = source.find((m) => Number(m.id) === 6); // Tràm Chim
 
-    // Chùa Kiến An Cung: trong dataset chuẩn là ID 5, hỗ trợ linh hoạt nếu mock dùng ID 8 hoặc tên
-    const idKienAnCung =
-      source.find((m) => Number(m.id) === 8 && m.name?.toLowerCase().includes('kiến an cung')) ||
-      source.find((m) => Number(m.id) === 5) ||
-      source.find((m) => m.name?.toLowerCase().includes('kiến an cung')) ||
-      source.find((m) => Number(m.id) === 8);
-
-    const candidates = [id1, id2, id3, id4, id6, idKienAnCung].filter(Boolean);
-
-    // Bản địa hóa từng di tích dựa trên ngôn ngữ hiện tại
+    const candidates = [id1, id2, id3, id4, id6].filter(Boolean);
     return candidates.map((m) => getLocalizedMonument(m, lang));
   }, [monuments, lang]);
+
+  const heroMonument = masterpieceList[0];
+  const verticalMonuments = masterpieceList.slice(1, 5);
 
   // 2. Dừng phát audio khi đổi ngôn ngữ hoặc unmount
   useEffect(() => {
@@ -81,22 +64,28 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
     e?.stopPropagation();
 
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      alert(lang === 'en' ? 'Speech synthesis is not supported on this device.' : 'Trình duyệt không hỗ trợ đọc thuyết minh tự động.');
+      alert(
+        isEn
+          ? 'Speech synthesis is not supported on this device.'
+          : 'Trình duyệt không hỗ trợ đọc thuyết minh tự động.'
+      );
       return;
     }
 
-    // Nếu đang phát chính di tích này -> Dừng lại
     if (speakingId === monument.id) {
       window.speechSynthesis.cancel();
       setSpeakingId(null);
       return;
     }
 
-    // Dừng âm thanh trước đó
     window.speechSynthesis.cancel();
 
-    // Chuẩn bị đoạn văn bản mở đầu (1-2 câu đầu truyền cảm)
-    const rawText = monument.displayAudioScript || monument.audioScript || monument.displayHistory || monument.history || '';
+    const rawText =
+      monument.displayAudioScript ||
+      monument.audioScript ||
+      monument.displayHistory ||
+      monument.history ||
+      '';
     let speechExcerpt = rawText;
     const sentenceMatches = rawText.match(/[^.!?]+[.!?]+/g);
     if (sentenceMatches && sentenceMatches.length > 0) {
@@ -110,279 +99,263 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
     const utterance = new SpeechSynthesisUtterance(speechExcerpt);
     utteranceRef.current = utterance;
 
-    const targetLang = lang === 'en' ? 'en-US' : 'vi-VN';
+    const targetLang = isEn ? 'en-US' : 'vi-VN';
     utterance.lang = targetLang;
     utterance.rate = 0.96;
     utterance.pitch = 1.0;
 
-    // Chọn giọng đọc phù hợp nếu danh sách giọng đã sẵn sàng
     const voices = window.speechSynthesis.getVoices();
     if (voices && voices.length > 0) {
-      const prefix = lang === 'en' ? 'en' : 'vi';
+      const prefix = isEn ? 'en' : 'vi';
       const matched = voices.find((v) => v.lang.toLowerCase().startsWith(prefix));
       if (matched) {
         utterance.voice = matched;
       }
     }
 
-    utterance.onend = () => {
-      setSpeakingId(null);
-    };
-
-    utterance.onerror = () => {
-      setSpeakingId(null);
-    };
+    utterance.onend = () => setSpeakingId(null);
+    utterance.onerror = () => setSpeakingId(null);
 
     window.speechSynthesis.speak(utterance);
     setSpeakingId(monument.id);
   };
 
-  // Dịch các nhãn giao diện
   const t = {
-    badge: lang === 'en' ? 'TIER 3 • HERITAGE MASTERPIECES' : 'TẦNG 3 • KIỆT TÁC DI SẢN ĐỒNG THÁP',
-    titleViPrefix: '6 Di Tích Kiệt Tác Tiêu Biểu',
-    titleViHighlight: 'Đất Sen Hồng',
-    titleEnPrefix: '6 Iconic Heritage Masterpieces of',
-    titleEnHighlight: 'Đồng Tháp',
-    subtitle:
-      lang === 'en'
-        ? 'Curated editorial showcase of premier heritage destinations — combining spatial discovery, automated voice narration, and high-precision GIS mapping.'
-        : 'Bộ sưu tập tuyển chọn 6 di tích văn hóa - lịch sử và sinh thái kiệt xuất nhất tỉnh Đồng Tháp — trải nghiệm hồ sơ không gian, nghe thử thuyết minh giọng đọc và định vị bản đồ tức thì.',
-    listenAudio: lang === 'en' ? 'Audio Preview' : 'Nghe Thử Thuyết Minh',
-    stopAudio: lang === 'en' ? 'Stop Audio' : 'Dừng Lại',
-    viewHeritageSpace: lang === 'en' ? 'Explore Heritage' : 'Xem Không Gian',
-    locateOnMap: lang === 'en' ? 'Locate on Map' : 'Định Vị Bản Đồ',
-    specialRank: lang === 'en' ? 'Special National' : 'Quốc gia đặc biệt',
-    nationalRank: lang === 'en' ? 'National Heritage' : 'Cấp Quốc gia',
-    provincialRank: lang === 'en' ? 'Provincial' : 'Cấp Tỉnh',
-    viewsCount: lang === 'en' ? 'views' : 'lượt xem',
-    scansCount: lang === 'en' ? 'scans' : 'quét QR',
-    statusLive: lang === 'en' ? 'Verified Heritage' : 'Di sản chuẩn hóa',
+    badge: isEn ? 'TIER 3 • HERITAGE MASTERPIECES' : 'TẦNG 3 • KIỆT TÁC DI SẢN ĐỒNG THÁP',
+    titlePrefix: isEn ? 'Curated Masterpieces of' : 'Kiệt Tác Di Sản Tiêu Biểu',
+    titleHighlight: isEn ? 'Đồng Tháp' : 'Đất Sen Hồng',
+    subtitle: isEn
+      ? 'A curated showcase of premier cultural, historic, and ecological landmarks — experienced through spatial discovery, voice narration, and high-precision GIS mapping.'
+      : 'Bộ sưu tập tuyển chọn các di tích văn hóa - lịch sử và sinh thái kiệt xuất nhất tỉnh Đồng Tháp — trải nghiệm hồ sơ không gian, nghe thử thuyết minh giọng đọc và định vị bản đồ tức thì.',
+    listenAudio: isEn ? 'Audio Preview' : 'Nghe Thuyết Minh',
+    stopAudio: isEn ? 'Stop Audio' : 'Dừng Lại',
+    viewHeritageSpace: isEn ? 'Đọc Hồ Sơ Di Sản' : 'Đọc Hồ Sơ Di Sản',
+    locateOnMap: isEn ? 'Định Vị Bản Đồ' : 'Định Vị Bản Đồ',
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-slate-950 text-white overflow-hidden border-t border-white/10 select-none">
-      {/* Background ambient lighting */}
-      <div className="absolute inset-0 bg-radial-at-c from-slate-900 via-slate-950 to-slate-950 pointer-events-none" />
-      <div className="absolute top-1/3 left-0 w-96 h-96 rounded-full bg-lotus-600/10 filter blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/3 right-0 w-96 h-96 rounded-full bg-tram-600/10 filter blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto relative z-10 space-y-12 sm:space-y-16">
-        {/* Header tiêu đề khu vực */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-lotus-600/20 border border-lotus-500/30 text-lotus-300 text-xs font-extrabold uppercase tracking-widest shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-lotus-400 animate-pulse" />
+    <section
+      id="featured-masterpieces"
+      data-testid="featured-masterpieces-section"
+      className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-[#F4ECE7] select-none border-t border-[#E6DEC8]"
+    >
+      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
+        {/* 1. SECTION HEADER */}
+        <div className="text-center max-w-3xl mx-auto space-y-3.5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] border border-[#E6DEC8] text-[#9E1B32] text-xs font-bold uppercase tracking-[0.18em] shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#9E1B32]" />
             <span>{t.badge}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-            {lang === 'en' ? (
-              <>
-                {t.titleEnPrefix}{' '}
-                <span className="bg-gradient-to-r from-lotus-400 via-rose-300 to-amber-300 bg-clip-text text-transparent">
-                  {t.titleEnHighlight}
-                </span>
-              </>
-            ) : (
-              <>
-                {t.titleViPrefix}{' '}
-                <span className="bg-gradient-to-r from-lotus-400 via-rose-300 to-amber-300 bg-clip-text text-transparent">
-                  {t.titleViHighlight}
-                </span>
-              </>
-            )}
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-tight">
+            {t.titlePrefix}{' '}
+            <span className="text-[#9E1B32]">{t.titleHighlight}</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+
+          <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">
             {t.subtitle}
           </p>
         </div>
 
-        {/* Bento Grid Layout cho 6 di tích */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-          {masterpieceList.map((m, index) => {
-            const isSpeaking = speakingId === m.id;
-            const isHeroCard = index === 0; // KDT Nguyễn Sinh Sắc
-            const isSecondaryHero = index === 1; // KDT Gò Tháp
-            const isPanoramic = index === 5; // Chùa Kiến An Cung
+        {/* 2. LƯỚI TẠP CHÍ BẤT ĐỐI XỨNG (EDITORIAL BENTO GRID) */}
+        <div className="space-y-8 lg:space-y-10">
+          {/* THẺ TIÊU ĐIỂM LỚN (HERO FEATURE CARD - KDT NGUYỄN SINH SẮC) */}
+          {heroMonument && (
+            <div className="rounded-3xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-sm hover:shadow-md hover:border-[#D5C390] transition-all duration-300 overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">
+              {/* Ảnh Tiêu Điểm bên trái (7 cột) */}
+              <div className="lg:col-span-7 relative h-72 sm:h-80 lg:h-[420px] bg-[#FAF7F2] overflow-hidden">
+                <img
+                  src={
+                    heroMonument.thumbnail ||
+                    `/images/monuments/monument_${heroMonument.id}.jpg`
+                  }
+                  alt={heroMonument.displayName}
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = `/images/monuments/monument_${heroMonument.id}.jpg`;
+                  }}
+                />
+                {/* Ranking Badge nổi trên ảnh */}
+                <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide bg-[#9E1B32] text-white shadow-xs">
+                  <Award className="w-3.5 h-3.5" />
+                  <span>{heroMonument.displayRanking || heroMonument.ranking}</span>
+                </div>
+              </div>
 
-            // Xác định phân bổ cột Bento
-            let colSpanClasses = 'lg:col-span-4';
-            if (isHeroCard) colSpanClasses = 'lg:col-span-8';
-            else if (isSecondaryHero) colSpanClasses = 'lg:col-span-4';
-            else if (isPanoramic) colSpanClasses = 'lg:col-span-12';
-
-            const imageSrc =
-              m.thumbnail ||
-              `/images/monuments/monument_${m.id}.jpg` ||
-              (m.gallery && m.gallery[0]) ||
-              m.wikimediaUrl;
-
-            const isSpecialNational =
-              m.ranking?.includes('đặc biệt') ||
-              m.ranking?.includes('Special') ||
-              m.displayRanking?.includes('Special');
-
-            return (
-              <div
-                key={m.id || index}
-                className={`group relative rounded-3xl overflow-hidden bg-slate-900/90 border border-white/10 hover:border-lotus-500/50 shadow-xl hover:shadow-2xl hover:shadow-lotus-900/30 transition-all duration-500 flex flex-col justify-between backdrop-blur-md ${colSpanClasses}`}
-              >
-                {/* Khối Hình ảnh & Overlay Nghệ thuật */}
-                <div
-                  className={`relative w-full overflow-hidden bg-slate-950 ${
-                    isPanoramic
-                      ? 'h-64 sm:h-72 lg:h-80'
-                      : isHeroCard
-                      ? 'h-72 sm:h-80 lg:h-96'
-                      : 'h-64 sm:h-72'
-                  }`}
-                >
-                  <img
-                    src={imageSrc}
-                    alt={m.displayName || m.name}
-                    className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `/images/monuments/monument_${m.id}.jpg`;
-                    }}
-                  />
-
-                  {/* Gradient tối tạo độ tương phản cho chữ */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent opacity-90 group-hover:opacity-95 transition-opacity duration-300" />
-
-                  {/* Huy hiệu trên góc ảnh */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide backdrop-blur-md shadow-md ${
-                          isSpecialNational
-                            ? 'bg-lotus-600/90 text-white border border-lotus-400/50'
-                            : 'bg-slate-900/80 text-amber-300 border border-amber-400/30'
-                        }`}
-                      >
-                        <Award className="w-3.5 h-3.5" />
-                        <span>{m.displayRanking || m.ranking}</span>
-                      </span>
-
-                      <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-black/60 text-slate-200 backdrop-blur-md border border-white/10">
-                        <MapPin className="w-3 h-3 text-rose-400" />
-                        <span>{m.displayDistrict || m.district}</span>
-                      </span>
-                    </div>
-
-                    {/* Huy hiệu Di sản chuẩn hóa */}
-                    <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-600/90 text-white backdrop-blur-md shadow-sm border border-emerald-400/30">
-                      <ShieldCheck className="w-3 h-3" />
-                      <span className="hidden xs:inline">{t.statusLive}</span>
-                    </div>
+              {/* Nội dung Tiêu Điểm bên phải (5 cột) */}
+              <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between space-y-6">
+                <div className="space-y-3.5">
+                  <div className="flex items-center gap-1.5 text-xs text-[#4A453E] font-medium">
+                    <MapPin className="w-3.5 h-3.5 text-[#9E1B32] shrink-0" />
+                    <span>{heroMonument.displayDistrict || heroMonument.district}</span>
                   </div>
 
-                  {/* Tiêu đề & Thông tin nằm đè trên nền ảnh */}
-                  <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
-                    <p className="text-xs font-medium uppercase tracking-wider text-rose-300 mb-1 flex items-center gap-1.5">
-                      <Compass className="w-3.5 h-3.5 text-amber-400" />
-                      <span>{m.displayCategory || m.category}</span>
-                    </p>
-                    <h3 className="text-xl sm:text-2xl lg:text-2xl font-bold leading-snug drop-shadow-md text-white group-hover:text-amber-200 transition-colors duration-300">
-                      {m.displayName || m.name}
-                    </h3>
-                    {m.displayOtherName && (
-                      <p className="text-xs sm:text-sm text-slate-300 italic line-clamp-1 mt-0.5 opacity-90">
-                        {m.displayOtherName}
-                      </p>
-                    )}
-                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1E1B18] leading-tight">
+                    {heroMonument.displayName}
+                  </h3>
+
+                  <p className="text-[#4A453E] text-sm leading-relaxed line-clamp-4 font-sans">
+                    {heroMonument.displayHistory || heroMonument.history}
+                  </p>
                 </div>
 
-                {/* Phần Thân thẻ: Tóm tắt Văn hóa & Nút Nghe Thử */}
-                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between bg-slate-900/90">
-                  <div>
-                    {/* Đoạn tóm tắt giá trị văn hóa lịch sử */}
-                    <p className="text-slate-300 text-sm leading-relaxed line-clamp-3 mb-4">
-                      {m.displayHistory || m.history}
-                    </p>
+                {/* Cụm Điều Khiển Âm Thanh & 2 Nút Hành Động */}
+                <div className="space-y-3 pt-3 border-t border-[#E6DEC8]">
+                  {/* Nút Audio Preview */}
+                  <button
+                    type="button"
+                    onClick={(e) => handleToggleAudio(heroMonument, e)}
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-between transition-all border ${
+                      speakingId === heroMonument.id
+                        ? 'bg-[#9E1B32] text-white border-[#9E1B32]'
+                        : 'bg-[#FAF7F2] hover:bg-[#F4ECE7] text-[#1E1B18] border-[#E6DEC8]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {speakingId === heroMonument.id ? (
+                        <Square className="w-3.5 h-3.5 fill-current" />
+                      ) : (
+                        <Volume2 className="w-3.5 h-3.5 text-[#9E1B32]" />
+                      )}
+                      <span>
+                        {speakingId === heroMonument.id ? t.stopAudio : t.listenAudio}
+                      </span>
+                    </div>
+                    <span className="text-[11px] opacity-80">
+                      {isEn ? 'AI Voice Tour' : 'Thuyết minh tự động'}
+                    </span>
+                  </button>
 
-                    {/* Thông số phụ: Giờ mở cửa & Số lượt tương tác */}
-                    <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-400 py-2.5 border-y border-white/10 mb-4">
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-amber-400" />
-                        <span>{m.displayOpeningHours || m.openingHours || '07:00 - 17:00'}</span>
+                  {/* 2 Nút Hành Động */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link
+                      to={`/di-tich/${heroMonument.id}`}
+                      className="py-2.5 px-3 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors shadow-xs text-center"
+                    >
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span className="truncate">{t.viewHeritageSpace}</span>
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={() => onLocateMonument && onLocateMonument(heroMonument)}
+                      className="py-2.5 px-3 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF7F2] text-[#1E1B18] border border-[#E6DEC8] hover:border-[#D5C390] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs text-center"
+                    >
+                      <Navigation className="w-3.5 h-3.5 text-[#1E5631]" />
+                      <span className="truncate">{t.locateOnMap}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 4 THẺ DỌC WASHI (4 VERTICAL WASHI CARDS) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {verticalMonuments.map((m) => {
+              const isSpeaking = speakingId === m.id;
+              const isSpecialNational =
+                m.ranking?.includes('đặc biệt') ||
+                m.ranking?.includes('Special') ||
+                m.displayRanking?.includes('Special');
+
+              return (
+                <div
+                  key={m.id}
+                  className="rounded-2xl bg-[#FFFFFF] border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                >
+                  <div>
+                    {/* Ảnh tỉ lệ 16:10 */}
+                    <div className="relative h-48 w-full bg-[#FAF7F2] overflow-hidden">
+                      <img
+                        src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
+                        alt={m.displayName}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = `/images/monuments/monument_${m.id}.jpg`;
+                        }}
+                      />
+                      {/* 1. Xếp hạng (Ranking) */}
+                      <div className="absolute top-3 left-3">
+                        <span
+                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-xs ${
+                            isSpecialNational
+                              ? 'bg-[#9E1B32] text-white'
+                              : 'bg-[#FAF7F2] text-[#9E1B32] border border-[#E6DEC8]'
+                          }`}
+                        >
+                          <Award className="w-3 h-3" />
+                          <span>{m.displayRanking || m.ranking}</span>
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5 text-sky-400" />
-                        <span>{(m.views || 4500).toLocaleString()} {t.viewsCount}</span>
+                    </div>
+
+                    {/* Nội dung thông tin vàng */}
+                    <div className="p-5 space-y-2.5">
+                      {/* 3. Huyện/Thị */}
+                      <div className="flex items-center gap-1.5 text-xs text-[#4A453E]">
+                        <MapPin className="w-3 h-3 text-[#9E1B32] shrink-0" />
+                        <span className="truncate">{m.displayDistrict || m.district}</span>
                       </div>
+
+                      {/* 2. Tên font-serif #1E1B18 */}
+                      <h4 className="font-serif font-bold text-base text-[#1E1B18] group-hover:text-[#9E1B32] transition-colors leading-snug line-clamp-2">
+                        {m.displayName}
+                      </h4>
+
+                      {/* 4. Mô tả ngắn font-sans #4A453E */}
+                      <p className="text-xs text-[#4A453E] line-clamp-3 leading-relaxed font-sans">
+                        {m.displayHistory || m.history}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Cụm Nút Tương tác & Audio Thuyết minh */}
-                  <div className="space-y-3 pt-2">
-                    {/* NÚT ĐẶC BIỆT: Nghe thử thuyết minh / Audio Preview */}
+                  {/* Chân thẻ: Audio Preview & 2 Nút Hành Động */}
+                  <div className="p-5 pt-0 space-y-2.5">
+                    {/* Audio Preview nhỏ gọn */}
                     <button
                       type="button"
                       onClick={(e) => handleToggleAudio(m, e)}
-                      aria-label={isSpeaking ? t.stopAudio : t.listenAudio}
-                      className={`w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-between transition-all duration-300 border ${
+                      className={`w-full py-1.5 px-2.5 rounded-lg text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors border ${
                         isSpeaking
-                          ? 'bg-rose-950/80 border-rose-500 text-rose-200 shadow-lg ring-2 ring-rose-400/40 animate-pulse'
-                          : 'bg-white/5 hover:bg-white/10 border-white/10 text-slate-200 hover:text-white shadow-sm'
+                          ? 'bg-[#9E1B32] text-white border-[#9E1B32]'
+                          : 'bg-[#FAF7F2] hover:bg-[#F4ECE7] text-[#1E1B18] border-[#E6DEC8]'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        {isSpeaking ? (
-                          <div className="w-7 h-7 rounded-lg bg-rose-600 text-white flex items-center justify-center shadow-sm">
-                            <Square className="w-3.5 h-3.5 fill-current" />
-                          </div>
-                        ) : (
-                          <div className="w-7 h-7 rounded-lg bg-white/10 text-rose-400 flex items-center justify-center">
-                            <Volume2 className="w-4 h-4" />
-                          </div>
-                        )}
-                        <span className="font-medium">
-                          {isSpeaking ? t.stopAudio : t.listenAudio}
-                        </span>
-                      </div>
-
-                      {/* Hiệu ứng sóng âm thanh động khi đang phát */}
                       {isSpeaking ? (
-                        <div className="flex items-center gap-1 h-4 px-2 bg-rose-900/60 rounded-md border border-rose-500/30">
-                          <span className="w-1 bg-rose-400 rounded-full h-3 animate-[bounce_0.6s_infinite]" />
-                          <span className="w-1 bg-rose-400 rounded-full h-4 animate-[bounce_0.8s_infinite]" />
-                          <span className="w-1 bg-rose-400 rounded-full h-2 animate-[bounce_0.5s_infinite]" />
-                          <span className="w-1 bg-rose-400 rounded-full h-3.5 animate-[bounce_0.7s_infinite]" />
-                        </div>
+                        <Square className="w-3 h-3 fill-current" />
                       ) : (
-                        <span className="text-[11px] font-normal text-slate-400">
-                          {lang === 'en' ? 'Natural AI Voice' : 'Giọng đọc AI'}
-                        </span>
+                        <Volume2 className="w-3 h-3 text-[#9E1B32]" />
                       )}
+                      <span>{isSpeaking ? t.stopAudio : t.listenAudio}</span>
                     </button>
 
-                    {/* 2 NÚT HÀNH ĐỘNG CHÍNH */}
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {/* Nút 1: [Xem Không Gian Di Tích] (Link tới /di-tich/:id) */}
+                    {/* 2 Nút Hành Động */}
+                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#E6DEC8]">
                       <Link
                         to={`/di-tich/${m.id}`}
-                        className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-lotus-600 to-rose-600 hover:from-lotus-500 hover:to-rose-500 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 text-center"
+                        className="py-2 px-2 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 transition-colors text-center shadow-xs"
                       >
-                        <Eye className="w-3.5 h-3.5 text-white" />
-                        <span className="truncate">{t.viewHeritageSpace}</span>
+                        <BookOpen className="w-3 h-3" />
+                        <span className="truncate">{isEn ? 'Profile' : 'Hồ Sơ'}</span>
                       </Link>
 
-                      {/* Nút 2: [Định Vị Trên Bản Đồ] (Gọi callback onLocateMonument) */}
                       <button
                         type="button"
                         onClick={() => onLocateMonument && onLocateMonument(m)}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white border border-white/20 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 shadow-sm hover:shadow hover:-translate-y-0.5 text-center"
+                        className="py-2 px-2 rounded-xl bg-[#FFFFFF] hover:bg-[#FAF7F2] text-[#1E1B18] border border-[#E6DEC8] hover:border-[#D5C390] text-[11px] font-bold flex items-center justify-center gap-1 transition-colors text-center shadow-xs"
                       >
-                        <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                        <span className="truncate">{t.locateOnMap}</span>
+                        <Navigation className="w-3 h-3 text-[#1E5631]" />
+                        <span className="truncate">{isEn ? 'Map' : 'Bản Đồ'}</span>
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

@@ -7,23 +7,23 @@ export default function Navbar() {
   const { lang, toggleLang, isAutoDetected, t } = useLanguage();
 
   return (
-    <header className="h-16 bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-[1100] shadow-xs select-none">
+    <header className="h-16 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E6DEC8] sticky top-0 z-[1100] shadow-xs select-none">
       <div className="max-w-7xl mx-auto h-full px-3 sm:px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-lotus-700 via-lotus-600 to-rose-400 text-white flex items-center justify-center shadow-md shadow-lotus-600/20 group-hover:scale-105 transition-transform duration-200">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#9E1B32] via-lotus-600 to-rose-400 text-white flex items-center justify-center shadow-md shadow-[#9E1B32]/20 group-hover:scale-105 transition-transform duration-200">
             <span className="material-symbols-outlined text-[22px]">local_florist</span>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-[16px] sm:text-[18px] tracking-tight bg-gradient-to-r from-lotus-700 via-lotus-600 to-tram-700 bg-clip-text text-transparent">
+              <span className="font-extrabold text-[16px] sm:text-[18px] tracking-tight text-[#1E1B18] group-hover:text-[#9E1B32] transition-colors">
                 {t('brandName')}
               </span>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-lotus-100 text-lotus-700 uppercase tracking-wider hidden sm:inline-block">
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] uppercase tracking-wider hidden sm:inline-block">
                 {t('brandBadge')}
               </span>
             </div>
-            <span className="text-[11px] text-text-muted font-medium -mt-0.5 truncate max-w-[210px] sm:max-w-none">
+            <span className="text-[11px] text-[#4A453E] font-medium -mt-0.5 truncate max-w-[210px] sm:max-w-none">
               {t('brandTagline')}
             </span>
           </div>
@@ -37,56 +37,56 @@ export default function Navbar() {
               to="/"
               end
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 ${
+                `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-150 ${
                   isActive
-                    ? 'bg-lotus-50 text-lotus-700 shadow-xs border border-lotus-200/60'
-                    : 'text-slate-600 hover:text-lotus-600 hover:bg-slate-100/60'
+                    ? 'bg-[#9E1B32] text-white shadow-sm'
+                    : 'text-[#1E1B18] hover:text-[#9E1B32] hover:bg-[#F4ECE7]'
                 }`
               }
             >
-              <Compass className="w-4 h-4 text-lotus-600" />
+              <Compass className="w-4 h-4" />
               <span className="hidden md:inline">{t('navHome')}</span>
             </NavLink>
 
             <NavLink
               to="/ban-do"
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 ${
+                `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-150 ${
                   isActive
-                    ? 'bg-lotus-50 text-lotus-700 shadow-xs border border-lotus-200/60'
-                    : 'text-slate-600 hover:text-lotus-600 hover:bg-slate-100/60'
+                    ? 'bg-[#9E1B32] text-white shadow-sm'
+                    : 'text-[#1E1B18] hover:text-[#9E1B32] hover:bg-[#F4ECE7]'
                 }`
               }
             >
-              <Map className="w-4 h-4 text-sky-600" />
+              <Map className="w-4 h-4" />
               <span className="hidden md:inline">{t('navMap')}</span>
             </NavLink>
 
             <NavLink
               to="/quet-qr"
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 ${
+                `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-150 ${
                   isActive
-                    ? 'bg-lotus-50 text-lotus-700 shadow-xs border border-lotus-200/60'
-                    : 'text-slate-600 hover:text-lotus-600 hover:bg-slate-100/60'
+                    ? 'bg-[#9E1B32] text-white shadow-sm'
+                    : 'text-[#1E1B18] hover:text-[#9E1B32] hover:bg-[#F4ECE7]'
                 }`
               }
             >
-              <QrCode className="w-4 h-4 text-tram-600" />
+              <QrCode className="w-4 h-4 text-[#1E5631]" />
               <span className="hidden md:inline">{t('navQr')}</span>
             </NavLink>
 
             <NavLink
               to="/admin"
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-semibold transition-all duration-150 ${
+                `flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold transition-all duration-150 ${
                   isActive
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/60'
+                    ? 'bg-[#1E1B18] text-white shadow-sm'
+                    : 'text-[#1E1B18] hover:text-[#9E1B32] hover:bg-[#F4ECE7]'
                 }`
               }
             >
-              <Shield className="w-4 h-4 text-amber-500" />
+              <Shield className="w-4 h-4 text-[#D5C390]" />
               <span className="hidden md:inline">{t('navAdmin')}</span>
             </NavLink>
           </nav>
@@ -95,27 +95,28 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleLang}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/90 bg-slate-50 hover:bg-white text-xs font-bold transition-all shadow-xs group"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-[#E6DEC8] bg-white hover:bg-[#FAF7F2] text-xs font-bold transition-all shadow-xs group"
             title={t('langToggleTooltip')}
             aria-label={t('langToggleTooltip')}
           >
-            <Languages className="w-3.5 h-3.5 text-slate-500 group-hover:text-lotus-600 transition-colors" />
-            <span className={lang === 'vi' ? 'text-lotus-700 font-extrabold' : 'text-slate-400 font-medium'}>
+            <Languages className="w-3.5 h-3.5 text-[#4A453E] group-hover:text-[#9E1B32] transition-colors" />
+            <span className={lang === 'vi' ? 'text-[#9E1B32] font-extrabold' : 'text-[#4A453E]/60 font-medium'}>
               VI
             </span>
-            <span className="text-slate-300">/</span>
-            <span className={lang === 'en' ? 'text-sky-700 font-extrabold' : 'text-slate-400 font-medium'}>
+            <span className="text-[#E6DEC8]">/</span>
+            <span className={lang === 'en' ? 'text-[#9E1B32] font-extrabold' : 'text-[#4A453E]/60 font-medium'}>
               EN
             </span>
             {isAutoDetected && (
               <span
-                className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 tracking-tight ml-0.5"
+                className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-[#F4ECE7] text-[#1E5631] border border-[#E6DEC8] tracking-tight ml-0.5"
                 title={t('autoDetectedTooltip')}
               >
                 {t('autoDetectedBadge')}
               </span>
             )}
           </button>
+
         </div>
       </div>
     </header>
