@@ -129,8 +129,8 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
       : 'Bộ sưu tập tuyển chọn các di tích văn hóa - lịch sử và sinh thái kiệt xuất nhất tỉnh Đồng Tháp — trải nghiệm hồ sơ không gian, nghe thử thuyết minh giọng đọc và định vị bản đồ tức thì.',
     listenAudio: isEn ? 'Audio Preview' : 'Nghe Thuyết Minh',
     stopAudio: isEn ? 'Stop Audio' : 'Dừng Lại',
-    viewHeritageSpace: isEn ? 'Đọc Hồ Sơ Di Sản' : 'Đọc Hồ Sơ Di Sản',
-    locateOnMap: isEn ? 'Định Vị Bản Đồ' : 'Định Vị Bản Đồ',
+    viewHeritageSpace: isEn ? 'Read Heritage Profile' : 'Đọc Hồ Sơ Di Sản',
+    locateOnMap: isEn ? 'Locate on Map' : 'Định Vị Bản Đồ',
   };
 
   return (

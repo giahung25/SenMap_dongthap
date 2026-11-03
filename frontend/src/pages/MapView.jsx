@@ -862,7 +862,7 @@ export default function MapView({
           {activeSelected && (
             <aside className="hidden md:flex absolute top-4 right-4 z-30 w-[350px] sm:w-[380px] max-h-[calc(100vh-5rem)] bg-[#FAF7F2]/95 backdrop-blur-md rounded-3xl shadow-2xl border border-[#E6DEC8] overflow-hidden flex-col animate-in fade-in slide-in-from-right-4 duration-200">
               {/* 1. Fixed Header: Image Cover with Gradient & Close Button */}
-              <div className="relative w-full h-36 shrink-0 bg-slate-900 overflow-hidden flex items-center justify-center">
+              <div className="relative w-full h-36 shrink-0 bg-[#1E1B18] overflow-hidden flex items-center justify-center">
                 <img
                   src={activeSelected.thumbnail || `/images/monuments/monument_${activeSelected.id}.jpg`}
                   alt=""

@@ -1092,7 +1092,7 @@ export default function MonumentDetail() {
             </div>
 
             {/* Panorama Simulated Viewer */}
-            <div className="relative w-full h-80 sm:h-[460px] bg-slate-900 overflow-hidden group">
+            <div className="relative w-full h-80 sm:h-[460px] bg-[#1E1B18] overflow-hidden group">
               <img
                 src={selectedImage || localizedMonument.thumbnail || `/images/monuments/monument_${localizedMonument.id}.jpg`}
                 alt="360 View"

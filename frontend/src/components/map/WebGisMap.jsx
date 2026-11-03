@@ -471,7 +471,7 @@ export default function WebGisMap({
                 <Popup className="custom-leaflet-popup" maxWidth={320}>
                   <div className="w-[290px] sm:w-[310px] bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-2xl border border-[#E6DEC8]">
                     {/* Hero Thumbnail */}
-                    <div className="relative w-full h-36 bg-slate-900 overflow-hidden flex items-center justify-center">
+                    <div className="relative w-full h-36 bg-[#1E1B18] overflow-hidden flex items-center justify-center">
                       <img
                         src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
                         alt=""
