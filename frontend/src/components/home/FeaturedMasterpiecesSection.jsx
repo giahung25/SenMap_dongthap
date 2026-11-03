@@ -147,9 +147,9 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
             <span>{t.badge}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-tight">
-            {t.titlePrefix}{' '}
-            <span className="text-[#9E1B32]">{t.titleHighlight}</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
+            <span className="block">{t.titlePrefix}</span>
+            <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">{t.titleHighlight}</span>
           </h2>
 
           <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">

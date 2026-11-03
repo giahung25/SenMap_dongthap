@@ -121,8 +121,8 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
     viewSiteBtn: isEn ? 'Explore Site' : 'Xem Di Tích',
 
     culinaryBadge: isEn ? 'TIER 5.2 • DELTA GASTRONOMY' : 'TẦNG 5.2 • ẨM THỰC ĐẶC SẢN VÙNG MIỀN',
-    culinaryTitlePrefix: isEn ? '12 Iconic Delicacies of' : 'Bản Đồ Ẩm Thực 12 Đặc Sản Gắn Liền',
-    culinaryTitleHighlight: isEn ? 'Đồng Tháp Mười' : 'Di Tích Đồng Tháp',
+    culinaryTitlePrefix: isEn ? '12 Iconic Delicacies of' : '12 Đặc Sản Ẩm Thực Gắn Liền',
+    culinaryTitleHighlight: isEn ? 'Đồng Tháp Mười' : 'Di Tích Đất Sen Hồng',
     culinarySubtitle: isEn
       ? 'Savor authentic Mekong Delta gastronomy intimately connected to historic landmarks — sweet lotus dishes, crispy Sa Đéc noodles, and fresh river flavors.'
       : 'Thưởng thức 12 món ăn quốc hồn quốc túy gắn liền với không gian các di tích lịch sử — cảm nhận trọn vẹn phong vị mộc mạc, đậm đà nghĩa tình phương Nam.',
@@ -170,9 +170,9 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
               <span>{t.seasonsBadge}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-tight">
-              {t.seasonsTitlePrefix}{' '}
-              <span className="text-[#9E1B32]">{t.seasonsTitleHighlight}</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
+              <span className="block">{t.seasonsTitlePrefix}</span>
+              <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">{t.seasonsTitleHighlight}</span>
             </h2>
 
             <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">
@@ -359,9 +359,9 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
               <span>{t.culinaryBadge}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-tight">
-              {t.culinaryTitlePrefix}{' '}
-              <span className="text-[#9E1B32]">{t.culinaryTitleHighlight}</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
+              <span className="block">{t.culinaryTitlePrefix}</span>
+              <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">{t.culinaryTitleHighlight}</span>
             </h2>
 
             <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">

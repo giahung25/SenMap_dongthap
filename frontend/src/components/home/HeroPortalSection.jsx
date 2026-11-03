@@ -74,18 +74,18 @@ export default function HeroPortalSection({
           </div>
 
           {/* Grand Headline (Noto Serif Display) */}
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#1E1B18] leading-[1.18] max-w-4xl">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#1E1B18] leading-[1.3] max-w-4xl pb-1">
             {isEn ? (
               <>
                 <span className="block">Explore the Sacred Heritage of</span>
-                <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-[#9E1B32] via-rose-600 to-[#B45309] bg-clip-text text-transparent">
+                <span className="block mt-1.5 sm:mt-2.5 pb-2.5 leading-[1.35] text-[#9E1B32]">
                   Đồng Tháp — Land of Pink Lotus
                 </span>
               </>
             ) : (
               <>
                 <span className="block">Bản Đồ Số Di Sản & Du Lịch</span>
-                <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-[#9E1B32] via-rose-600 to-[#B45309] bg-clip-text text-transparent">
+                <span className="block mt-1.5 sm:mt-2.5 pb-2.5 leading-[1.35] text-[#9E1B32]">
                   Đất Sen Hồng Đồng Tháp
                 </span>
               </>

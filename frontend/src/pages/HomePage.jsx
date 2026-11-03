@@ -162,10 +162,18 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#1E1B18] tracking-tight leading-snug">
-                {isEn
-                  ? 'Collect 20 Red Ink Heritage Seals across Đồng Tháp'
-                  : 'Thu Thập 20 Con Dấu Mộc Đỏ Di Sản Khắp Đồng Tháp'}
+              <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
+                {isEn ? (
+                  <>
+                    <span className="block">Collect 20 Red Ink Heritage Seals</span>
+                    <span className="block mt-1 text-[#9E1B32] whitespace-nowrap">across Đồng Tháp</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="block">Thu Thập 20 Con Dấu Mộc Đỏ</span>
+                    <span className="block mt-1 text-[#9E1B32] whitespace-nowrap">Di Sản Khắp Đồng Tháp</span>
+                  </>
+                )}
               </h3>
 
               <p className="text-xs sm:text-sm text-[#4A453E] leading-relaxed font-sans">
@@ -265,7 +273,7 @@ export default function HomePage() {
                 <span>{t('homeWebgisSectionBadge')}</span>
               </div>
 
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#1E1B18]">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#1E1B18] leading-[1.3] pb-1">
                 {t('homeWebgisSectionTitle')}
               </h2>
 

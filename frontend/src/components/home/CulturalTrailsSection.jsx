@@ -96,16 +96,16 @@ export default function CulturalTrailsSection({
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
             {isEn ? (
               <>
-                4 Curated Heritage Trails of{' '}
-                <span className="text-[#9E1B32]">Đồng Tháp</span>
+                <span className="block">4 Curated Heritage Trails of</span>
+                <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">Đồng Tháp</span>
               </>
             ) : (
               <>
-                4 Tuyến Du Lịch Di Sản Đặc Sắc{' '}
-                <span className="text-[#9E1B32]">Đất Sen Hồng</span>
+                <span className="block">4 Tuyến Du Lịch Di Sản Đặc Sắc</span>
+                <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">Đất Sen Hồng</span>
               </>
             )}
           </h2>
