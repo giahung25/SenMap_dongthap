@@ -6,7 +6,6 @@ import {
   Popup,
   Circle,
   Polyline,
-  Polygon,
   useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
@@ -20,9 +19,7 @@ import { DONG_THAP_BOUNDS } from '../../data/monumentsData';
 import {
   DONG_THAP_MIN_ZOOM,
   DONG_THAP_MAX_ZOOM,
-  DONG_THAP_MAX_BOUNDS,
   DONG_THAP_PROVINCE_POLYGON,
-  WORLD_OUTER_RING,
 } from '../../data/dongThapBoundary';
 import {
   calculateDistanceKm,
@@ -260,8 +257,6 @@ export default function WebGisMap({
           zoom={DONG_THAP_BOUNDS.defaultZoom}
           minZoom={DONG_THAP_MIN_ZOOM}
           maxZoom={DONG_THAP_MAX_ZOOM}
-          maxBounds={DONG_THAP_MAX_BOUNDS}
-          maxBoundsViscosity={0.92}
           className="w-full h-full z-0"
           zoomControl={false}
           ref={mapRef}
@@ -278,20 +273,9 @@ export default function WebGisMap({
           {/* Fix layout shifts and container invalidation */}
           <MapResizeFix />
 
-          {/* SPOTLIGHT MASK & PROVINCIAL BOUNDARY OF DONG THAP */}
+          {/* PROVINCIAL BOUNDARY OF DONG THAP (Crisp and elegant border) */}
           {showProvinceMask && (
             <>
-              {/* Donut Polygon: Dims out regions outside Dong Thap, illuminating the province */}
-              <Polygon
-                positions={[WORLD_OUTER_RING, DONG_THAP_PROVINCE_POLYGON]}
-                pathOptions={{
-                  stroke: false,
-                  fillColor: '#0f172a',
-                  fillOpacity: 0.42,
-                  interactive: false,
-                }}
-              />
-
               {/* Lower soft ambient glow stroke */}
               <Polyline
                 positions={DONG_THAP_PROVINCE_POLYGON}
@@ -810,7 +794,7 @@ export default function WebGisMap({
           </button>
         </div>
 
-        {/* Toggle Province Spotlight Mask & Border */}
+        {/* Toggle Province Border */}
         <button
           data-testid="toggle-province-mask"
           onClick={() => setShowProvinceMask((prev) => !prev)}
@@ -822,11 +806,11 @@ export default function WebGisMap({
           title={
             showProvinceMask
               ? lang === 'en'
-                ? 'Đồng Tháp Province Spotlight & Border: ON (Click to toggle)'
-                : 'Ranh giới & Vùng sáng Đồng Tháp: Đang BẬT (Bấm để tắt)'
+                ? 'Đồng Tháp Province Border: ON (Click to toggle)'
+                : 'Đường biên giới Tỉnh Đồng Tháp: Đang BẬT (Bấm để tắt)'
               : lang === 'en'
-                ? 'Đồng Tháp Province Spotlight & Border: OFF (Click to toggle)'
-                : 'Ranh giới & Vùng sáng Đồng Tháp: Đang TẮT (Bấm để bật)'
+                ? 'Đồng Tháp Province Border: OFF (Click to toggle)'
+                : 'Đường biên giới Tỉnh Đồng Tháp: Đang TẮT (Bấm để bật)'
           }
         >
           {showProvinceMask ? (
