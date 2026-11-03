@@ -6,6 +6,7 @@ import {
   Popup,
   Circle,
   Polyline,
+  Polygon,
   useMap,
 } from 'react-leaflet';
 import L from 'leaflet';
@@ -16,6 +17,13 @@ import {
   createTourStopIcon,
 } from './leafletIcons';
 import { DONG_THAP_BOUNDS } from '../../data/monumentsData';
+import {
+  DONG_THAP_MIN_ZOOM,
+  DONG_THAP_MAX_ZOOM,
+  DONG_THAP_MAX_BOUNDS,
+  DONG_THAP_PROVINCE_POLYGON,
+  WORLD_OUTER_RING,
+} from '../../data/dongThapBoundary';
 import {
   calculateDistanceKm,
   formatCurrency,
@@ -44,6 +52,8 @@ import {
   ArrowUp,
   Flag,
   Milestone,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -107,6 +117,7 @@ export default function WebGisMap({
   const { lang, t } = useLanguage();
   // Default to Google Maps Standard Street Map with full Vietnamese road network
   const [baseMap, setBaseMap] = useState('street');
+  const [showProvinceMask, setShowProvinceMask] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
   const [isRoutingLoading, setIsRoutingLoading] = useState(false);
   const [showStepsList, setShowStepsList] = useState(false);
@@ -149,9 +160,15 @@ export default function WebGisMap({
     setActiveRoute(null);
     onClearTour();
     if (mapRef.current) {
-      mapRef.current.setView(DONG_THAP_BOUNDS.center, DONG_THAP_BOUNDS.defaultZoom, {
-        animate: true,
-      });
+      if (typeof mapRef.current.flyTo === 'function') {
+        mapRef.current.flyTo(DONG_THAP_BOUNDS.center, 10, {
+          duration: 1.2,
+        });
+      } else {
+        mapRef.current.setView(DONG_THAP_BOUNDS.center, 10, {
+          animate: true,
+        });
+      }
     }
   };
 
@@ -236,6 +253,10 @@ export default function WebGisMap({
         <MapContainer
           center={DONG_THAP_BOUNDS.center}
           zoom={DONG_THAP_BOUNDS.defaultZoom}
+          minZoom={DONG_THAP_MIN_ZOOM}
+          maxZoom={DONG_THAP_MAX_ZOOM}
+          maxBounds={DONG_THAP_MAX_BOUNDS}
+          maxBoundsViscosity={0.92}
           className="w-full h-full z-0"
           zoomControl={false}
           ref={mapRef}
@@ -251,6 +272,49 @@ export default function WebGisMap({
 
           {/* Fix layout shifts and container invalidation */}
           <MapResizeFix />
+
+          {/* SPOTLIGHT MASK & PROVINCIAL BOUNDARY OF DONG THAP */}
+          {showProvinceMask && (
+            <>
+              {/* Donut Polygon: Dims out regions outside Dong Thap, illuminating the province */}
+              <Polygon
+                positions={[WORLD_OUTER_RING, DONG_THAP_PROVINCE_POLYGON]}
+                pathOptions={{
+                  stroke: false,
+                  fillColor: '#0f172a',
+                  fillOpacity: 0.42,
+                  interactive: false,
+                }}
+              />
+
+              {/* Lower soft ambient glow stroke */}
+              <Polyline
+                positions={DONG_THAP_PROVINCE_POLYGON}
+                pathOptions={{
+                  color: '#f43f5e',
+                  weight: 5,
+                  opacity: 0.25,
+                  interactive: false,
+                  lineCap: 'round',
+                  lineJoin: 'round',
+                }}
+              />
+
+              {/* Upper elegant dashed border line */}
+              <Polyline
+                positions={DONG_THAP_PROVINCE_POLYGON}
+                pathOptions={{
+                  color: '#e11d48',
+                  weight: 2.5,
+                  opacity: 0.85,
+                  dashArray: '8, 6',
+                  interactive: false,
+                  lineCap: 'round',
+                  lineJoin: 'round',
+                }}
+              />
+            </>
+          )}
 
           {/* Map Camera Controller */}
           {tourBounds ? (
@@ -741,6 +805,31 @@ export default function WebGisMap({
           </button>
         </div>
 
+        {/* Toggle Province Spotlight Mask & Border */}
+        <button
+          onClick={() => setShowProvinceMask((prev) => !prev)}
+          className={`glass-panel p-3 rounded-2xl shadow-glass transition-all flex items-center justify-center group ${
+            showProvinceMask
+              ? 'text-lotus-600 bg-lotus-50/90 ring-1 ring-lotus-300 shadow-sm'
+              : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+          }`}
+          title={
+            showProvinceMask
+              ? lang === 'en'
+                ? 'Đồng Tháp Province Spotlight & Border: ON (Click to toggle)'
+                : 'Ranh giới & Vùng sáng Đồng Tháp: Đang BẬT (Bấm để tắt)'
+              : lang === 'en'
+                ? 'Đồng Tháp Province Spotlight & Border: OFF (Click to toggle)'
+                : 'Ranh giới & Vùng sáng Đồng Tháp: Đang TẮT (Bấm để bật)'
+          }
+        >
+          {showProvinceMask ? (
+            <Sparkles className="w-5 h-5 group-hover:scale-110 transition-transform text-lotus-600" />
+          ) : (
+            <EyeOff className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-400" />
+          )}
+        </button>
+
         {/* GPS Locate Me Button */}
         <button
           onClick={onLocateUser}
@@ -754,7 +843,7 @@ export default function WebGisMap({
         <button
           onClick={resetDongThapView}
           className="glass-panel p-3 rounded-2xl shadow-glass text-slate-700 hover:text-lotus-600 hover:bg-lotus-50 transition-all flex items-center justify-center group"
-          title={t('dongThapOverviewTooltip')}
+          title={lang === 'en' ? 'Reset to full Đồng Tháp Province view' : 'Về toàn cảnh Tỉnh Đồng Tháp'}
         >
           <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform text-lotus-600" />
         </button>
