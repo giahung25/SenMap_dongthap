@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { HOMEPAGE_STORYTELLING } from '../../data/culturalHeritageData';
+import CulturalHeritageBackdrop from './CulturalHeritageBackdrop';
 import {
   Search,
   MapPin,
@@ -48,16 +49,19 @@ export default function HeroPortalSection({
         <img
           src="/images/monuments/monument_1.jpg"
           alt="SenMap Đồng Tháp Hero"
-          className="w-full h-full object-cover object-center scale-105 filter blur-[1px] opacity-35"
+          className="w-full h-full object-cover object-center scale-105 filter blur-[2px] opacity-25"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = '/images/monuments/monument_2.jpg';
           }}
         />
-        {/* Soft, warm paper gradients blending directly into #FAF7F2 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/80 via-[#FAF7F2]/90 to-[#FAF7F2]" />
-        <div className="absolute inset-0 bg-radial-at-t from-amber-100/30 via-transparent to-transparent opacity-80" />
-        <div className="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/95 to-transparent" />
+        {/* Luminous, translucent paper gradients allowing Bronze Drum Mandala & Cranes to shine clearly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/55 via-[#FAF7F2]/75 to-[#FAF7F2]" />
+        <div className="absolute inset-0 bg-radial-at-t from-amber-100/25 via-transparent to-transparent opacity-60" />
+        <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent" />
+
+        {/* Nền Văn Hóa Mặt Trống Đồng & Đàn Sếu Đầu Đỏ */}
+        <CulturalHeritageBackdrop mode="hero" />
       </div>
 
       {/* 2. MAIN HERO CONTENT CONTAINER (SPACIOUS DENSITY 2) */}
@@ -106,7 +110,7 @@ export default function HeroPortalSection({
           </h1>
 
           {/* Narrative Storytelling Paragraph */}
-          <p className="text-sm sm:text-base md:text-lg text-[#4A453E] max-w-3xl leading-relaxed font-sans font-normal">
+          <p className="text-sm sm:text-base md:text-lg text-[#3A332C] max-w-3xl leading-relaxed font-sans font-medium bg-[#FAF7F2]/75 backdrop-blur-[2px] px-5 py-3 rounded-2xl border border-[#E6DEC8]/60 shadow-2xs">
             {isEn ? storytelling.intro_story_en : storytelling.intro_story_vi}
           </p>
         </div>

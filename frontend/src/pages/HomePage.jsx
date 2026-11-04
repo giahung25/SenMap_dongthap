@@ -16,6 +16,7 @@ import CulturalTrailsSection from '../components/home/CulturalTrailsSection';
 import FeaturedMasterpiecesSection from '../components/home/FeaturedMasterpiecesSection';
 import MapView from './MapView';
 import SeasonsAndCulinarySection from '../components/home/SeasonsAndCulinarySection';
+import CulturalHeritageBackdrop from '../components/home/CulturalHeritageBackdrop';
 
 import {
   Compass,
@@ -96,7 +97,9 @@ export default function HomePage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#FAF7F2] text-[#1E1B18] flex flex-col overflow-x-hidden selection:bg-[#F4ECE7] selection:text-[#9E1B32]">
+    <div className="relative w-full min-h-screen bg-[#FAF7F2] text-[#1E1B18] flex flex-col overflow-x-hidden selection:bg-[#F4ECE7] selection:text-[#9E1B32]">
+      {/* Nền Văn Hóa Mặt Trống Đồng Lăn Mở & Sếu Đầu Đỏ */}
+      <CulturalHeritageBackdrop mode="sides" />
       {/* ============================================================== */}
       {/* TẦNG 1: HERO BANNER & CỔNG KHÁM PHÁ ĐẤT SEN HỒNG              */}
       {/* ============================================================== */}
