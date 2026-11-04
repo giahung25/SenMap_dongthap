@@ -2,236 +2,87 @@ import React, { useState, useEffect } from 'react';
 
 /**
  * =========================================================================================
+ * DANH MỤC 8 ĐỐI TƯỢNG VĂN HÓA & NHÃN TƯ THẾ / HÀNH ĐỘNG (POSE & ACTION TAXONOMY)
+ * =========================================================================================
+ * Nguồn ảnh thực tế đã tách nền trong suốt 100% bằng OpenCV và đổi màu Di sản (Đỏ Son & Đồng Cổ)
+ * Lưu trữ tại: /images/cultural_motifs/
+ */
+export const CRANE_POSE_CATALOG = [
+  {
+    id: 'bronze-drum-dong-son',
+    name: 'Mặt Trống Đồng Đông Sơn - Óc Eo',
+    file: '/images/cultural_motifs/bronze_drum_dong_son.png',
+    taxonomy: 'sacred-bronze-drum',
+    action: 'Mặt Trống Đồng Đông Sơn (Sao 12 cánh, chim Lạc, hồi văn sóng nước, vòng chấm đồng tâm) đổi màu Đỏ Son #9E1B32 & Đồng Cổ #924A12',
+    placement: 'Trung tâm Hero & 2 rìa bán nguyệt cuộn mở hai bên trang',
+  },
+  {
+    id: 'crane-diving-swoop',
+    name: 'Sếu Đầu Đỏ Sải Cánh Lượn Đáp',
+    file: '/images/cultural_motifs/crane_1_diving_swoop.png',
+    taxonomy: 'pose: diving-swoop',
+    action: 'Sếu Đầu Đỏ sải cánh lượn đáp xuống đầm sen (cổ uốn cong nhìn xuống, đôi cánh giang rộng phía trên)',
+    placement: 'Góc trên bên phải Hero lướt chéo đón dòng tiêu đề',
+  },
+  {
+    id: 'crane-ascending-glide',
+    name: 'Sếu Đầu Đỏ Vươn Cổ Bay Vút Lên',
+    file: '/images/cultural_motifs/crane_2_ascending_glide.png',
+    taxonomy: 'pose: ascending-glide',
+    action: 'Sếu Đầu Đỏ vươn cổ bay vút lên bầu trời (cánh nâng cao, đầu hướng về phía trước)',
+    placement: 'Góc trên bên trái Hero vút bay về hướng trung tâm',
+  },
+  {
+    id: 'crane-ink-soaring-up',
+    name: 'Sếu Thủy Mặc Đập Cánh Vươn Cao',
+    file: '/images/cultural_motifs/crane_3_soaring_wings_up.png',
+    taxonomy: 'pose: ink-soaring-up',
+    action: 'Sếu thủy mặc đập cánh vươn cao dẫn đầu đàn',
+    placement: 'Tầng mây cao bên trái Hero (lớp không gian 1)',
+  },
+  {
+    id: 'crane-ink-cruising-down',
+    name: 'Sếu Thủy Mặc Hạ Cánh Lướt Gió',
+    file: '/images/cultural_motifs/crane_4_cruising_wings_down.png',
+    taxonomy: 'pose: ink-cruising-down',
+    action: 'Sếu thủy mặc hạ cánh lướt gió bay ngang',
+    placement: 'Tầng mây trung bên trái Hero (lớp không gian 2)',
+  },
+  {
+    id: 'crane-ink-distant-glider',
+    name: 'Sếu Thủy Mặc Tầng Mây Xa',
+    file: '/images/cultural_motifs/crane_5_distant_flock_follower.png',
+    taxonomy: 'pose: ink-distant-glider',
+    action: 'Sếu nhỏ bay theo đàn ở tầng mây xa (tạo chiều sâu không gian)',
+    placement: 'Tầng mây xa bên trái Hero (lớp không gian 3)',
+  },
+  {
+    id: 'crane-wading-water-reflection',
+    name: 'Sếu Thủy Mặc Đứng Soi Bóng Nước',
+    file: '/images/cultural_motifs/crane_6_wading_reflection.png',
+    taxonomy: 'pose: wading-water-reflection',
+    action: 'Sếu thủy mặc đứng trầm mặc soi bóng dưới mặt nước mùa nước nổi',
+    placement: 'Góc dưới rìa trái toàn trang cố định tao nhã',
+  },
+  {
+    id: 'crane-noble-one-leg-stance',
+    name: 'Sếu Đầu Đỏ Đứng Co Một Chân Uy Nghi',
+    file: '/images/cultural_motifs/crane_7_noble_one_leg_stance.png',
+    taxonomy: 'pose: noble-one-leg-stance',
+    action: 'Sếu Đầu Đỏ đứng độc lập co một chân uy nghi, thanh cao bên bờ di tích',
+    placement: 'Góc dưới rìa phải toàn trang cố định thanh cao',
+  },
+];
+
+/**
+ * =========================================================================================
  * COMPONENT: CulturalHeritageBackdrop
  * =========================================================================================
- * Nền Văn Hóa Chuyển Động Theo Cuộn Trang (Scroll-Driven Bronze Drum & Red-Crowned Cranes)
- * - Mặt Trống Đồng Đông Sơn - Óc Eo kết hợp Cánh Sen Đồng Tháp (14 Cánh Sao, 8 Chim Lạc, 16 Cánh Sen)
- * - Đàn Sếu Đầu Đỏ Tràm Chim sải cánh bay lượn (Hiệu ứng Parallax mượt 60fps)
- * - 3 Mặt Trống Đồng: 1 Mặt Lớn Trung Tâm Hero + 2 Mặt Bán Nguyệt Lăn/Xoay từ mép trái & phải
+ * Tích hợp 8 file ảnh PNG thực tế độ phân giải cao đã xử lý trong suốt:
+ * - Mặt Trống Đồng Đông Sơn thực tế: tự xoay và xoay nở ra khi cuộn trang
+ * - 7 Tư thế Sếu Đầu Đỏ Tràm Chim: bố trí theo chiều sâu không gian và hiệu ứng Parallax
  * =========================================================================================
  */
-
-// Tọa độ 14 Cánh Sao Tâm Trống Đồng
-const STAR_14_POINTS = (() => {
-  const cx = 300, cy = 300, rOuter = 58, rInner = 22, points = 14;
-  const pts = [];
-  for (let i = 0; i < points * 2; i++) {
-    const angle = (i * Math.PI) / points - Math.PI / 2;
-    const r = i % 2 === 0 ? rOuter : rInner;
-    const x = (cx + r * Math.cos(angle)).toFixed(1);
-    const y = (cy + r * Math.sin(angle)).toFixed(1);
-    pts.push(`${x},${y}`);
-  }
-  return pts.join(' ');
-})();
-
-// Tọa độ Tam Giác Răng Cưa Vành 2 (28 Răng)
-const SAWTOOTH_28_POINTS = (() => {
-  const cx = 300, cy = 300, rOut = 114, rIn = 100, teeth = 28;
-  const pts = [];
-  for (let i = 0; i < teeth * 2; i++) {
-    const angle = (i * Math.PI) / teeth;
-    const r = i % 2 === 0 ? rOut : rIn;
-    const x = (cx + r * Math.cos(angle)).toFixed(1);
-    const y = (cy + r * Math.sin(angle)).toFixed(1);
-    pts.push(`${x},${y}`);
-  }
-  return pts.join(' ');
-})();
-
-// Chi tiết Vector Mặt Trống Đồng & Cánh Sen Mandala SVG
-export function BronzeDrumMandala({ className = '', style = {} }) {
-  return (
-    <svg
-      viewBox="0 0 600 600"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={style}
-    >
-      <defs>
-        {/* Vàng Kim Cổ Điển Đông Sơn */}
-        <linearGradient id="bronzeGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#C59B27" />
-          <stop offset="45%" stopColor="#D97706" />
-          <stop offset="100%" stopColor="#92400E" />
-        </linearGradient>
-
-        {/* Đỏ Chu Sa & Hồng Sen */}
-        <linearGradient id="lotusCrimsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#E11D48" />
-          <stop offset="60%" stopColor="#BE123C" />
-          <stop offset="100%" stopColor="#9E1B32" />
-        </linearGradient>
-
-        {/* Gradient Cánh Sen Nở */}
-        <linearGradient id="lotusPetalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#E11D48" stopOpacity="0.32" />
-          <stop offset="65%" stopColor="#D5C390" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#FAF7F2" stopOpacity="0.02" />
-        </linearGradient>
-
-        {/* Vầng Thái Dương Tỏa Sáng Trung Tâm */}
-        <radialGradient id="sunCenterGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.38" />
-          <stop offset="55%" stopColor="#E11D48" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#FAF7F2" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      {/* Vầng hào quang trung tâm */}
-      <circle cx="300" cy="300" r="148" fill="url(#sunCenterGlow)" />
-
-      {/* ============================================================== */}
-      {/* VÀNH NGOÀI CÙNG (VÒNG 5): 16 CÁNH SEN ĐỒNG THÁP MANDALA         */}
-      {/* ============================================================== */}
-      <circle cx="300" cy="300" r="294" stroke="url(#bronzeGoldGrad)" strokeWidth="2.5" />
-      <circle cx="300" cy="300" r="286" stroke="url(#lotusCrimsonGrad)" strokeWidth="1.2" strokeDasharray="3, 4" />
-      <circle cx="300" cy="300" r="268" stroke="url(#bronzeGoldGrad)" strokeWidth="1.8" />
-
-      {/* 16 Cánh Sen Đồng Tháp uốn lượn trang nhã */}
-      {[...Array(16)].map((_, i) => (
-        <g key={i} transform={`rotate(${i * 22.5} 300 300)`}>
-          <path
-            d="M 285 32 C 291 8 309 8 315 32 C 308 40 292 40 285 32 Z"
-            fill="url(#lotusPetalGrad)"
-            stroke="url(#bronzeGoldGrad)"
-            strokeWidth="1.4"
-          />
-          <line x1="300" y1="12" x2="300" y2="34" stroke="url(#lotusCrimsonGrad)" strokeWidth="1" />
-        </g>
-      ))}
-
-      {/* ============================================================== */}
-      {/* VÒNG 4: HOA VĂN RĂNG LƯỢC & ĐƯỜNG TRÒN ĐỒNG TÂM                */}
-      {/* ============================================================== */}
-      <circle cx="300" cy="300" r="256" stroke="url(#bronzeGoldGrad)" strokeWidth="1.6" />
-      <circle cx="300" cy="300" r="240" stroke="url(#lotusCrimsonGrad)" strokeWidth="1.2" strokeDasharray="4, 5" />
-      <circle cx="300" cy="300" r="226" stroke="url(#bronzeGoldGrad)" strokeWidth="1.8" />
-
-      {/* ============================================================== */}
-      {/* VÒNG 3: 8 CHIM LẠC / SẾU ĐẦU ĐỎ SẢI CÁNH BAY QUANH MẶT TRỜI   */}
-      {/* Bay ngược chiều kim đồng hồ theo chuẩn văn hóa Đông Sơn         */}
-      {/* ============================================================== */}
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-        <g key={deg} transform={`rotate(${deg} 300 300)`}>
-          {/* Thân & Cánh Sếu đầu đỏ */}
-          <path
-            d="M 234 112 Q 254 109 270 114 C 275 92 288 77 318 83 C 304 98 296 108 294 115 C 304 114 316 114 328 112 C 322 115 318 117 314 119 L 350 120 L 348 122 L 312 121 C 306 124 298 136 312 140 C 290 144 280 130 286 118 Q 260 118 248 115 Z"
-            fill="url(#bronzeGoldGrad)"
-            stroke="url(#lotusCrimsonGrad)"
-            strokeWidth="0.8"
-          />
-          {/* Mỏ & Mắt Sếu */}
-          <circle cx="245" cy="111" r="2.4" fill="#E11D48" />
-        </g>
-      ))}
-
-      {/* ============================================================== */}
-      {/* VÒNG 2: HỒI VĂN CHỮ S / SÓNG NƯỚC ÓC EO & TAM GIÁC RĂNG CƯA     */}
-      {/* ============================================================== */}
-      <circle cx="300" cy="300" r="162" stroke="url(#bronzeGoldGrad)" strokeWidth="1.6" />
-      <circle cx="300" cy="300" r="148" stroke="url(#lotusCrimsonGrad)" strokeWidth="1.2" strokeDasharray="3, 3" />
-      
-      {/* Hồi văn chữ S / vòng xoáy sóng nước Óc Eo */}
-      {[...Array(16)].map((_, i) => (
-        <g key={i} transform={`rotate(${i * 22.5} 300 300)`}>
-          <circle cx="300" cy="155" r="3.5" stroke="url(#bronzeGoldGrad)" strokeWidth="1" fill="#FAF7F2" />
-          <path d="M 297 155 Q 300 152 303 155 Q 300 158 297 155" stroke="url(#lotusCrimsonGrad)" strokeWidth="0.8" />
-        </g>
-      ))}
-
-      <circle cx="300" cy="300" r="126" stroke="url(#bronzeGoldGrad)" strokeWidth="1.6" />
-      {/* Tam giác răng cưa Đông Sơn 28 răng */}
-      <polygon points={SAWTOOTH_28_POINTS} stroke="url(#bronzeGoldGrad)" strokeWidth="1.2" fill="url(#bronzeGoldGrad)" fillOpacity="0.25" />
-      <circle cx="300" cy="300" r="92" stroke="url(#bronzeGoldGrad)" strokeWidth="1.6" />
-
-      {/* ============================================================== */}
-      {/* VÒNG 1: CHẤM NHỎ ĐỒNG TÂM & TÂM NGÔI SAO 14 CÁNH SẮC NÉT       */}
-      {/* ============================================================== */}
-      <circle cx="300" cy="300" r="76" stroke="url(#lotusCrimsonGrad)" strokeWidth="1.5" strokeDasharray="2, 4" />
-      <circle cx="300" cy="300" r="66" stroke="url(#bronzeGoldGrad)" strokeWidth="1.8" />
-
-      {/* Ngôi sao 14 cánh biểu tượng Mặt trời Đông Sơn */}
-      <polygon points={STAR_14_POINTS} fill="url(#bronzeGoldGrad)" stroke="url(#lotusCrimsonGrad)" strokeWidth="1.5" />
-
-      {/* Lõi trung tâm */}
-      <circle cx="300" cy="300" r="13" fill="#FAF7F2" stroke="url(#lotusCrimsonGrad)" strokeWidth="2.2" />
-      <circle cx="300" cy="300" r="4.5" fill="#9E1B32" />
-    </svg>
-  );
-}
-
-// Cụm 3 Chú Sếu Đầu Đỏ Tràm Chim Bay Lượn (Red-Crowned Cranes Line Art)
-export function RedCrownedCranesFlock({ className = '', style = {}, flipped = false }) {
-  return (
-    <div
-      className={`pointer-events-none ${className}`}
-      style={{
-        ...style,
-        transform: `${style.transform || ''} ${flipped ? 'scaleX(-1)' : ''}`,
-      }}
-    >
-      <svg
-        viewBox="0 0 280 180"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-sm"
-      >
-        <defs>
-          <linearGradient id="craneBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#C59B27" />
-            <stop offset="60%" stopColor="#B45309" />
-            <stop offset="100%" stopColor="#9E1B32" />
-          </linearGradient>
-        </defs>
-
-        {/* Chú Sếu 1 (Sếu Dẫn Đầu - Lớn nhất, vỗ cánh uy nghi) */}
-        <g transform="translate(10, 15) scale(0.95)">
-          {/* Đầu & Mỏ Sếu */}
-          <path d="M 12 70 L 32 68 Q 45 66 56 74" stroke="url(#craneBodyGrad)" strokeWidth="2.2" strokeLinecap="round" />
-          {/* Chỏm đỏ rực trên đỉnh đầu sếu */}
-          <circle cx="36" cy="67" r="3.2" fill="#E11D48" />
-          <circle cx="36" cy="67" r="1.5" fill="#FFE4E6" />
-          {/* Cổ cong chữ S thanh mảnh */}
-          <path d="M 56 74 Q 72 86 86 82 Q 98 78 110 84" stroke="url(#craneBodyGrad)" strokeWidth="2.4" fill="none" />
-          {/* Thân mình thon mượt */}
-          <path d="M 110 84 Q 130 82 155 88 Q 140 98 120 96 Z" fill="url(#craneBodyGrad)" fillOpacity="0.25" stroke="url(#craneBodyGrad)" strokeWidth="1.8" />
-          {/* Cánh trên giương cao */}
-          <path d="M 118 84 C 114 42 136 18 168 12 C 158 38 144 62 135 84 Z" fill="url(#craneBodyGrad)" fillOpacity="0.3" stroke="url(#craneBodyGrad)" strokeWidth="1.8" />
-          {/* Lông vũ đầu cánh xòe */}
-          <path d="M 168 12 L 180 16 M 164 18 L 176 24 M 158 26 L 170 32" stroke="#9E1B32" strokeWidth="1.5" strokeLinecap="round" />
-          {/* Cánh dưới lướt gió */}
-          <path d="M 124 94 C 130 118 148 132 172 130 C 158 116 146 102 138 94 Z" fill="url(#craneBodyGrad)" fillOpacity="0.25" stroke="url(#craneBodyGrad)" strokeWidth="1.6" />
-          {/* Chân dài thanh mảnh duỗi thẳng về sau */}
-          <path d="M 155 88 L 225 102 M 155 90 L 220 106" stroke="#9E1B32" strokeWidth="1.4" strokeLinecap="round" />
-        </g>
-
-        {/* Chú Sếu 2 (Bay kèm phía trên - Vừa phải) */}
-        <g transform="translate(110, 5) scale(0.68)">
-          <path d="M 12 70 L 32 68 Q 45 66 56 74" stroke="url(#craneBodyGrad)" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="36" cy="67" r="2.8" fill="#E11D48" />
-          <path d="M 56 74 Q 72 86 86 82 Q 98 78 110 84" stroke="url(#craneBodyGrad)" strokeWidth="2" fill="none" />
-          <path d="M 110 84 Q 130 82 155 88 Q 140 98 120 96 Z" fill="url(#craneBodyGrad)" fillOpacity="0.2" stroke="url(#craneBodyGrad)" strokeWidth="1.5" />
-          <path d="M 118 84 C 114 42 136 18 168 12 C 158 38 144 62 135 84 Z" fill="url(#craneBodyGrad)" fillOpacity="0.25" stroke="url(#craneBodyGrad)" strokeWidth="1.5" />
-          <path d="M 124 94 C 130 118 148 132 172 130 C 158 116 146 102 138 94 Z" fill="url(#craneBodyGrad)" fillOpacity="0.2" stroke="url(#craneBodyGrad)" strokeWidth="1.4" />
-          <path d="M 155 88 L 225 102 M 155 90 L 220 106" stroke="#9E1B32" strokeWidth="1.2" strokeLinecap="round" />
-        </g>
-
-        {/* Chú Sếu 3 (Bay lượn phía sau - Nhỏ nhắn) */}
-        <g transform="translate(35, 78) scale(0.52)">
-          <path d="M 12 70 L 32 68 Q 45 66 56 74" stroke="url(#craneBodyGrad)" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="36" cy="67" r="2.6" fill="#E11D48" />
-          <path d="M 56 74 Q 72 86 86 82 Q 98 78 110 84" stroke="url(#craneBodyGrad)" strokeWidth="2" fill="none" />
-          <path d="M 110 84 Q 130 82 155 88 Q 140 98 120 96 Z" fill="url(#craneBodyGrad)" fillOpacity="0.2" stroke="url(#craneBodyGrad)" strokeWidth="1.4" />
-          <path d="M 118 84 C 114 42 136 18 168 12 C 158 38 144 62 135 84 Z" fill="url(#craneBodyGrad)" fillOpacity="0.22" stroke="url(#craneBodyGrad)" strokeWidth="1.4" />
-          <path d="M 155 88 L 225 102" stroke="#9E1B32" strokeWidth="1.2" strokeLinecap="round" />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
 export default function CulturalHeritageBackdrop({ mode = 'full' }) {
   const [scrollY, setScrollY] = useState(0);
 
@@ -255,86 +106,161 @@ export default function CulturalHeritageBackdrop({ mode = 'full' }) {
   }, []);
 
   // Tính toán biến đổi hình học theo độ cuộn
-  const centerRotation = scrollY * 0.18;
+  const centerRotation = scrollY * 0.22;
   const centerScale = 1 + Math.min(scrollY * 0.0004, 0.25);
-  const centerTranslateY = scrollY * 0.15;
+  const centerTranslateY = scrollY * 0.16;
 
-  const rightTranslateX = Math.max(0, 120 - scrollY * 0.15);
-  const rightRotation = -scrollY * 0.15;
+  const rightTranslateX = Math.max(0, 100 - scrollY * 0.15);
+  const rightRotation = -scrollY * 0.18;
 
-  const leftTranslateX = -Math.max(0, 100 - scrollY * 0.12);
-  const leftRotation = scrollY * 0.12;
+  const leftTranslateX = -Math.max(0, 90 - scrollY * 0.12);
+  const leftRotation = scrollY * 0.15;
 
   const showHero = mode === 'full' || mode === 'hero';
   const showSides = mode === 'full' || mode === 'sides';
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
+    <div
+      className={
+        mode === 'sides'
+          ? 'fixed inset-0 overflow-hidden pointer-events-none select-none z-20'
+          : 'absolute inset-0 overflow-hidden pointer-events-none select-none z-0'
+      }
+    >
       {/* ============================================================== */}
-      {/* 1. MẶT TRỐNG ĐỒNG TRUNG TÂM Ở HERO (Scroll-Linked + Auto Spin)  */}
-      {/* Tự động xoay chậm liên tục và tăng tốc xoay to ra khi cuộn      */}
+      {/* 1. KHU VỰC HERO: MẶT TRỐNG ĐỒNG THỰC TẾ & ĐÀN SẾU BAY PARALLAX  */}
       {/* ============================================================== */}
       {showHero && (
-        <div
-          className="absolute top-[10px] sm:top-[20px] left-1/2 w-[560px] h-[560px] sm:w-[780px] sm:h-[780px] opacity-[0.14] sm:opacity-[0.16] transition-transform duration-100 ease-out will-change-transform"
-          style={{
-            transform: `translate(-50%, ${centerTranslateY}px) rotate(${centerRotation}deg) scale(${centerScale})`,
-            maskImage: 'radial-gradient(circle, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.95) 55%, rgba(0,0,0,0.8) 100%)',
-            WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.95) 55%, rgba(0,0,0,0.8) 100%)',
-          }}
-        >
-          <BronzeDrumMandala className="w-full h-full drop-shadow-xs animate-[spin_160s_linear_infinite]" />
-        </div>
-      )}
-
-      {/* ============================================================== */}
-      {/* 2 & 3. MẶT TRỐNG ĐỒNG BÁN NGUYỆT RÌA PHẢI & RÌA TRÁI (Fixed)    */}
-      {/* ============================================================== */}
-      {showSides && (
         <>
+          {/* MẶT TRỐNG ĐỒNG ĐÔNG SƠN TRUNG TÂM PHÍA SAU TIÊU ĐỀ */}
           <div
-            className="fixed -right-[220px] sm:-right-[260px] top-1/4 w-[480px] h-[480px] sm:w-[540px] sm:h-[540px] opacity-18 transition-transform duration-100 ease-out will-change-transform z-0"
+            className="absolute top-[20px] sm:top-[40px] left-1/2 w-[560px] h-[560px] sm:w-[760px] sm:h-[760px] opacity-[0.16] sm:opacity-[0.18] transition-transform duration-100 ease-out will-change-transform"
             style={{
-              transform: `translateX(${rightTranslateX}px) rotate(${rightRotation}deg)`,
+              transform: `translate(-50%, ${centerTranslateY}px) rotate(${centerRotation}deg) scale(${centerScale})`,
             }}
           >
-            <BronzeDrumMandala className="w-full h-full" />
+            <div className="w-full h-full animate-[spin_200s_linear_infinite]">
+              <img
+                src="/images/cultural_motifs/bronze_drum_dong_son.png"
+                alt="Mặt Trống Đồng Đông Sơn"
+                className="w-full h-full object-contain filter contrast-125 drop-shadow-md"
+                style={{
+                  maskImage: 'radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 80%)',
+                  WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 80%)',
+                }}
+              />
+            </div>
           </div>
 
+          {/* GÓC TRÊN TRÁI HERO: SẾU VƯƠN CỔ BAY LÊN + ĐÀN SẾU THỦY MẶC TẦNG MÂY XA */}
           <div
-            className="fixed -left-[240px] sm:-left-[280px] bottom-16 w-[460px] h-[460px] sm:w-[520px] sm:h-[520px] opacity-16 transition-transform duration-100 ease-out will-change-transform z-0"
+            className="absolute top-8 sm:top-14 left-4 sm:left-12 flex items-start gap-2 z-10 transition-transform duration-100 ease-out will-change-transform"
             style={{
-              transform: `translateX(${leftTranslateX}px) rotate(${leftRotation}deg)`,
+              transform: `translate(${scrollY * 0.12}px, -${scrollY * 0.14}px)`,
             }}
           >
-            <BronzeDrumMandala className="w-full h-full" />
+            {/* Sếu đầu đàn vươn cổ bay vút lên */}
+            <img
+              src="/images/cultural_motifs/crane_2_ascending_glide.png"
+              alt="Sếu Đầu Đỏ vươn cổ bay lên"
+              className="w-32 sm:w-48 object-contain drop-shadow-md transform -scale-x-100 rotate-6"
+            />
+
+            {/* Đàn sếu thủy mặc bay theo ở 3 tầng không gian xa */}
+            <div className="flex flex-col gap-1 -mt-2">
+              <img
+                src="/images/cultural_motifs/crane_3_soaring_wings_up.png"
+                alt="Sếu thủy mặc đập cánh vươn cao"
+                className="w-10 sm:w-14 object-contain opacity-75 transform -scale-x-100"
+              />
+              <img
+                src="/images/cultural_motifs/crane_4_cruising_wings_down.png"
+                alt="Sếu thủy mặc lướt gió"
+                className="w-8 sm:w-11 object-contain opacity-65 ml-2 transform -scale-x-100"
+              />
+              <img
+                src="/images/cultural_motifs/crane_5_distant_flock_follower.png"
+                alt="Sếu thủy mặc tầng mây xa"
+                className="w-6 sm:w-8 object-contain opacity-50 ml-4 transform -scale-x-100"
+              />
+            </div>
+          </div>
+
+          {/* GÓC TRÊN PHẢI HERO: SẾU SẢI CÁNH LƯỢN ĐÁP XUỐNG VỀ PHÍA TIÊU ĐỀ */}
+          <div
+            className="absolute top-14 sm:top-20 right-4 sm:right-14 z-10 transition-transform duration-100 ease-out will-change-transform"
+            style={{
+              transform: `translate(-${scrollY * 0.10}px, ${scrollY * 0.08}px)`,
+            }}
+          >
+            <img
+              src="/images/cultural_motifs/crane_1_diving_swoop.png"
+              alt="Sếu Đầu Đỏ sải cánh lượn đáp"
+              className="w-32 sm:w-46 object-contain opacity-80 sm:opacity-90 drop-shadow-md -rotate-6"
+            />
           </div>
         </>
       )}
 
       {/* ============================================================== */}
-      {/* 4. ĐÀN SẾU ĐẦU ĐỎ TRÀM CHIM SẢI CÁNH BAY (Parallax Drift)       */}
+      {/* 2. KHU VỰC TOÀN TRANG KHI CUỘN XUỐNG (MẶT TRỐNG ĐỒNG BÁN NGUYỆT) */}
       {/* ============================================================== */}
-      {showHero && (
+      {showSides && (
         <>
-          {/* Cụm 1: Góc trên bên trái Hero */}
+          {/* MẶT TRỐNG ĐỒNG BÁN NGUYỆT RÌA PHẢI (Cuộn xuống lăn mở ra) */}
           <div
-            className="absolute top-12 sm:top-20 left-4 sm:left-14 w-44 sm:w-64 opacity-30 transition-transform duration-100 ease-out will-change-transform z-10"
+            className="fixed -right-[230px] top-1/4 w-[500px] h-[500px] opacity-[0.14] pointer-events-none z-0 transition-transform duration-100 ease-out will-change-transform"
             style={{
-              transform: `translate(${scrollY * 0.08}px, -${scrollY * 0.12}px)`,
+              transform: `translateX(${rightTranslateX}px) rotate(${rightRotation}deg)`,
             }}
           >
-            <RedCrownedCranesFlock />
+            <img
+              src="/images/cultural_motifs/bronze_drum_dong_son.png"
+              alt="Mặt Trống Đồng Rìa Phải"
+              className="w-full h-full object-contain filter contrast-125"
+            />
           </div>
 
-          {/* Cụm 2: Góc trên bên phải Hero (Bay đối xứng sang ngang) */}
+          {/* MẶT TRỐNG ĐỒNG BÁN NGUYỆT RÌA TRÁI (Xoay ngược chiều) */}
           <div
-            className="absolute top-24 sm:top-36 right-4 sm:right-16 w-36 sm:w-56 opacity-25 transition-transform duration-100 ease-out will-change-transform z-10"
+            className="fixed -left-[250px] bottom-16 w-[480px] h-[480px] opacity-[0.12] pointer-events-none z-0 transition-transform duration-100 ease-out will-change-transform"
             style={{
-              transform: `translate(-${scrollY * 0.06}px, -${scrollY * 0.10}px)`,
+              transform: `translateX(${leftTranslateX}px) rotate(${leftRotation}deg)`,
             }}
           >
-            <RedCrownedCranesFlock flipped={true} />
+            <img
+              src="/images/cultural_motifs/bronze_drum_dong_son.png"
+              alt="Mặt Trống Đồng Rìa Trái"
+              className="w-full h-full object-contain filter contrast-125"
+            />
+          </div>
+
+          {/* SẾU THỦY MẶC ĐỨNG TRẦM MẶC SOI BÓNG NƯỚC (Nép sát rìa trái, mờ nhẹ không che chữ) */}
+          <div
+            className="fixed bottom-1 left-0 sm:left-1 w-24 sm:w-32 opacity-30 pointer-events-none z-10 transition-transform duration-100 ease-out will-change-transform hidden xl:block"
+            style={{
+              transform: `translateY(${Math.sin(scrollY * 0.004) * 6}px)`,
+            }}
+          >
+            <img
+              src="/images/cultural_motifs/crane_6_wading_reflection.png"
+              alt="Sếu đứng soi bóng nước"
+              className="w-full h-full object-contain filter drop-shadow-xs"
+            />
+          </div>
+
+          {/* SẾU ĐẦU ĐỎ ĐỨNG CO MỘT CHÂN UY NGHI (Nép sát rìa phải, mờ nhẹ không che nút) */}
+          <div
+            className="fixed bottom-2 right-0 sm:right-1 w-20 sm:w-28 opacity-35 pointer-events-none z-10 transition-transform duration-100 ease-out will-change-transform hidden xl:block"
+            style={{
+              transform: `translateY(${-Math.sin(scrollY * 0.004) * 6}px)`,
+            }}
+          >
+            <img
+              src="/images/cultural_motifs/crane_7_noble_one_leg_stance.png"
+              alt="Sếu đứng co một chân uy nghi"
+              className="w-full h-full object-contain filter drop-shadow-xs"
+            />
           </div>
         </>
       )}
