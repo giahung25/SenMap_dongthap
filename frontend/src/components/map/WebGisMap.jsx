@@ -755,48 +755,45 @@ export default function WebGisMap({
       )}
 
       {/* ============================================================== */}
-      {/* FLOATING MAP CONTROLS (Bottom Right)                           */}
+      {/* FLOATING MAP CONTROLS (Bottom Right - Minimal Icon Toolbar)    */}
       {/* ============================================================== */}
-      <div className="absolute bottom-6 right-4 z-20 flex flex-col gap-2">
-        {/* Basemap Switcher Capsule with Full Name and Icon options */}
+      <div className="absolute bottom-6 right-3.5 z-20 flex flex-col items-center gap-2">
+        {/* Basemap Switcher Capsule (Icon-Only with Tooltip) */}
         <div className="bg-white/95 backdrop-blur-md p-1 rounded-2xl shadow-md border border-[#E6DEC8] flex flex-col gap-1">
           <button
             onClick={() => setBaseMap('street')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
+            className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
               baseMap === 'street'
                 ? 'bg-[#9E1B32] text-white shadow-xs'
                 : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
-            title={t('streetMapDesc')}
+            title={`${t('streetMapLabel')} — ${t('streetMapDesc')}`}
           >
-            <span className="material-symbols-outlined text-[18px]">map</span>
-            <span className="hidden sm:inline">{t('streetMapLabel')}</span>
+            <span className="material-symbols-outlined text-[19px]">map</span>
           </button>
 
           <button
             onClick={() => setBaseMap('osm')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
+            className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
               baseMap === 'osm'
                 ? 'bg-[#9E1B32] text-white shadow-xs'
                 : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
-            title={t('cartoOsmDesc')}
+            title={`${t('cartoOsmLabel')} — ${t('cartoOsmDesc')}`}
           >
-            <span className="material-symbols-outlined text-[18px]">public</span>
-            <span className="hidden sm:inline">{t('cartoOsmLabel')}</span>
+            <span className="material-symbols-outlined text-[19px]">public</span>
           </button>
 
           <button
             onClick={() => setBaseMap('satellite')}
-            className={`px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold cursor-pointer ${
+            className={`w-10 h-10 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
               baseMap === 'satellite'
                 ? 'bg-[#9E1B32] text-white shadow-xs'
                 : 'text-[#4A453E] hover:bg-[#FAF7F2] hover:text-[#1E1B18]'
             }`}
-            title={t('satelliteDesc')}
+            title={`${t('satelliteLabel')} — ${t('satelliteDesc')}`}
           >
-            <span className="material-symbols-outlined text-[18px]">satellite_alt</span>
-            <span className="hidden sm:inline">{t('satelliteLabel')}</span>
+            <span className="material-symbols-outlined text-[19px]">satellite_alt</span>
           </button>
         </div>
 
@@ -804,7 +801,7 @@ export default function WebGisMap({
         <button
           data-testid="toggle-province-mask"
           onClick={() => setShowProvinceMask((prev) => !prev)}
-          className={`bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] transition-all flex items-center justify-center group cursor-pointer active:scale-95 ${
+          className={`w-11 h-11 bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#E6DEC8] transition-all flex items-center justify-center group cursor-pointer active:scale-95 ${
             showProvinceMask
               ? 'text-[#9E1B32] bg-[#FAF7F2] ring-1 ring-[#D5C390] shadow-sm'
               : 'text-[#766E65] hover:text-[#1E1B18] hover:bg-[#FAF7F2]'
@@ -830,7 +827,7 @@ export default function WebGisMap({
         <button
           data-testid="gps-locate-me"
           onClick={onLocateUser}
-          className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] text-[#1E5631] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
+          className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#E6DEC8] text-[#1E5631] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
           title={t('locateMeTooltip')}
         >
           <Crosshair className="w-5 h-5 group-hover:scale-110 transition-transform text-[#1E5631]" />
@@ -840,21 +837,11 @@ export default function WebGisMap({
         <button
           data-testid="reset-dongthap-view"
           onClick={resetDongThapView}
-          className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-md border border-[#E6DEC8] text-[#9E1B32] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
+          className="w-11 h-11 bg-white/95 backdrop-blur-md rounded-2xl shadow-md border border-[#E6DEC8] text-[#9E1B32] hover:bg-[#FAF7F2] transition-all flex items-center justify-center group cursor-pointer active:scale-95"
           title={lang === 'en' ? 'Reset to full Đồng Tháp Province view' : 'Về toàn cảnh Tỉnh Đồng Tháp'}
         >
           <Compass className="w-5 h-5 group-hover:rotate-45 transition-transform text-[#9E1B32]" />
         </button>
-      </div>
-
-      {/* MAP WATERMARK / GEOFENCING STATUS CHIP (Bottom Left) */}
-      <div className="absolute bottom-4 left-4 z-20 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E6DEC8] shadow-sm text-[11px] font-mono text-[#4A453E]">
-        <span className={`w-2 h-2 rounded-full ${geofenceCheck.isValid ? 'bg-emerald-600 animate-pulse' : 'bg-rose-500'}`} />
-        <span>
-          {geofenceCheck.isValid
-            ? t('mapWatermarkValid', { layer: tileLayers[baseMap].shortName })
-            : t('mapWatermarkInvalid')}
-        </span>
       </div>
     </div>
   );
