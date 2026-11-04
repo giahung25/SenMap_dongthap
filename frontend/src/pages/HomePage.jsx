@@ -98,7 +98,7 @@ export default function HomePage() {
 
   return (
     <div className="relative w-full min-h-screen bg-[#FAF7F2] text-[#1E1B18] flex flex-col overflow-x-hidden selection:bg-[#F4ECE7] selection:text-[#9E1B32]">
-      {/* Nền Văn Hóa Mặt Trống Đồng Lăn Mở & Sếu Đầu Đỏ */}
+      {/* Nền Văn Hóa Sếu Thủy Mặc Nép Rìa Trái */}
       <CulturalHeritageBackdrop mode="sides" />
       {/* ============================================================== */}
       {/* TẦNG 1: HERO BANNER & CỔNG KHÁM PHÁ ĐẤT SEN HỒNG              */}

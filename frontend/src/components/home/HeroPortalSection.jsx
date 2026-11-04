@@ -44,21 +44,12 @@ export default function HeroPortalSection({
       data-testid="hero-portal-section"
       className="relative w-full overflow-hidden bg-[#FAF7F2] text-[#1E1B18] py-16 sm:py-20 md:py-24 lg:py-28 select-none"
     >
-      {/* 1. WARM VIETNAM & KYOTO TRAVEL BACKGROUND WITH SEAMLESS BLEND */}
+      {/* 1. CLEAN WARM PAPER BACKGROUND */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/images/monuments/monument_1.jpg"
-          alt="SenMap Đồng Tháp Hero"
-          className="w-full h-full object-cover object-center scale-105 filter blur-[2px] opacity-25"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/images/monuments/monument_2.jpg';
-          }}
-        />
-        {/* Luminous, translucent paper gradients allowing Bronze Drum Mandala & Cranes to shine clearly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2]/55 via-[#FAF7F2]/75 to-[#FAF7F2]" />
-        <div className="absolute inset-0 bg-radial-at-t from-amber-100/25 via-transparent to-transparent opacity-60" />
-        <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent" />
+        {/* Soft, warm paper gradients */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2] via-[#FAF7F2]/90 to-[#FAF7F2]" />
+        <div className="absolute inset-0 bg-radial-at-t from-amber-100/20 via-transparent to-transparent opacity-50" />
+        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-[#FAF7F2] to-transparent" />
 
         {/* Nền Văn Hóa Mặt Trống Đồng & Đàn Sếu Đầu Đỏ */}
         <CulturalHeritageBackdrop mode="hero" />

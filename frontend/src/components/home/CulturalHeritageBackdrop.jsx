@@ -106,15 +106,9 @@ export default function CulturalHeritageBackdrop({ mode = 'full' }) {
   }, []);
 
   // Tính toán biến đổi hình học theo độ cuộn
-  const centerRotation = scrollY * 0.22;
-  const centerScale = 1 + Math.min(scrollY * 0.0004, 0.25);
-  const centerTranslateY = scrollY * 0.16;
-
-  const rightTranslateX = Math.max(0, 100 - scrollY * 0.15);
-  const rightRotation = -scrollY * 0.18;
-
-  const leftTranslateX = -Math.max(0, 90 - scrollY * 0.12);
-  const leftRotation = scrollY * 0.15;
+  // Trống Đồng ở góc trên bên phải Hero: xoay tròn tự động và tăng tốc theo scroll
+  const drumRotation = scrollY * 0.22;
+  const drumTranslateY = scrollY * 0.12;
 
   const showHero = mode === 'full' || mode === 'hero';
   const showSides = mode === 'full' || mode === 'sides';
@@ -128,26 +122,22 @@ export default function CulturalHeritageBackdrop({ mode = 'full' }) {
       }
     >
       {/* ============================================================== */}
-      {/* 1. KHU VỰC HERO: MẶT TRỐNG ĐỒNG THỰC TẾ & ĐÀN SẾU BAY PARALLAX  */}
+      {/* 1. KHU VỰC HERO: MẶT TRỐNG ĐỒNG GÓC TRÊN PHẢI & ĐÀN SẾU BAY    */}
       {/* ============================================================== */}
       {showHero && (
         <>
-          {/* MẶT TRỐNG ĐỒNG ĐÔNG SƠN TRUNG TÂM PHÍA SAU TIÊU ĐỀ */}
+          {/* MẶT TRỐNG ĐỒNG ĐÔNG SƠN ĐẶT Ở GÓC TRÊN BÊN PHẢI HERO */}
           <div
-            className="absolute top-[20px] sm:top-[40px] left-1/2 w-[560px] h-[560px] sm:w-[760px] sm:h-[760px] opacity-[0.16] sm:opacity-[0.18] transition-transform duration-100 ease-out will-change-transform"
+            className="absolute -top-[120px] sm:-top-[150px] -right-[120px] sm:-right-[160px] w-[540px] h-[540px] sm:w-[680px] sm:h-[680px] opacity-[0.16] sm:opacity-[0.20] transition-transform duration-100 ease-out will-change-transform z-0 pointer-events-none"
             style={{
-              transform: `translate(-50%, ${centerTranslateY}px) rotate(${centerRotation}deg) scale(${centerScale})`,
+              transform: `translateY(${drumTranslateY}px) rotate(${drumRotation}deg)`,
             }}
           >
-            <div className="w-full h-full animate-[spin_200s_linear_infinite]">
+            <div className="w-full h-full animate-[spin_240s_linear_infinite]">
               <img
                 src="/images/cultural_motifs/bronze_drum_dong_son.png"
-                alt="Mặt Trống Đồng Đông Sơn"
-                className="w-full h-full object-contain filter contrast-125 drop-shadow-md"
-                style={{
-                  maskImage: 'radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 80%)',
-                  WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,0.7) 0%, rgba(0,0,0,1) 80%)',
-                }}
+                alt="Mặt Trống Đồng Đông Sơn Góc Phải"
+                className="w-full h-full object-contain filter contrast-125"
               />
             </div>
           </div>
@@ -203,41 +193,13 @@ export default function CulturalHeritageBackdrop({ mode = 'full' }) {
       )}
 
       {/* ============================================================== */}
-      {/* 2. KHU VỰC TOÀN TRANG KHI CUỘN XUỐNG (MẶT TRỐNG ĐỒNG BÁN NGUYỆT) */}
+      {/* 2. KHU VỰC TOÀN TRANG KHI CUỘN XUỐNG (CHỈ GIỮ SẾU SOI BÓNG NƯỚC RÌA TRÁI) */}
       {/* ============================================================== */}
       {showSides && (
         <>
-          {/* MẶT TRỐNG ĐỒNG BÁN NGUYỆT RÌA PHẢI (Cuộn xuống lăn mở ra) */}
-          <div
-            className="fixed -right-[230px] top-1/4 w-[500px] h-[500px] opacity-[0.14] pointer-events-none z-0 transition-transform duration-100 ease-out will-change-transform"
-            style={{
-              transform: `translateX(${rightTranslateX}px) rotate(${rightRotation}deg)`,
-            }}
-          >
-            <img
-              src="/images/cultural_motifs/bronze_drum_dong_son.png"
-              alt="Mặt Trống Đồng Rìa Phải"
-              className="w-full h-full object-contain filter contrast-125"
-            />
-          </div>
-
-          {/* MẶT TRỐNG ĐỒNG BÁN NGUYỆT RÌA TRÁI (Xoay ngược chiều) */}
-          <div
-            className="fixed -left-[250px] bottom-16 w-[480px] h-[480px] opacity-[0.12] pointer-events-none z-0 transition-transform duration-100 ease-out will-change-transform"
-            style={{
-              transform: `translateX(${leftTranslateX}px) rotate(${leftRotation}deg)`,
-            }}
-          >
-            <img
-              src="/images/cultural_motifs/bronze_drum_dong_son.png"
-              alt="Mặt Trống Đồng Rìa Trái"
-              className="w-full h-full object-contain filter contrast-125"
-            />
-          </div>
-
           {/* SẾU THỦY MẶC ĐỨNG TRẦM MẶC SOI BÓNG NƯỚC (Nép sát rìa trái, mờ nhẹ không che chữ) */}
           <div
-            className="fixed bottom-1 left-0 sm:left-1 w-24 sm:w-32 opacity-30 pointer-events-none z-10 transition-transform duration-100 ease-out will-change-transform hidden xl:block"
+            className="fixed bottom-1 left-0 sm:left-1 w-24 sm:w-32 opacity-25 pointer-events-none z-10 transition-transform duration-100 ease-out will-change-transform hidden xl:block"
             style={{
               transform: `translateY(${Math.sin(scrollY * 0.004) * 6}px)`,
             }}
@@ -245,20 +207,6 @@ export default function CulturalHeritageBackdrop({ mode = 'full' }) {
             <img
               src="/images/cultural_motifs/crane_6_wading_reflection.png"
               alt="Sếu đứng soi bóng nước"
-              className="w-full h-full object-contain filter drop-shadow-xs"
-            />
-          </div>
-
-          {/* SẾU ĐẦU ĐỎ ĐỨNG CO MỘT CHÂN UY NGHI (Nép sát rìa phải, mờ nhẹ không che nút) */}
-          <div
-            className="fixed bottom-2 right-0 sm:right-1 w-20 sm:w-28 opacity-35 pointer-events-none z-10 transition-transform duration-100 ease-out will-change-transform hidden xl:block"
-            style={{
-              transform: `translateY(${-Math.sin(scrollY * 0.004) * 6}px)`,
-            }}
-          >
-            <img
-              src="/images/cultural_motifs/crane_7_noble_one_leg_stance.png"
-              alt="Sếu đứng co một chân uy nghi"
               className="w-full h-full object-contain filter drop-shadow-xs"
             />
           </div>
