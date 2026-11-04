@@ -73,23 +73,36 @@ export default function HeroPortalSection({
             </span>
           </div>
 
-          {/* Grand Headline (Noto Serif Display) */}
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#1E1B18] leading-[1.3] max-w-4xl pb-1">
+          {/* Grand Headline (Noto Serif Display - Strong Visual Hierarchy) */}
+          <h1 className="font-serif tracking-tight max-w-5xl flex flex-col items-center">
             {isEn ? (
               <>
-                <span className="block">Explore the Sacred Heritage of</span>
-                <span className="block mt-1.5 sm:mt-2.5 pb-2.5 leading-[1.35] text-[#9E1B32]">
+                <span className="block text-xl sm:text-3xl md:text-4xl font-semibold text-[#3A332C] leading-[1.3]">
+                  Digital Heritage & Cultural Tourism Map
+                </span>
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#9E1B32] via-[#E11D48] to-[#B45309] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(225,29,72,0.12)]">
                   Đồng Tháp — Land of Pink Lotus
                 </span>
               </>
             ) : (
               <>
-                <span className="block">Bản Đồ Số Di Sản & Du Lịch</span>
-                <span className="block mt-1.5 sm:mt-2.5 pb-2.5 leading-[1.35] text-[#9E1B32]">
+                <span className="block text-xl sm:text-3xl md:text-[38px] font-semibold text-[#3A332C] leading-[1.3]">
+                  Bản Đồ Số Di Sản & Du Lịch Văn Hóa
+                </span>
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#9E1B32] via-[#E11D48] to-[#B45309] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(225,29,72,0.12)]">
                   Đất Sen Hồng Đồng Tháp
                 </span>
               </>
             )}
+
+            {/* Ornamental Gold & Lotus Divider accentuating the Main Title */}
+            <div className="flex items-center justify-center gap-3 mt-1 mb-1">
+              <span className="h-[1.5px] w-14 sm:w-24 bg-gradient-to-r from-transparent via-[#D5C390] to-[#9E1B32]/70 rounded-full" />
+              <span className="material-symbols-outlined text-[18px] text-[#E11D48]">
+                local_florist
+              </span>
+              <span className="h-[1.5px] w-14 sm:w-24 bg-gradient-to-l from-transparent via-[#D5C390] to-[#9E1B32]/70 rounded-full" />
+            </div>
           </h1>
 
           {/* Narrative Storytelling Paragraph */}
