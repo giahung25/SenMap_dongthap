@@ -57,6 +57,7 @@ import {
  */
 export default function MapView({
   isEmbedded = false,
+  compactPreview = false,
   externalTrailId = null,
   onOpenFullMap = null,
 }) {
@@ -486,7 +487,9 @@ export default function MapView({
   return (
     <div
       className={`relative w-full ${
-        isEmbedded
+        compactPreview
+          ? 'h-full w-full'
+          : isEmbedded
           ? 'h-[680px] rounded-3xl shadow-2xl border border-[#E6DEC8]'
           : 'h-[calc(100vh-4rem)]'
       } flex flex-col overflow-hidden bg-[#FAF7F2]`}
@@ -495,7 +498,8 @@ export default function MapView({
       {/* THANH CHỌN NHANH 4 TUYẾN DU LỊCH CHỦ ĐỀ (QUICK SELECTOR BAR)    */}
       {/* Single-row horizontal scroll design on all devices             */}
       {/* ============================================================== */}
-      <header className="shrink-0 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E6DEC8] px-3 py-2 z-20 flex items-center justify-between gap-2 shadow-xs">
+      {!compactPreview && (
+        <header className="shrink-0 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E6DEC8] px-3 py-2 z-20 flex items-center justify-between gap-2 shadow-xs">
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 min-w-0 flex-1">
           {/* Brand/Label Pill */}
           <div className="flex items-center gap-1.5 shrink-0 pr-1">
@@ -580,7 +584,8 @@ export default function MapView({
             </button>
           )}
         </div>
-      </header>
+        </header>
+      )}
 
       {/* ============================================================== */}
       {/* KHU VỰC CHÍNH: SIDEBAR + BẢN ĐỒ SỐ WEB GIS                    */}
@@ -589,7 +594,8 @@ export default function MapView({
         {/* ============================================================== */}
         {/* CỘT TRÁI: SIDEBAR ĐA NĂNG (MapSidebar Component)               */}
         {/* ============================================================== */}
-        <MapSidebar
+        {!compactPreview && (
+          <MapSidebar
           sidebarMode={sidebarMode}
           setSidebarMode={setSidebarMode}
           searchQuery={searchQuery}
@@ -622,7 +628,8 @@ export default function MapView({
           t={t}
           lang={lang}
           isEmbedded={isEmbedded}
-        />
+          />
+        )}
 
         {/* ============================================================== */}
         {/* CỘT PHẢI: BẢN ĐỒ SỐ TƯƠNG TÁC WEB GIS (Desktop & Mobile)        */}
@@ -646,7 +653,7 @@ export default function MapView({
           {/* HỘP THÔNG TIN TÓM TẮT TUYẾN ĐANG CHỌN (TRAIL SUMMARY CARD)      */}
           {/* Responsive, compact pill on collapse, capped max-height        */}
           {/* ============================================================== */}
-          {activeCulturalTrail && (
+          {!compactPreview && activeCulturalTrail && (
             <aside className="absolute top-3 left-2 right-2 sm:right-auto sm:left-3 md:left-4 z-30 w-full sm:w-[360px] md:w-[380px] max-w-[calc(100%-1rem)] sm:max-w-[380px] bg-[#FAF7F2]/95 backdrop-blur-md rounded-2xl shadow-2xl border border-[#E6DEC8] overflow-hidden flex flex-col animate-in fade-in slide-in-from-top-3 duration-200">
               {/* Card Header with Theme Color Accent */}
               <div
@@ -992,7 +999,7 @@ export default function MapView({
           {/* NÚT NỔI [MỞ BẢN ĐỒ SỐ TOÀN MÀN HÌNH] (KHI EMBEDDED Ở TRANG CHỦ) */}
           {/* Đặt ở chính giữa đáy (Bottom-Center), không overlap Map Controls */}
           {/* ============================================================== */}
-          {isEmbedded && (
+          {!compactPreview && isEmbedded && (
             <button
               type="button"
               onClick={() => {
@@ -1014,7 +1021,7 @@ export default function MapView({
           {/* ============================================================ */}
           {/* MOBILE BOTTOM SHEET (Chỉ hiển thị ở chế độ bản đồ độc lập)   */}
           {/* ============================================================ */}
-          {!isEmbedded && (
+          {!compactPreview && !isEmbedded && (
             <div
               className={`md:hidden absolute left-0 right-0 bottom-0 z-30 bg-[#FAF7F2] rounded-t-3xl shadow-2xl border-t border-[#E6DEC8] transition-transform duration-300 ${
                 mobileDrawerOpen

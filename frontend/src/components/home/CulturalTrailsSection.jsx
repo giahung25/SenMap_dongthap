@@ -27,7 +27,9 @@ import {
  * Định hướng thiết kế: Heritage Warm Editorial Style (Vietnam Travel & Kyoto Travel)
  * - Nền sáng ấm Giấy Dó #FAF7F2, nhịp thở thoáng đãng --density 2 (py-20 md:py-28)
  * - Typography kép: H2 font-serif (Noto Serif Display) #1E1B18, kicker in hoa #9E1B32
- * - Bố cục Split-Screen 12 cột: lg:col-span-5 (4 thẻ Washi #FFFFFF) + lg:col-span-7 (Bản đồ WebGIS sticky)
+ * - Bố cục Split-Screen 12 cột cân đối hoàn hảo:
+ *   + lg:col-span-5: 4 thẻ Washi tuyến được dàn đều trang trọng
+ *   + lg:col-span-7: Khung Dashboard chi tiết gồm Header + Bản đồ MapView gọn gàng + Câu chuyện văn hóa & Lưới điểm dừng thực địa
  * =========================================================================================
  */
 export default function CulturalTrailsSection({
@@ -117,10 +119,10 @@ export default function CulturalTrailsSection({
           </p>
         </div>
 
-        {/* 2. BỐ CỤC SPLIT-SCREEN 12 CỘT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-          {/* CỘT TRÁI (lg:col-span-5): DANH SÁCH 4 THẺ TUYẾN WASHI & CHI TIẾT */}
-          <div className="lg:col-span-5 space-y-4">
+        {/* 2. BỐ CỤC SPLIT-SCREEN 12 CỘT CÂN ĐỐI TUYỆT ĐỐI */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+          {/* CỘT TRÁI (lg:col-span-5): CHỌN TUYẾN & 4 THẺ TUYẾN WASHI */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-[#E6DEC8]">
               <span className="text-xs font-bold uppercase tracking-wider text-[#9E1B32]">
                 {isEn ? 'Select a Thematic Trail' : 'Chọn Tuyến Hành Trình'}
@@ -130,8 +132,8 @@ export default function CulturalTrailsSection({
               </span>
             </div>
 
-            {/* 4 Thẻ Tuyến Giấy Dó (Washi Cards) */}
-            <div className="space-y-3.5">
+            {/* 4 Thẻ Tuyến Giấy Dó (Washi Cards) - Tự động dàn đều chiều cao */}
+            <div className="flex-1 flex flex-col justify-between gap-3.5">
               {trails.map((trail) => {
                 const isActive = trail.id === currentActiveId;
                 return (
@@ -140,7 +142,7 @@ export default function CulturalTrailsSection({
                     type="button"
                     data-testid={`trail-card-${trail.id}`}
                     onClick={() => handleSelect(trail.id)}
-                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between group border ${
+                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between group border cursor-pointer ${
                       isActive
                         ? 'bg-[#FFFFFF] border-[#D5C390] shadow-md ring-2 ring-[#D5C390]/60'
                         : 'bg-[#FFFFFF] hover:bg-[#FAF7F2] border-[#E6DEC8] hover:border-[#D5C390] shadow-xs'
@@ -176,7 +178,7 @@ export default function CulturalTrailsSection({
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#4A453E] line-clamp-2 leading-relaxed mb-3 pl-0 sm:pl-1">
+                    <p className="text-xs text-[#4A453E] line-clamp-2 leading-relaxed mb-3 pl-0 sm:pl-1 font-sans">
                       {trail.displaySubtitle}
                     </p>
 
@@ -202,37 +204,81 @@ export default function CulturalTrailsSection({
                 );
               })}
             </div>
+          </div>
 
-            {/* Khối Thông Tin Chi Tiết Tuyến Đang Chọn */}
-            {activeTrail && (
-              <div className="p-5 sm:p-6 rounded-2xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-sm space-y-4">
-                {/* Câu chuyện văn hóa (Editorial Quote) */}
-                <div className="p-4 rounded-xl bg-[#F4ECE7] border border-[#E6DEC8] space-y-1.5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#9E1B32] flex items-center gap-1.5">
+          {/* CỘT PHẢI (lg:col-span-7): DASHBOARD CHI TIẾT TUYẾN, BẢN ĐỒ COMPACT & CHUỖI ĐIỂM DỪNG */}
+          <div className="lg:col-span-7 flex flex-col">
+            <div className="rounded-3xl border border-[#E6DEC8] bg-[#FFFFFF] shadow-md overflow-hidden flex flex-col h-full">
+              {/* 1. Header Tuyến Đang Chọn */}
+              <div className="px-5 py-3.5 sm:py-4 bg-[#FFFFFF] border-b border-[#E6DEC8] flex items-center justify-between gap-3 shrink-0">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: activeTrail?.theme_color || '#9E1B32' }}
+                    />
+                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] shrink-0">
+                      {activeTrail?.code}
+                    </span>
+                    <span className="text-xs text-[#4A453E] font-medium whitespace-nowrap">
+                      {trailMonuments.length} {isEn ? 'stops' : 'điểm'} • {activeTrail?.displayDuration}
+                    </span>
+                  </div>
+                  <h3 className="font-serif font-bold text-base sm:text-lg text-[#1E1B18] leading-snug">
+                    {activeTrail?.displayName}
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleOpenFull}
+                  className="btn-lotus-crimson px-3.5 py-2 rounded-xl text-xs font-bold shadow-xs flex items-center gap-1.5 shrink-0"
+                  title={isEn ? 'Open Fullscreen WebGIS Map' : 'Mở Bản Đồ Số Toàn Màn Hình'}
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span className="whitespace-nowrap">{isEn ? 'Full Map' : 'Bản Đồ Lớn'}</span>
+                </button>
+              </div>
+
+              {/* 2. Khung Bản Đồ Số Trực Quan (Gọn gàng, sạch sẽ 100% nhờ compactPreview) */}
+              <div className="h-[380px] sm:h-[420px] w-full relative border-b border-[#E6DEC8] bg-[#F4ECE7] overflow-hidden">
+                <MapView
+                  isEmbedded={true}
+                  compactPreview={true}
+                  externalTrailId={currentActiveId}
+                  onOpenFullMap={handleOpenFull}
+                />
+              </div>
+
+              {/* 3. Khối Câu Chuyện Hành Trình & Chuỗi Điểm Dừng Thực Địa (Ngay dưới bản đồ) */}
+              <div className="p-5 sm:p-6 space-y-4 bg-[#FFFFFF] flex-1 flex flex-col justify-between">
+                {/* Câu chuyện văn hóa di sản (Editorial Narrative Box) */}
+                <div className="p-4 rounded-2xl bg-[#F4ECE7] border border-[#E6DEC8] space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#9E1B32]">
                     <Sparkles className="w-3.5 h-3.5 text-[#9E1B32]" />
-                    <span>{isEn ? 'Curated Trail Narrative' : 'Câu Chuyện Hành Trình:'}</span>
-                  </span>
+                    <span>{isEn ? 'Curated Trail Narrative:' : 'Câu Chuyện Hành Trình:'}</span>
+                  </div>
                   <p className="font-serif italic text-xs sm:text-sm leading-relaxed text-[#1E1B18] select-text">
                     &ldquo;{activeTrail.displayStory}&rdquo;
                   </p>
                 </div>
 
-                {/* Chuỗi điểm dừng có số thứ tự */}
-                <div className="space-y-2">
+                {/* Chuỗi điểm dừng có số thứ tự - Dạng lưới ngang 2 cột */}
+                <div className="space-y-2.5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold uppercase tracking-wider text-[#1E1B18]">
+                    <span className="font-serif font-bold uppercase tracking-wider text-[#1E1B18]">
                       {isEn ? 'Stop Sequence' : 'Chuỗi Điểm Dừng Thực Địa'}
                     </span>
-                    <span className="text-[#4A453E]">
+                    <span className="text-xs text-[#4A453E] font-medium">
                       {trailMonuments.length} {isEn ? 'sites' : 'di tích'}
                     </span>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {trailMonuments.map((m, idx) => (
                       <div
                         key={m.id}
-                        className="p-2 rounded-xl bg-[#FAF7F2] border border-[#E6DEC8] flex items-center justify-between gap-2.5 text-xs hover:border-[#D5C390] transition-colors"
+                        className="p-2.5 rounded-xl bg-[#FAF7F2] border border-[#E6DEC8] flex items-center justify-between gap-2 text-xs hover:border-[#D5C390] transition-colors"
                       >
                         <div className="flex items-center gap-2 min-w-0">
                           <span
@@ -248,7 +294,7 @@ export default function CulturalTrailsSection({
                         <button
                           type="button"
                           onClick={() => navigate(`/di-tich/${m.id}`)}
-                          className="text-[11px] text-[#9E1B32] hover:text-[#831427] font-semibold shrink-0 flex items-center gap-0.5"
+                          className="text-[11px] text-[#9E1B32] hover:text-[#831427] font-semibold shrink-0 flex items-center gap-0.5 cursor-pointer"
                         >
                           <span>{isEn ? 'Detail' : 'Chi tiết'}</span>
                           <ChevronRight className="w-3 h-3" />
@@ -259,58 +305,21 @@ export default function CulturalTrailsSection({
                 </div>
 
                 {/* Nút Hành Động Chính: Xem Bản Đồ Toàn Màn Hình */}
-                <button
-                  type="button"
-                  onClick={handleOpenFull}
-                  className="w-full py-3 px-4 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white font-bold text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:scale-95"
-                >
-                  <Navigation className="w-4 h-4" />
-                  <span>
-                    {isEn
-                      ? 'Navigate This Trail on Full WebGIS'
-                      : 'Trải Nghiệm & Dẫn Đường Trên Bản Đồ Số'}
-                  </span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* CỘT PHẢI (lg:col-span-7): KHUNG BẢN ĐỒ WEBGIS NHÚNG STICKY */}
-          <div className="lg:col-span-7 sticky top-24">
-            <div className="rounded-3xl border border-[#E6DEC8] bg-[#FFFFFF] shadow-lg overflow-hidden h-[580px] lg:h-[700px] flex flex-col">
-              {/* Header thanh viền bản đồ */}
-              <div className="px-5 py-3.5 bg-[#FFFFFF] border-b border-[#E6DEC8] flex items-center justify-between shrink-0">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: activeTrail?.theme_color || '#9E1B32' }}
-                  />
-                  <span className="font-serif font-bold text-xs sm:text-sm text-[#1E1B18]">
-                    {activeTrail?.displayName}
-                  </span>
-                  <span className="hidden sm:inline-block text-[11px] px-2 py-0.5 rounded-full bg-[#FAF7F2] text-[#4A453E] border border-[#E6DEC8]">
-                    {activeTrail?.code}
-                  </span>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={handleOpenFull}
+                    className="btn-lotus-crimson w-full py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                  >
+                    <Navigation className="w-4 h-4 text-[#D5C390]" />
+                    <span>
+                      {isEn
+                        ? 'Navigate This Trail on Full WebGIS'
+                        : 'Trải Nghiệm & Dẫn Đường Trên Bản Đồ Số'}
+                    </span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={handleOpenFull}
-                  className="text-xs font-bold text-[#9E1B32] hover:text-[#831427] flex items-center gap-1 transition-colors"
-                >
-                  <span>{isEn ? 'Full Map' : 'Bản Đồ Lớn'}</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Khung nhúng MapView */}
-              <div className="flex-1 w-full h-full relative">
-                <MapView
-                  isEmbedded={true}
-                  externalTrailId={currentActiveId}
-                  onOpenFullMap={handleOpenFull}
-                />
               </div>
             </div>
           </div>
