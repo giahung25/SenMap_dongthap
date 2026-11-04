@@ -172,7 +172,7 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
               <span className="block">{t.seasonsTitlePrefix}</span>
-              <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">{t.seasonsTitleHighlight}</span>
+              <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">{t.seasonsTitleHighlight}</span>
             </h2>
 
             <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">
@@ -361,7 +361,7 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
               <span className="block">{t.culinaryTitlePrefix}</span>
-              <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">{t.culinaryTitleHighlight}</span>
+              <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">{t.culinaryTitleHighlight}</span>
             </h2>
 
             <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">

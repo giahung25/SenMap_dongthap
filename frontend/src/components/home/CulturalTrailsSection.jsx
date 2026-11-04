@@ -102,12 +102,12 @@ export default function CulturalTrailsSection({
             {isEn ? (
               <>
                 <span className="block">4 Curated Heritage Trails of</span>
-                <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">Đồng Tháp</span>
+                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Đồng Tháp</span>
               </>
             ) : (
               <>
                 <span className="block">4 Tuyến Du Lịch Di Sản Đặc Sắc</span>
-                <span className="block mt-1 sm:mt-1.5 text-[#9E1B32] whitespace-nowrap">Đất Sen Hồng</span>
+                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Đất Sen Hồng</span>
               </>
             )}
           </h2>

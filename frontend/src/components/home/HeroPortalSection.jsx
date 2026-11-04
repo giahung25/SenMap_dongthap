@@ -80,7 +80,7 @@ export default function HeroPortalSection({
                 <span className="block text-xl sm:text-3xl md:text-4xl font-semibold text-[#3A332C] leading-[1.3]">
                   Digital Heritage & Cultural Tourism Map
                 </span>
-                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#9E1B32] via-[#E11D48] to-[#B45309] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(225,29,72,0.12)]">
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(244,63,94,0.22)]">
                   Đồng Tháp — Land of Pink Lotus
                 </span>
               </>
@@ -89,7 +89,7 @@ export default function HeroPortalSection({
                 <span className="block text-xl sm:text-3xl md:text-[38px] font-semibold text-[#3A332C] leading-[1.3]">
                   Bản Đồ Số Di Sản & Du Lịch Văn Hóa
                 </span>
-                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#9E1B32] via-[#E11D48] to-[#B45309] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(225,29,72,0.12)]">
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(244,63,94,0.22)]">
                   Đất Sen Hồng Đồng Tháp
                 </span>
               </>

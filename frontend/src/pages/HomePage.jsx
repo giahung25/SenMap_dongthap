@@ -166,12 +166,12 @@ export default function HomePage() {
                 {isEn ? (
                   <>
                     <span className="block">Collect 20 Red Ink Heritage Seals</span>
-                    <span className="block mt-1 text-[#9E1B32] whitespace-nowrap">across Đồng Tháp</span>
+                    <span className="inline-block mt-1 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">across Đồng Tháp</span>
                   </>
                 ) : (
                   <>
                     <span className="block">Thu Thập 20 Con Dấu Mộc Đỏ</span>
-                    <span className="block mt-1 text-[#9E1B32] whitespace-nowrap">Di Sản Khắp Đồng Tháp</span>
+                    <span className="inline-block mt-1 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Di Sản Khắp Đồng Tháp</span>
                   </>
                 )}
               </h3>
