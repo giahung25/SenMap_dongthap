@@ -149,8 +149,8 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           {/* Passport Washi Card with Tatami Gold border and tilted Red Seal */}
           <div className="relative rounded-3xl bg-white border-2 border-[#D5C390]/80 p-6 sm:p-10 shadow-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
-            {/* Background Sếu Múa Đôi Tình Tự Nhỏ Gọn (Sarus Crane Artistic Watermark) */}
-            <div className="absolute right-44 sm:right-52 bottom-3 w-32 sm:w-40 md:w-44 h-32 sm:h-40 md:h-44 pointer-events-none select-none opacity-[0.22] sm:opacity-[0.28] z-0">
+            {/* Background Sếu Múa Đôi Tình Tự (Nâng cao hơn để lộ trọn vẹn thân & chân sếu) */}
+            <div className="absolute right-36 sm:right-44 md:right-52 bottom-16 sm:bottom-20 md:bottom-24 w-32 sm:w-36 md:w-40 h-32 sm:h-36 md:h-40 pointer-events-none select-none opacity-[0.26] sm:opacity-[0.32] z-0">
               <img
                 src="/images/cultural_motifs/sarus_cranes/sarus_crane_courtship_dance.png"
                 alt="Sếu Đầu Đỏ múa đôi tình tự"
