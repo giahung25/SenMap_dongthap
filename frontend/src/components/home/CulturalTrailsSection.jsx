@@ -91,6 +91,15 @@ export default function CulturalTrailsSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* 1. TIÊU ĐỀ PHÂN ĐOẠN (SECTION HEADER) */}
         <div className="relative text-center space-y-3.5 max-w-3xl mx-auto">
+          {/* Hoa Sen Hồng Tháp Mười Nở Rộ (Trái Header - Large screen) */}
+          <div className="hidden lg:block absolute -left-40 xl:-left-52 top-2 w-48 xl:w-60 pointer-events-none select-none opacity-95 transition-transform duration-300 hover:scale-105">
+            <img
+              src="/images/cultural_motifs/lotus_bloom_dong_thap.png"
+              alt="Hoa Sen Hồng Tháp Mười nở rộ"
+              className="w-full h-full object-contain filter drop-shadow-sm -rotate-3"
+            />
+          </div>
+
           {/* Sếu Đứng Rỉa Lông Thanh Cao (Phải Header - Large screen) */}
           <div className="hidden lg:block absolute -right-24 xl:-right-32 -top-4 w-28 xl:w-36 pointer-events-none select-none opacity-85 transition-transform duration-300 hover:scale-105">
             <img
