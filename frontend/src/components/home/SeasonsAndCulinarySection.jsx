@@ -508,21 +508,42 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
       {/* =================================================================================== */}
       <footer className="relative w-full bg-[#FAF7F2] text-[#4A453E] pt-16 pb-12 px-4 sm:px-6 lg:px-8 border-t border-[#E6DEC8] overflow-hidden">
         <div className="max-w-7xl mx-auto space-y-12">
-          {/* KHỐI CA DAO ĐẶC TRƯNG ĐẤT SEN HỒNG */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#FFFFFF] border border-[#E6DEC8] text-center max-w-3xl mx-auto shadow-xs">
-            <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#E6DEC8] text-[#9E1B32] flex items-center justify-center mx-auto mb-3 shadow-2xs">
-              <Flower2 className="w-5 h-5 text-[#9E1B32]" />
+          {/* KHỐI CA DAO ĐẶC TRƯNG ĐẤT SEN HỒNG (SONG SẾU CHẦU CA DAO) */}
+          <div className="relative max-w-4xl mx-auto">
+            {/* Sếu Đứng Chầu Bên Trái (sarus_crane_standing_guard_left.png) */}
+            <div className="hidden sm:block absolute -left-4 md:-left-12 lg:-left-16 bottom-0 w-24 sm:w-28 md:w-36 pointer-events-none select-none z-10 opacity-85 transition-transform duration-300 hover:scale-105">
+              <img
+                src="/images/cultural_motifs/sarus_cranes/sarus_crane_standing_guard_left.png"
+                alt="Sếu Đầu Đỏ đứng chầu bên trái"
+                className="w-full h-full object-contain filter drop-shadow-sm"
+              />
             </div>
 
-            <blockquote className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#1E1B18] leading-relaxed font-bold select-text">
-              {isEn
-                ? `"${HOMEPAGE_STORYTELLING.folk_verse.translation_en}"`
-                : `"${HOMEPAGE_STORYTELLING.folk_verse.original_vi.replace('\n', ' • ')}"`}
-            </blockquote>
+            {/* Sếu Đứng Chầu Bên Phải (sarus_crane_standing_tall_right.png) */}
+            <div className="hidden sm:block absolute -right-4 md:-right-12 lg:-right-16 bottom-0 w-24 sm:w-28 md:w-36 pointer-events-none select-none z-10 opacity-85 transition-transform duration-300 hover:scale-105">
+              <img
+                src="/images/cultural_motifs/sarus_cranes/sarus_crane_standing_tall_right.png"
+                alt="Sếu Đầu Đỏ đứng chầu bên phải"
+                className="w-full h-full object-contain filter drop-shadow-sm"
+              />
+            </div>
 
-            <p className="mt-2.5 text-xs sm:text-sm text-[#9E1B32] font-semibold tracking-wide">
-              — {HOMEPAGE_STORYTELLING.folk_verse.author} —
-            </p>
+            {/* Nội dung Ca Dao Trung Tâm */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#FFFFFF] border border-[#E6DEC8] text-center max-w-2xl sm:max-w-3xl mx-auto shadow-xs relative z-0">
+              <div className="w-10 h-10 rounded-full bg-[#FAF7F2] border border-[#E6DEC8] text-[#9E1B32] flex items-center justify-center mx-auto mb-3 shadow-2xs">
+                <Flower2 className="w-5 h-5 text-[#9E1B32]" />
+              </div>
+
+              <blockquote className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#1E1B18] leading-relaxed font-bold select-text px-2 sm:px-6">
+                {isEn
+                  ? `"${HOMEPAGE_STORYTELLING.folk_verse.translation_en}"`
+                  : `"${HOMEPAGE_STORYTELLING.folk_verse.original_vi.replace('\n', ' • ')}"`}
+              </blockquote>
+
+              <p className="mt-2.5 text-xs sm:text-sm text-[#9E1B32] font-semibold tracking-wide">
+                — {HOMEPAGE_STORYTELLING.folk_verse.author} —
+              </p>
+            </div>
           </div>
 
           {/* 4 CỘT THÔNG TIN LIÊN KẾT NHANH */}

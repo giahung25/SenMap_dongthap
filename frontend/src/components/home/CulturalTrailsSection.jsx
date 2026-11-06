@@ -90,7 +90,25 @@ export default function CulturalTrailsSection({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* 1. TIÊU ĐỀ PHÂN ĐOẠN (SECTION HEADER) */}
-        <div className="text-center space-y-3.5 max-w-3xl mx-auto">
+        <div className="relative text-center space-y-3.5 max-w-3xl mx-auto">
+          {/* Sếu Múa Đôi Tình Tự (Trái Header - Large screen) */}
+          <div className="hidden lg:block absolute -left-28 xl:-left-36 top-0 w-28 xl:w-36 pointer-events-none select-none opacity-80 transition-transform duration-300 hover:scale-105">
+            <img
+              src="/images/cultural_motifs/sarus_cranes/sarus_crane_courtship_dance.png"
+              alt="Sếu Đầu Đỏ múa đôi"
+              className="w-full h-full object-contain filter drop-shadow-sm"
+            />
+          </div>
+
+          {/* Sếu Chạy Nước Kiệu Lướt Cánh (Phải Header - Large screen) */}
+          <div className="hidden lg:block absolute -right-28 xl:-right-36 top-1 w-32 xl:w-40 pointer-events-none select-none opacity-80 transition-transform duration-300 hover:scale-105">
+            <img
+              src="/images/cultural_motifs/sarus_cranes/sarus_crane_running_trot.png"
+              alt="Sếu Đầu Đỏ sải cánh chạy lướt"
+              className="w-full h-full object-contain filter drop-shadow-sm"
+            />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] text-[#9E1B32] text-xs font-bold uppercase tracking-[0.18em] border border-[#E6DEC8] shadow-xs">
             <Route className="w-3.5 h-3.5 text-[#9E1B32]" />
             <span>

@@ -149,11 +149,13 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           {/* Passport Washi Card with Tatami Gold border and tilted Red Seal */}
           <div className="relative rounded-3xl bg-white border-2 border-[#D5C390]/80 p-6 sm:p-10 shadow-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
-            {/* Background Texture / Subtle Watermark */}
-            <div className="absolute -right-8 -bottom-8 text-[#FAF7F2] pointer-events-none opacity-80">
-              <span className="material-symbols-outlined text-[180px] text-[#E6DEC8]/30">
-                local_florist
-              </span>
+            {/* Background Sếu Đầu Đỏ Rỉa Lông Nghệ Thuật (Sarus Crane Artistic Watermark) */}
+            <div className="absolute right-8 sm:right-28 -bottom-4 w-52 sm:w-68 md:w-80 pointer-events-none select-none opacity-[0.18] sm:opacity-[0.22] z-0">
+              <img
+                src="/images/cultural_motifs/sarus_cranes/sarus_crane_preening_rest.png"
+                alt="Sếu Đầu Đỏ rỉa lông thanh cao"
+                className="w-full h-full object-contain filter drop-shadow-sm"
+              />
             </div>
 
             {/* Left Content: Passport Tier & Progress */}
