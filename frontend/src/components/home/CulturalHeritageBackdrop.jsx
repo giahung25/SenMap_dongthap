@@ -42,7 +42,7 @@ export default function CulturalHeritageBackdrop({ mode = 'hero' }) {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
       {/* ============================================================== */}
-      {/* MẶT TRỐNG ĐỒNG ĐÔNG SƠN ĐẶT Ở GÓC TRÊN BÊN PHẢI HERO          */}
+      {/* 1. MẶT TRỐNG ĐỒNG ĐÔNG SƠN ĐẶT Ở GÓC TRÊN BÊN PHẢI HERO          */}
       {/* ============================================================== */}
       <div
         className="absolute -top-[120px] sm:-top-[150px] -right-[120px] sm:-right-[160px] w-[540px] h-[540px] sm:w-[680px] sm:h-[680px] opacity-[0.16] sm:opacity-[0.20] transition-transform duration-100 ease-out will-change-transform z-0 pointer-events-none"
@@ -57,6 +57,24 @@ export default function CulturalHeritageBackdrop({ mode = 'hero' }) {
             className="w-full h-full object-contain filter contrast-125"
           />
         </div>
+      </div>
+
+      {/* ============================================================== */}
+      {/* 2. SẾU ĐẦU ĐỎ TRÀM CHIM SẢI CÁNH BAY LƯỢN Ở GÓC TRÊN BÊN TRÁI   */}
+      {/* Loài chuẩn: Đầu đỏ thắm, lông xám tro, sải cánh rộng uy nghi   */}
+      {/* Di chuyển Parallax bay lướt nhẹ khi người dùng vuốt cuộn chuột */}
+      {/* ============================================================== */}
+      <div
+        className="absolute top-8 sm:top-14 left-4 sm:left-10 w-44 sm:w-64 md:w-72 opacity-[0.75] sm:opacity-[0.85] transition-transform duration-100 ease-out will-change-transform z-10 pointer-events-none"
+        style={{
+          transform: `translate(${scrollY * 0.10}px, -${scrollY * 0.12}px) rotate(${Math.sin(scrollY * 0.003) * 3}deg)`,
+        }}
+      >
+        <img
+          src="/images/cultural_motifs/sarus_cranes/sarus_crane_flight_soaring.png"
+          alt="Sếu Đầu Đỏ Tràm Chim sải cánh bay lượn"
+          className="w-full h-full object-contain filter drop-shadow-md transform -scale-x-100 rotate-6"
+        />
       </div>
     </div>
   );
