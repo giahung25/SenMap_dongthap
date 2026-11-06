@@ -149,11 +149,11 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto">
           {/* Passport Washi Card with Tatami Gold border and tilted Red Seal */}
           <div className="relative rounded-3xl bg-white border-2 border-[#D5C390]/80 p-6 sm:p-10 shadow-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
-            {/* Background Sếu Đầu Đỏ Rỉa Lông Nghệ Thuật (Sarus Crane Artistic Watermark) */}
-            <div className="absolute right-8 sm:right-28 -bottom-4 w-52 sm:w-68 md:w-80 pointer-events-none select-none opacity-[0.18] sm:opacity-[0.22] z-0">
+            {/* Background Sếu Múa Đôi Tình Tự Nhỏ Gọn (Sarus Crane Artistic Watermark) */}
+            <div className="absolute right-44 sm:right-52 bottom-3 w-32 sm:w-40 md:w-44 h-32 sm:h-40 md:h-44 pointer-events-none select-none opacity-[0.22] sm:opacity-[0.28] z-0">
               <img
-                src="/images/cultural_motifs/sarus_cranes/sarus_crane_preening_rest.png"
-                alt="Sếu Đầu Đỏ rỉa lông thanh cao"
+                src="/images/cultural_motifs/sarus_cranes/sarus_crane_courtship_dance.png"
+                alt="Sếu Đầu Đỏ múa đôi tình tự"
                 className="w-full h-full object-contain filter drop-shadow-sm"
               />
             </div>

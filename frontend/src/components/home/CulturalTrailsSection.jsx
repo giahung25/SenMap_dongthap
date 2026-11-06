@@ -91,20 +91,11 @@ export default function CulturalTrailsSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* 1. TIÊU ĐỀ PHÂN ĐOẠN (SECTION HEADER) */}
         <div className="relative text-center space-y-3.5 max-w-3xl mx-auto">
-          {/* Sếu Múa Đôi Tình Tự (Trái Header - Large screen) */}
-          <div className="hidden lg:block absolute -left-28 xl:-left-36 top-0 w-28 xl:w-36 pointer-events-none select-none opacity-80 transition-transform duration-300 hover:scale-105">
+          {/* Sếu Đứng Rỉa Lông Thanh Cao (Phải Header - Large screen) */}
+          <div className="hidden lg:block absolute -right-24 xl:-right-32 -top-4 w-28 xl:w-36 pointer-events-none select-none opacity-85 transition-transform duration-300 hover:scale-105">
             <img
-              src="/images/cultural_motifs/sarus_cranes/sarus_crane_courtship_dance.png"
-              alt="Sếu Đầu Đỏ múa đôi"
-              className="w-full h-full object-contain filter drop-shadow-sm"
-            />
-          </div>
-
-          {/* Sếu Chạy Nước Kiệu Lướt Cánh (Phải Header - Large screen) */}
-          <div className="hidden lg:block absolute -right-28 xl:-right-36 top-1 w-32 xl:w-40 pointer-events-none select-none opacity-80 transition-transform duration-300 hover:scale-105">
-            <img
-              src="/images/cultural_motifs/sarus_cranes/sarus_crane_running_trot.png"
-              alt="Sếu Đầu Đỏ sải cánh chạy lướt"
+              src="/images/cultural_motifs/sarus_cranes/sarus_crane_preening_rest.png"
+              alt="Sếu Đầu Đỏ rỉa lông thanh cao"
               className="w-full h-full object-contain filter drop-shadow-sm"
             />
           </div>
