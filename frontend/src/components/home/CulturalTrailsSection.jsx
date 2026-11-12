@@ -12,7 +12,6 @@ import {
   Car,
   CheckCircle2,
   ArrowRight,
-  Sparkles,
   MapPin,
   ChevronRight,
   BookOpen,
@@ -92,7 +91,7 @@ export default function CulturalTrailsSection({
         {/* 1. TIÊU ĐỀ PHÂN ĐOẠN (SECTION HEADER) */}
         <div className="relative text-center space-y-3.5 max-w-3xl mx-auto">
           {/* Cụm Hoa Sen Hồng Tháp Mười (Hoa nở, thân cuống & lá sen búp non cân đối bên trái) */}
-          <div className="hidden lg:block absolute -left-28 xl:-left-36 -top-3 w-36 xl:w-44 pointer-events-none select-none opacity-95 transition-transform duration-300 hover:scale-105">
+          <div className="hidden lg:block absolute -left-28 xl:-left-36 -top-3 w-36 xl:w-44 pointer-events-none select-none opacity-95">
             <img
               src="/images/cultural_motifs/lotus_bouquet_vertical.png"
               alt="Hoa Sen Hồng Tháp Mười vươn cao bên lá sen"
@@ -101,7 +100,7 @@ export default function CulturalTrailsSection({
           </div>
 
           {/* Sếu Đứng Rỉa Lông Thanh Cao (Phải Header - Large screen) */}
-          <div className="hidden lg:block absolute -right-24 xl:-right-32 -top-4 w-28 xl:w-36 pointer-events-none select-none opacity-85 transition-transform duration-300 hover:scale-105">
+          <div className="hidden lg:block absolute -right-24 xl:-right-32 -top-4 w-28 xl:w-36 pointer-events-none select-none opacity-85">
             <img
               src="/images/cultural_motifs/sarus_cranes/sarus_crane_preening_rest.png"
               alt="Sếu Đầu Đỏ rỉa lông thanh cao"
@@ -109,7 +108,7 @@ export default function CulturalTrailsSection({
             />
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] text-[#9E1B32] text-xs font-bold uppercase tracking-[0.18em] border border-[#E6DEC8] shadow-xs">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] text-[#9E1B32] text-xs font-semibold uppercase tracking-[0.08em] border border-[#E6DEC8]">
             <Route className="w-3.5 h-3.5 text-[#9E1B32]" />
             <span>
               {isEn ? 'Thematic Cultural Trails' : 'Tuyến Du Lịch Chủ Đề Đất Sen Hồng'}
@@ -120,12 +119,12 @@ export default function CulturalTrailsSection({
             {isEn ? (
               <>
                 <span className="block">Curated Heritage Trails of</span>
-                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Đồng Tháp</span>
+                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 text-[#9E1B32] whitespace-nowrap">Đồng Tháp</span>
               </>
             ) : (
               <>
                 <span className="block">Tuyến Du Lịch Di Sản Đặc Sắc</span>
-                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Đất Sen Hồng</span>
+                <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 text-[#9E1B32] whitespace-nowrap">Đất Sen Hồng</span>
               </>
             )}
           </h2>
@@ -160,9 +159,9 @@ export default function CulturalTrailsSection({
                     type="button"
                     data-testid={`trail-card-${trail.id}`}
                     onClick={() => handleSelect(trail.id)}
-                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between group border cursor-pointer ${
+                    className={`w-full text-left p-4 sm:p-5 rounded-2xl transition-colors duration-200 relative overflow-hidden flex flex-col justify-between group border cursor-pointer ${
                       isActive
-                        ? 'bg-[#FFFFFF] border-[#D5C390] shadow-md ring-2 ring-[#D5C390]/60'
+                        ? 'bg-[#FFFFFF] border-[#D5C390] shadow-sm ring-1 ring-[#D5C390]'
                         : 'bg-[#FFFFFF] hover:bg-[#FAF7F2] border-[#E6DEC8] hover:border-[#D5C390] shadow-xs'
                     }`}
                   >
@@ -226,7 +225,7 @@ export default function CulturalTrailsSection({
 
           {/* CỘT PHẢI (lg:col-span-7): DASHBOARD CHI TIẾT TUYẾN, BẢN ĐỒ COMPACT & CHUỖI ĐIỂM DỪNG */}
           <div className="lg:col-span-7 flex flex-col">
-            <div className="rounded-3xl border border-[#E6DEC8] bg-[#FFFFFF] shadow-md overflow-hidden flex flex-col h-full">
+            <div className="rounded-3xl border border-[#E6DEC8] bg-[#FFFFFF] shadow-sm overflow-hidden flex flex-col h-full">
               {/* 1. Header Tuyến Đang Chọn */}
               <div className="px-5 py-3.5 sm:py-4 bg-[#FFFFFF] border-b border-[#E6DEC8] flex items-center justify-between gap-3 shrink-0">
                 <div className="min-w-0 flex-1">
@@ -235,7 +234,7 @@ export default function CulturalTrailsSection({
                       className="w-2.5 h-2.5 rounded-full shrink-0"
                       style={{ backgroundColor: activeTrail?.theme_color || '#9E1B32' }}
                     />
-                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] shrink-0">
+                    <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] shrink-0">
                       {activeTrail?.code}
                     </span>
                     <span className="text-xs text-[#4A453E] font-medium whitespace-nowrap">
@@ -272,8 +271,8 @@ export default function CulturalTrailsSection({
               <div className="p-5 sm:p-6 space-y-4 bg-[#FFFFFF] flex-1 flex flex-col justify-between">
                 {/* Câu chuyện văn hóa di sản (Editorial Narrative Box) */}
                 <div className="p-4 rounded-2xl bg-[#F4ECE7] border border-[#E6DEC8] space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#9E1B32]">
-                    <Sparkles className="w-3.5 h-3.5 text-[#9E1B32]" />
+                  <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#9E1B32]">
+                    <BookOpen className="w-3.5 h-3.5 text-[#9E1B32]" />
                     <span>{isEn ? 'Curated Trail Narrative:' : 'Câu Chuyện Hành Trình:'}</span>
                   </div>
                   <p className="font-serif italic text-xs sm:text-sm leading-relaxed text-[#1E1B18] select-text">
@@ -327,7 +326,7 @@ export default function CulturalTrailsSection({
                   <button
                     type="button"
                     onClick={handleOpenFull}
-                    className="btn-lotus-crimson w-full py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5 active:scale-95"
+                    className="btn-lotus-crimson w-full py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider shadow-xs flex items-center justify-center gap-2 transition-colors duration-200"
                   >
                     <Navigation className="w-4 h-4 text-[#D5C390]" />
                     <span>

@@ -29,7 +29,8 @@ import {
   ArrowRight,
   Save,
   RotateCcw,
-  Sparkles,
+  Star,
+  Landmark,
   Award,
   Layers,
   ExternalLink,
@@ -68,8 +69,7 @@ function LocationPicker({ position, onSelectPosition }) {
   const pinIcon = L.divIcon({
     html: `
       <div class="relative flex items-center justify-center">
-        <span class="absolute -inset-2 rounded-full bg-[#9E1B32]/30 animate-ping"></span>
-        <div class="w-9 h-9 rounded-full bg-[#9E1B32] text-white flex items-center justify-center shadow-2xl ring-4 ring-[#D5C390]">
+        <div class="w-9 h-9 rounded-full bg-[#9E1B32] text-white flex items-center justify-center shadow-md ring-4 ring-[#D5C390]">
           <span class="material-symbols-outlined" style="font-size: 20px;">pin_drop</span>
         </div>
       </div>
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#9E1B32] text-white text-[10px] font-extrabold uppercase tracking-widest shadow-2xs">
+              <span className="px-3 py-1 rounded-full bg-[#9E1B32] text-white text-[10px] font-bold uppercase tracking-wide shadow-2xs">
                 {t('cmsHeaderBadge')}
               </span>
               <span className="text-xs text-[#4A453E] font-medium">{t('cmsHeaderSub')}</span>
@@ -323,8 +323,8 @@ export default function AdminDashboard() {
 
           {/* Card 2: Special National */}
           <div className="card-heritage-washi p-4 sm:p-5 rounded-2xl bg-white border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs flex items-center gap-3.5 transition-all">
-            <div className="w-11 h-11 rounded-xl bg-[#F4ECE7] text-[#D5C390] border border-[#E6DEC8] flex items-center justify-center font-bold text-lg shrink-0">
-              ★
+            <div className="w-11 h-11 rounded-xl bg-[#F4ECE7] text-[#D5C390] border border-[#E6DEC8] flex items-center justify-center shrink-0">
+              <Star className="w-5 h-5 text-[#D5C390] fill-[#D5C390]" />
             </div>
             <div>
               <p className="text-[11px] text-[#4A453E] font-bold uppercase tracking-wider">
@@ -338,8 +338,8 @@ export default function AdminDashboard() {
 
           {/* Card 3: National Rank */}
           <div className="card-heritage-washi p-4 sm:p-5 rounded-2xl bg-white border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs flex items-center gap-3.5 transition-all">
-            <div className="w-11 h-11 rounded-xl bg-[#F4ECE7] text-[#1E5631] border border-[#E6DEC8] flex items-center justify-center font-bold text-lg shrink-0">
-              🏛️
+            <div className="w-11 h-11 rounded-xl bg-[#F4ECE7] text-[#1E5631] border border-[#E6DEC8] flex items-center justify-center shrink-0">
+              <Landmark className="w-5 h-5 text-[#1E5631]" />
             </div>
             <div>
               <p className="text-[11px] text-[#4A453E] font-bold uppercase tracking-wider">

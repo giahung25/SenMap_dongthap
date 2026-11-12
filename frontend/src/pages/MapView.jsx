@@ -29,7 +29,6 @@ import {
   SlidersHorizontal,
   ChevronDown,
   ChevronUp,
-  Sparkles,
   ArrowRight,
   RotateCcw,
   Route,
@@ -503,10 +502,10 @@ export default function MapView({
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 min-w-0 flex-1">
           {/* Brand/Label Pill */}
           <div className="flex items-center gap-1.5 shrink-0 pr-1">
-            <span className="p-1 rounded-lg bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#D5C390]" />
+            <span className="p-1 rounded-lg bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] shadow-xs">
+              <Compass className="w-3.5 h-3.5 text-[#9E1B32]" />
             </span>
-            <span className="hidden sm:inline text-xs font-extrabold uppercase tracking-wider text-[#1E1B18]">
+            <span className="hidden sm:inline text-xs font-bold uppercase tracking-wider text-[#1E1B18]">
               {lang === 'en' ? 'Cultural Trails' : 'Tuyến Du Lịch'}:
             </span>
           </div>
@@ -573,7 +572,7 @@ export default function MapView({
                   navigate(`/ban-do${activeCulturalTrail ? `?trail=${activeCulturalTrail.id}` : ''}`);
                 }
               }}
-              className="px-3 py-1.5 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white font-extrabold text-xs flex items-center gap-1.5 shadow-md shadow-[#9E1B32]/25 transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
               title={lang === 'en' ? 'Open Fullscreen WebGIS Map' : 'Mở Bản Đồ Số Toàn Màn Hình'}
             >
               <ExternalLink className="w-3.5 h-3.5" />
@@ -664,7 +663,7 @@ export default function MapView({
                   className="min-w-0 flex-1 cursor-pointer select-none"
                   onClick={() => setTrailSummaryExpanded(!trailSummaryExpanded)}
                 >
-                  <div className="flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white/90 mb-0.5">
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white/90 mb-0.5">
                     {renderTrailIcon(activeCulturalTrail.id)}
                     <span>{lang === 'en' ? 'Cultural Trail' : 'Tuyến Chủ Đề'}</span>
                     <span>•</span>
@@ -679,7 +678,7 @@ export default function MapView({
                       </>
                     )}
                   </div>
-                  <h3 className="font-serif font-extrabold text-xs sm:text-[14px] leading-snug drop-shadow-xs truncate">
+                  <h3 className="font-serif font-bold text-xs sm:text-[14px] leading-snug truncate">
                     {activeCulturalTrail.displayName}
                   </h3>
                 </div>
@@ -812,7 +811,7 @@ export default function MapView({
                           >
                             <div className="flex items-center gap-2 min-w-0">
                               <span
-                                className="w-5 h-5 rounded-full text-white font-black text-[10px] flex items-center justify-center shrink-0 shadow-2xs"
+                                className="w-5 h-5 rounded-full text-white font-bold text-[10px] flex items-center justify-center shrink-0 shadow-xs"
                                 style={{
                                   backgroundColor: activeCulturalTrail.theme_color || '#9E1B32',
                                 }}
@@ -893,7 +892,7 @@ export default function MapView({
                 </button>
 
                 {/* Ranking Badge Top-Left */}
-                <div className="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#9E1B32]/95 backdrop-blur-md text-white text-[10px] font-extrabold shadow-md z-10">
+                <div className="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#9E1B32]/95 backdrop-blur-md text-white text-[10px] font-bold shadow-sm z-10">
                   <span className="material-symbols-outlined text-[13px]">stars</span>
                   <span>{activeSelected.displayRanking}</span>
                 </div>
@@ -903,7 +902,7 @@ export default function MapView({
                   <span className="text-[10px] uppercase font-semibold text-[#D5C390] tracking-wider">
                     {activeSelected.displayCategory}
                   </span>
-                  <h3 className="font-serif font-extrabold text-[15px] leading-snug drop-shadow-sm text-white line-clamp-1">
+                  <h3 className="font-serif font-bold text-[15px] leading-snug text-white line-clamp-1">
                     {activeSelected.displayName}
                   </h3>
                 </div>
@@ -963,7 +962,7 @@ export default function MapView({
                 <button
                   type="button"
                   onClick={() => navigate(`/di-tich/${activeSelected.id}`)}
-                  className="w-full py-2 px-3 rounded-xl bg-[#9E1B32] hover:bg-[#831427] active:bg-[#721021] text-white font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-[#9E1B32]/25 transition-all cursor-pointer"
+                  className="w-full py-2 px-3 rounded-xl bg-[#9E1B32] hover:bg-[#831427] active:bg-[#721021] text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>{t('openProfileAndAudioTour')}</span>
@@ -1009,10 +1008,10 @@ export default function MapView({
                   navigate(`/ban-do${activeCulturalTrail ? `?trail=${activeCulturalTrail.id}` : ''}`);
                 }
               }}
-              className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-5 py-2.5 rounded-full bg-[#1E1B18]/90 hover:bg-[#1E1B18] text-white font-extrabold text-xs sm:text-sm shadow-xl border border-[#E6DEC8]/40 backdrop-blur-md flex items-center gap-2 transition-all hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap group"
+              className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-5 py-2.5 rounded-full bg-[#1E1B18]/90 hover:bg-[#1E1B18] text-white font-semibold text-xs sm:text-sm shadow-md border border-[#E6DEC8]/40 backdrop-blur-md flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap group"
               title={lang === 'en' ? 'Open Fullscreen WebGIS Map' : 'Mở Bản Đồ Số Toàn Màn Hình'}
             >
-              <span className="w-2 h-2 rounded-full bg-[#9E1B32] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#9E1B32]" />
               <span>{lang === 'en' ? 'Open Fullscreen WebGIS' : 'Mở Bản Đồ Số Toàn Màn Hình'}</span>
               <ExternalLink className="w-3.5 h-3.5 text-[#D5C390] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>

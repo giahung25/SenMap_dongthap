@@ -23,7 +23,6 @@ import {
   Pause,
   RotateCcw,
   Navigation,
-  Sparkles,
   QrCode as QrIcon,
   Download,
   Printer,
@@ -562,16 +561,16 @@ export default function MonumentDetail() {
         {/* ============================================================ */}
         {/* 2. AUDIO TOUR PLAYER & NARRATOR (SENMAP EDITORIAL AUDIO)      */}
         {/* ============================================================ */}
-        <section className="bg-white p-5 sm:p-7 rounded-3xl border border-[#E6DEC8] shadow-md shadow-[#9E1B32]/5 space-y-4">
+        <section className="bg-white p-5 sm:p-7 rounded-3xl border border-[#E6DEC8] shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#E6DEC8]">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#9E1B32] text-white flex items-center justify-center shadow-lg shadow-[#9E1B32]/30 shrink-0">
+              <div className="w-12 h-12 rounded-2xl bg-[#9E1B32] text-white flex items-center justify-center shadow-sm shrink-0">
                 <span className="material-symbols-outlined text-[26px]">headphones</span>
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="font-serif text-base sm:text-lg font-bold text-[#1E1B18]">{t('audioTourTitle')}</h2>
-                  <span className="px-2 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] font-extrabold text-[10px] uppercase">
+                  <span className="px-2 py-0.5 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] font-bold text-[10px] uppercase">
                     {t('aiVoiceBadge')}
                   </span>
                 </div>
@@ -661,7 +660,7 @@ export default function MonumentDetail() {
               <button
                 type="button"
                 onClick={handleToggleAudio}
-                className="w-13 h-13 rounded-full bg-[#9E1B32] hover:bg-[#831427] active:scale-95 text-white flex items-center justify-center shadow-lg shadow-[#9E1B32]/30 transition-all"
+                className="w-13 h-13 rounded-full bg-[#9E1B32] hover:bg-[#831427] text-white flex items-center justify-center shadow-md transition-colors"
                 title={isPlaying ? 'Pause' : 'Play'}
               >
                 {isPlaying ? (
@@ -883,8 +882,9 @@ export default function MonumentDetail() {
                               <p className="text-[#4A453E] text-[11px] leading-snug">
                                 {isEn ? poi.desc_en : poi.desc_vi}
                               </p>
-                              <p className="text-[10px] text-[#1E5631] font-semibold">
-                                ⏱️ {poi.duration_min} {isEn ? 'mins' : 'phút tham quan'}
+                              <p className="text-[10px] text-[#1E5631] font-semibold flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-[#1E5631] shrink-0" />
+                                <span>{poi.duration_min} {isEn ? 'mins' : 'phút tham quan'}</span>
                               </p>
                             </div>
                           </Popup>
@@ -991,7 +991,7 @@ export default function MonumentDetail() {
                     style={{ transform: 'rotate(-4deg)' }}
                     title={monumentSeal.displayMotto || 'Bảo chứng Di sản'}
                   >
-                    <div className="w-full h-full rounded-full border border-[#9E1B32] flex flex-col items-center justify-center text-[7px] text-[#9E1B32] font-black leading-tight">
+                    <div className="w-full h-full rounded-full border border-[#9E1B32] flex flex-col items-center justify-center text-[7px] text-[#9E1B32] font-bold leading-tight">
                       <span className="material-symbols-outlined text-[14px]">
                         {monumentSeal.motif_icon || 'local_florist'}
                       </span>
@@ -1030,7 +1030,7 @@ export default function MonumentDetail() {
             {/* ============================================================ */}
             <div className="bg-white p-5 rounded-3xl border border-[#E6DEC8] shadow-xs space-y-3">
               <h4 className="font-serif text-sm font-bold text-[#1E1B18] flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-[#D5C390]" />
+                <Compass className="w-4 h-4 text-[#9E1B32]" />
                 <span>{t('nearbyMonumentsTitle')}</span>
               </h4>
 
@@ -1102,7 +1102,7 @@ export default function MonumentDetail() {
 
               {/* 360 Badge Overlay */}
               <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-white text-xs font-mono flex items-center gap-2 border border-white/20">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 <span>360° INTERACTIVE PANORAMA</span>
               </div>
 

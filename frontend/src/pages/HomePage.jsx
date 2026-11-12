@@ -23,7 +23,6 @@ import {
   Map as MapIcon,
   ExternalLink,
   Route,
-  Sparkles,
   Award,
   QrCode,
   Shield,
@@ -148,7 +147,7 @@ export default function HomePage() {
       >
         <div className="max-w-6xl mx-auto">
           {/* Passport Washi Card with Tatami Gold border and tilted Red Seal */}
-          <div className="relative rounded-3xl bg-white border-2 border-[#D5C390]/80 p-6 sm:p-10 shadow-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="relative rounded-3xl bg-white border-2 border-[#D5C390]/80 p-6 sm:p-10 shadow-sm overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
             {/* Background Sếu Múa Đôi Tình Tự (Nâng cao hơn để lộ trọn vẹn thân & chân sếu) */}
             <div className="absolute right-36 sm:right-44 md:right-52 bottom-16 sm:bottom-20 md:bottom-24 w-32 sm:w-36 md:w-40 h-32 sm:h-36 md:h-40 pointer-events-none select-none opacity-[0.26] sm:opacity-[0.32] z-0">
               <img
@@ -160,7 +159,7 @@ export default function HomePage() {
 
             {/* Left Content: Passport Tier & Progress */}
             <div className="relative z-10 space-y-4 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] text-xs font-extrabold uppercase tracking-widest shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F4ECE7] text-[#9E1B32] border border-[#E6DEC8] text-xs font-semibold uppercase tracking-[0.08em]">
                 <Award className="w-3.5 h-3.5 text-[#9E1B32]" />
                 <span>
                   {isEn ? 'SenMap Digital Heritage Passport' : 'Hộ Chiếu Di Sản Đất Sen Hồng'}
@@ -171,12 +170,12 @@ export default function HomePage() {
                 {isEn ? (
                   <>
                     <span className="block">Collect 20 Red Ink Heritage Seals</span>
-                    <span className="inline-block mt-1 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">across Đồng Tháp</span>
+                    <span className="inline-block mt-1 pb-1.5 text-[#9E1B32] whitespace-nowrap">across Đồng Tháp</span>
                   </>
                 ) : (
                   <>
                     <span className="block">Thu Thập 20 Con Dấu Mộc Đỏ</span>
-                    <span className="inline-block mt-1 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">Di Sản Khắp Đồng Tháp</span>
+                    <span className="inline-block mt-1 pb-1.5 text-[#9E1B32] whitespace-nowrap">Di Sản Khắp Đồng Tháp</span>
                   </>
                 )}
               </h3>
@@ -199,7 +198,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-2 font-mono text-xs text-[#4A453E]">
-                  <span className="w-2 h-2 rounded-full bg-[#1E5631] animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#1E5631]" />
                   <span>
                     {isEn
                       ? `${collectedStamps}/20 Seals collected`
@@ -213,20 +212,20 @@ export default function HomePage() {
             <div className="relative z-10 flex flex-col items-center sm:items-end justify-center gap-4 shrink-0">
               {/* Tilted Red Seal Stamp Badge */}
               <div
-                className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full border-4 border-dashed border-[#9E1B32] p-2 flex items-center justify-center shadow-lg transition-transform hover:rotate-0 duration-300"
+                className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full border-4 border-dashed border-[#9E1B32] p-2 flex items-center justify-center shadow-sm"
                 style={{
                   transform: 'rotate(-3deg)',
                   backgroundColor: '#FFFDF9',
                 }}
               >
                 <div className="w-full h-full rounded-full border-2 border-[#9E1B32] p-2 flex flex-col items-center justify-center text-center text-[#9E1B32]">
-                  <span className="text-[8px] font-black uppercase tracking-widest leading-none mb-1">
-                    ★ ĐỒNG THÁP ★
+                  <span className="text-[8px] font-bold uppercase tracking-[0.14em] leading-none mb-1">
+                    ĐỒNG THÁP
                   </span>
                   <span className="material-symbols-outlined text-[26px] my-0.5 text-[#9E1B32]">
                     local_florist
                   </span>
-                  <span className="font-serif font-black text-[11px] uppercase tracking-tight leading-tight">
+                  <span className="font-serif font-bold text-[11px] uppercase tracking-tight leading-tight">
                     HỘ CHIẾU
                     <br />
                     DI SẢN
@@ -242,7 +241,7 @@ export default function HomePage() {
                 <button
                   type="button"
                   onClick={() => navigate('/quet-qr')}
-                  className="btn-lotus-crimson px-5 py-2.5 rounded-full text-xs font-bold shadow-md shadow-[#9E1B32]/20 flex items-center gap-2"
+                  className="btn-lotus-crimson px-5 py-2.5 rounded-full text-xs font-bold shadow-xs flex items-center gap-2"
                 >
                   <QrCode className="w-4 h-4" />
                   <span>{isEn ? 'Scan On-Site QR' : 'Quét Mã Thực Địa'}</span>
@@ -273,7 +272,7 @@ export default function HomePage() {
           {/* Section Header with Fullscreen Trigger */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#9E1B32] text-xs font-extrabold uppercase tracking-widest border border-[#E6DEC8] shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#9E1B32] text-xs font-semibold uppercase tracking-[0.08em] border border-[#E6DEC8]">
                 <Compass className="w-3.5 h-3.5 text-[#9E1B32]" />
                 <span>{t('homeWebgisSectionBadge')}</span>
               </div>
@@ -294,7 +293,7 @@ export default function HomePage() {
                 const queryParam = activeTrailId ? `?trail=${activeTrailId}` : '';
                 navigate(`/ban-do${queryParam}`);
               }}
-              className="btn-lotus-crimson px-5 py-3 rounded-full font-bold text-xs sm:text-sm shadow-md transition-all shrink-0"
+              className="btn-lotus-crimson px-5 py-3 rounded-full font-bold text-xs sm:text-sm shadow-xs transition-colors duration-200 shrink-0"
               title={t('btnOpenFullMap')}
             >
               <MapIcon className="w-4 h-4 text-[#D5C390]" />
@@ -304,7 +303,7 @@ export default function HomePage() {
           </div>
 
           {/* Embedded WebGIS Container */}
-          <div className="w-full rounded-3xl overflow-hidden shadow-lg border border-[#E6DEC8] bg-white">
+          <div className="w-full rounded-3xl overflow-hidden shadow-sm border border-[#E6DEC8] bg-white">
             <MapView
               isEmbedded={true}
               externalTrailId={activeTrailId}

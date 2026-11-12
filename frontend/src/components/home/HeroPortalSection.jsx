@@ -8,7 +8,6 @@ import {
   Compass,
   ArrowRight,
   Route,
-  Sparkles,
   Quote,
   ChevronRight,
   Map,
@@ -46,11 +45,9 @@ export default function HeroPortalSection({
     >
       {/* 1. CLEAN WARM PAPER BACKGROUND */}
       <div className="absolute inset-0 z-0">
-        {/* Soft, warm paper gradients */}
+        {/* Soft, warm paper edge fade */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2] via-[#FAF7F2]/90 to-[#FAF7F2]" />
-        <div className="absolute inset-0 bg-radial-at-t from-amber-100/20 via-transparent to-transparent opacity-50" />
         <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-[#FAF7F2] to-transparent" />
-
         {/* Nền Văn Hóa Mặt Trống Đồng & Đàn Sếu Đầu Đỏ */}
         <CulturalHeritageBackdrop mode="hero" />
       </div>
@@ -59,7 +56,7 @@ export default function HeroPortalSection({
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
         {/* Top Heritage Eyebrow Badge */}
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F4ECE7] border border-[#E6DEC8] shadow-xs text-xs font-bold uppercase tracking-widest text-[#9E1B32] transition-all">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F4ECE7] border border-[#E6DEC8] text-xs font-semibold uppercase tracking-[0.08em] text-[#9E1B32]">
             <span className="material-symbols-outlined text-[16px] text-[#9E1B32]">
               local_florist
             </span>
@@ -75,7 +72,7 @@ export default function HeroPortalSection({
                 <span className="block text-xl sm:text-3xl md:text-4xl font-semibold text-[#3A332C] leading-[1.3]">
                   Digital Heritage & Cultural Tourism Map
                 </span>
-                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(244,63,94,0.22)]">
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold text-[#9E1B32]">
                   Đồng Tháp — Land of Pink Lotus
                 </span>
               </>
@@ -84,7 +81,7 @@ export default function HeroPortalSection({
                 <span className="block text-xl sm:text-3xl md:text-[38px] font-semibold text-[#3A332C] leading-[1.3]">
                   Bản Đồ Số Di Sản & Du Lịch Văn Hóa
                 </span>
-                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(244,63,94,0.22)]">
+                <span className="inline-block mt-1.5 sm:mt-2 px-2 pb-3 pt-1 leading-[1.32] text-4xl sm:text-6xl md:text-[68px] font-bold text-[#9E1B32]">
                   Đất Sen Hồng Đồng Tháp
                 </span>
               </>
@@ -101,21 +98,21 @@ export default function HeroPortalSection({
           </h1>
 
           {/* Narrative Storytelling Paragraph */}
-          <p className="text-sm sm:text-base md:text-lg text-[#3A332C] max-w-3xl leading-relaxed font-sans font-medium bg-[#FAF7F2]/75 backdrop-blur-[2px] px-5 py-3 rounded-2xl border border-[#E6DEC8]/60 shadow-2xs">
+          <p className="text-sm sm:text-base md:text-lg text-[#3A332C] max-w-3xl leading-relaxed font-sans font-medium bg-[#FAF7F2]/90 px-5 py-3 rounded-2xl border border-[#E6DEC8]/80">
             {isEn ? storytelling.intro_story_en : storytelling.intro_story_vi}
           </p>
         </div>
 
         {/* 3. ICONIC FOLK VERSE CALLOUT (THƠ CA DAO TRÊN GIẤY DÓ WASHI) */}
         <div className="relative max-w-2xl mx-auto">
-          <div className="card-heritage-washi rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-md relative overflow-hidden backdrop-blur-md">
+          <div className="card-heritage-washi rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-sm relative overflow-hidden">
             {/* Watermark Quote Icon */}
             <div className="absolute -top-3 -right-3 text-[#E6DEC8]/40 pointer-events-none">
               <Quote className="w-28 h-28" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center text-center space-y-3">
-              <span className="px-3 py-1 rounded-full bg-[#F4ECE7] text-[#9E1B32] text-[10px] font-extrabold uppercase tracking-widest border border-[#E6DEC8]">
+              <span className="px-3 py-1 rounded-full bg-[#F4ECE7] text-[#9E1B32] text-[10px] font-semibold uppercase tracking-[0.08em] border border-[#E6DEC8]">
                 {isEn ? 'Immortal Mekong Folk Verse' : 'Khúc Ca Dao Bất Hủ'}
               </span>
 
@@ -150,7 +147,7 @@ export default function HeroPortalSection({
         <div className="max-w-2xl mx-auto space-y-3">
           <form
             onSubmit={handleSearch}
-            className="relative flex items-center shadow-md hover:shadow-lg rounded-full overflow-hidden p-1.5 bg-white/95 border border-[#E6DEC8] focus-within:border-[#D5C390] transition-all duration-300 backdrop-blur-md"
+            className="relative flex items-center shadow-sm rounded-full overflow-hidden p-1.5 bg-white border border-[#E6DEC8] focus-within:border-[#D5C390] transition-colors duration-200"
           >
             <div className="pl-4 pr-2 text-[#4A453E] flex items-center justify-center">
               <Search className="w-5 h-5 text-[#9E1B32]" />
@@ -163,15 +160,15 @@ export default function HeroPortalSection({
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={
                 isEn
-                  ? 'Search 20 heritage sites, temples, archaeological relics...'
-                  : 'Tìm kiếm 20 di tích, cổ tự, khu khảo cổ, căn cứ lịch sử...'
+                  ? 'Search 20 heritage sites, temples, and relics'
+                  : 'Tìm kiếm 20 di tích, cổ tự, khu khảo cổ và căn cứ lịch sử'
               }
               className="flex-1 bg-transparent border-none outline-none text-[#1E1B18] placeholder-[#4A453E]/60 text-xs sm:text-sm font-medium pr-3"
             />
 
             <button
               type="submit"
-              className="btn-lotus-crimson px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold shadow-md transition-all shrink-0"
+              className="btn-lotus-crimson px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold shadow-xs transition-colors duration-200 shrink-0"
             >
               <span>{isEn ? 'Search' : 'Tra cứu'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -190,7 +187,7 @@ export default function HeroPortalSection({
                   if (onSearchSubmit) onSearchSubmit(pick);
                   else if (onOpenFullMap) onOpenFullMap(pick);
                 }}
-                className="px-3 py-1 rounded-full bg-[#F4ECE7] hover:bg-white text-[#1E1B18] hover:text-[#9E1B32] border border-[#E6DEC8] transition-all shadow-2xs font-medium"
+                className="px-3 py-1 rounded-full bg-[#F4ECE7] hover:bg-white text-[#1E1B18] hover:text-[#9E1B32] border border-[#E6DEC8] transition-colors duration-200 font-medium"
               >
                 {pick}
               </button>
@@ -204,7 +201,7 @@ export default function HeroPortalSection({
           <button
             type="button"
             onClick={onExploreTrails}
-            className="btn-lotus-crimson w-full sm:w-auto px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-lg shadow-[#9E1B32]/25"
+            className="btn-lotus-crimson w-full sm:w-auto px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-sm transition-colors duration-200"
           >
             <Route className="w-5 h-5 text-[#D5C390]" />
             <span>{isEn ? 'Explore 4 Curated Cultural Trails' : 'Khám Phá 4 Tuyến Du Lịch Chủ Đề'}</span>
@@ -217,7 +214,7 @@ export default function HeroPortalSection({
             onClick={() => {
               if (onOpenFullMap) onOpenFullMap();
             }}
-            className="btn-washi-outline w-full sm:w-auto px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-sm"
+            className="btn-washi-outline w-full sm:w-auto px-7 py-3.5 rounded-full text-sm sm:text-base font-bold shadow-xs transition-colors duration-200"
           >
             <Compass className="w-5 h-5 text-[#1E5631]" />
             <span>{isEn ? 'Open Full WebGIS Map & Routing' : 'Mở Bản Đồ Số WebGIS Toàn Màn Hình'}</span>
@@ -229,17 +226,17 @@ export default function HeroPortalSection({
           {storytelling.pride_metrics.map((item) => (
             <div
               key={item.id}
-              className="card-heritage-washi rounded-2xl p-4 sm:p-5 border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+              className="card-heritage-washi rounded-2xl p-4 sm:p-5 border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs transition-colors duration-200 flex flex-col justify-between group"
             >
               <div className="flex items-center justify-between mb-2">
                 <span
-                  className="material-symbols-outlined text-[24px] sm:text-[28px] group-hover:scale-110 transition-transform"
+                  className="material-symbols-outlined text-[24px] sm:text-[28px]"
                   style={{ color: item.color === '#E11D48' ? '#9E1B32' : item.color }}
                 >
                   {item.icon}
                 </span>
                 <span
-                  className="font-black text-2xl sm:text-3xl font-mono tracking-tight"
+                  className="font-bold text-2xl sm:text-3xl font-mono tabular-nums tracking-tight"
                   style={{ color: item.color === '#E11D48' ? '#9E1B32' : item.color }}
                 >
                   {item.metric}
@@ -247,7 +244,7 @@ export default function HeroPortalSection({
               </div>
 
               <div className="space-y-1">
-                <h4 className="font-extrabold text-xs sm:text-sm text-[#1E1B18] group-hover:text-[#9E1B32] transition-colors leading-snug">
+                <h4 className="font-semibold text-xs sm:text-sm text-[#1E1B18] group-hover:text-[#9E1B32] transition-colors duration-200 leading-snug">
                   {isEn ? item.title_en : item.title_vi}
                 </h4>
                 <p className="text-[11px] sm:text-xs text-[#4A453E] leading-relaxed line-clamp-2">
