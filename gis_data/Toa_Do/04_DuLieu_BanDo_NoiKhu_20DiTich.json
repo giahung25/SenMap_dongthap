@@ -212,8 +212,8 @@
         "lat": 10.6019,
         "lon": 105.8263,
         "duration_min": 5,
-        "desc_vi": "Cổng vào Khu di tích Quốc gia đặc biệt Gò Tháp nằm giữa cánh đồng sen bạt ngàn của huyện Tháp Mười. Nhà đón tiếp cung cấp sơ đồ khảo cổ học, thông tin văn hóa Óc Eo và giới thiệu các tuyến tham quan trên đồi cát cổ rộng hơn 300 ha.",
-        "desc_en": "The entrance gate to the Gò Tháp Special National Monument is nestled amidst the sweeping lotus fields of Tháp Mười District. The visitor center offers archaeological site maps, historical introductions to the ancient Funan Kingdom, and recommended walking and tram itineraries across the 300-hectare sand ridge sanctuary.",
+        "desc_vi": "Cổng vào Khu di tích Quốc gia đặc biệt Gò Tháp nằm giữa cánh đồng sen bạt ngàn của huyện Tháp Mười. Nhà đón tiếp cung cấp sơ đồ khảo cổ học, thông tin văn hóa Óc Eo và giới thiệu các tuyến tham quan trên đồi cát cổ rộng khoảng 290 ha.",
+        "desc_en": "The entrance gate to the Gò Tháp Special National Monument is nestled amidst the sweeping lotus fields of Tháp Mười District. The visitor center offers archaeological site maps, historical introductions to the ancient Funan Kingdom, and recommended walking and tram itineraries across the 290-hectare sand ridge sanctuary.",
         "audio_30s_vi": "Chào mừng quý khách đến với Khu di tích Quốc gia đặc biệt Gò Tháp. Từ cổng đón tiếp này, quý vị sẽ bước vào vùng đất thiêng hội tụ cả ba tầng giá trị độc nhất vô nhị: khảo cổ Óc Eo ngàn năm, lịch sử kháng chiến hào hùng và tín ngưỡng dân gian Nam Bộ.",
         "audio_30s_en": "Welcome to Gò Tháp Special National Monument. From this gateway, you step onto a sacred archaeological landscape where three remarkable historical layers converge: the 1,500-year-old Funan civilization, 19th-century anti-colonial resistance, and enduring Southern folklore spirituality."
       },
@@ -1565,8 +1565,8 @@
         "lat": 10.453,
         "lon": 105.632563,
         "duration_min": 20,
-        "desc_vi": "Khối nhà trưng bày hiện đại lưu giữ hơn 30.000 hiện vật quý, nổi bật là 3 Bảo vật Quốc gia thuộc nền Văn hóa Óc Eo: tượng thần Vishnu, tượng nữ thần Lakshmi và bộ sưu tập vàng lá Gò Tháp lớn nhất Việt Nam, minh chứng cho sự phồn vinh của Vương quốc Phù Nam.",
-        "desc_en": "This modern exhibition hall curates over 30,000 artifacts, highlighted by three designated National Treasures: 6th-century sandstone statues of Lord Vishnu and Goddess Lakshmi, alongside Vietnam's largest collection of sacred inscribed Funan gold foil sheets unearthed at Gò Tháp.",
+        "desc_vi": "Khối nhà trưng bày hiện đại lưu giữ hơn 30.000 hiện vật quý, nổi bật là 5 Bảo vật Quốc gia thuộc nền Văn hóa Óc Eo (tiêu biểu như tượng thần Vishnu, tượng nữ thần Lakshmi, tượng Phật gỗ Bình Hòa và bộ sưu tập vàng lá Gò Tháp lớn nhất Việt Nam), minh chứng cho sự phồn vinh của Vương quốc Phù Nam.",
+        "desc_en": "This modern exhibition hall curates over 30,000 artifacts, highlighted by five designated National Treasures from the Óc Eo civilization (including 6th-century sandstone statues of Lord Vishnu and Goddess Lakshmi, Bình Hòa wooden Buddha sculptures, and Vietnam's largest collection of inscribed Funan gold foil sheets unearthed at Gò Tháp).",
         "audio_30s_vi": "Gian trưng bày Văn hóa Óc Eo tự hào lưu giữ các Bảo vật Quốc gia tượng thần Vishnu và nữ thần Lakshmi có niên đại thế kỷ thứ sáu. Từng lá vàng dâng cúng và mảnh gốm cổ khai quật từ Gò Tháp tái hiện sinh động một trung tâm giao thương hàng hải rực rỡ nghìn năm trước.",
         "audio_30s_en": "The Óc Eo Hall proudly exhibits designated National Treasures including 6th-century Vishnu and Lakshmi sculptures. These intricate gold leaves and terracotta relics unearthed at Gò Tháp illuminate a magnificent maritime trading civilization of ancient Southeast Asia."
       },
@@ -2120,15 +2120,15 @@
         "order": 2,
         "category": "architecture",
         "icon": "🏛️",
-        "name_vi": "Đại tượng Bồ tát Quán Thế Âm cao 33m",
-        "name_en": "33-Meter Bodhisattva Avalokiteshvara Statue",
+        "name_vi": "Chánh điện & Tôn tượng Đức Phật A Di Đà",
+        "name_en": "Main Sanctuary & Bronze Amitābha Buddha Statue",
         "lat": 10.41005,
         "lon": 105.72035,
         "duration_min": 15,
-        "desc_vi": "Tôn tượng Bồ tát Quán Thế Âm lộ thiên bằng bê tông cốt thép sơn trắng cao 33 mét sừng sững giữa trời xanh. Bồ tát ngự trên đài sen hồng, tay cầm bình cam lộ ban rải an lành cho khắp cõi nhân gian, là điểm tựa tâm linh kiêm biểu tượng nổi bật của chùa Hưng Thiền.",
-        "desc_en": "Rising 33 meters into the delta sky, this colossal white statue of Bodhisattva Avalokiteshvara (Quán Thế Âm) stands serenely upon an open lotus pedestal. Holding the vase of compassionate nectar, the monument is an iconic spiritual beacon across the province.",
-        "audio_30s_vi": "Quý khách đang chiêm bái đại tượng Bồ tát Quán Thế Âm cao ba mươi ba mét uy nghi giữa nền trời Đất Sen Hồng. Ánh mắt từ bi của Đức Mẹ Quan Âm như che chở, chở che cho cuộc sống ấm no, thanh bình của nhân dân vùng đồng bằng sông nước.",
-        "audio_30s_en": "Gaze upon the magnificent 33-meter statue of Avalokiteshvara rising gracefully above the lotus lagoon. Her compassionate countenance radiates blessings of peace, health, and protection over the communities of the Mekong Delta."
+        "desc_vi": "Không gian Chánh điện uy nghiêm mang đậm kiến trúc Phật giáo truyền thống Nam Bộ với hệ mái đao uốn cong chạm khắc rồng phượng. Bên trong tôn trí tượng Đức Phật A Di Đà đúc bằng đồng nguyên khối trang nghiêm cùng hệ thống phù điêu tái hiện cuộc đời Đức Phật, là điểm tựa tâm linh của đạo tràng Tịnh Độ chùa Hưng Thiền.",
+        "desc_en": "The solemn Main Sanctuary reflects classic Southern Vietnamese Buddhist temple architecture with curved dragon-and-phoenix eaves. Inside sits a monumental cast-bronze statue of Amitābha Buddha flanked by carved bas-reliefs depicting the life of the Buddha, serving as the spiritual heart of Hưng Thiền's Pure Land nunnery.",
+        "audio_30s_vi": "Quý khách đang chiêm bái Chánh điện trang nghiêm và tôn tượng Đức Phật A Di Đà đúc bằng đồng nguyên khối tại chùa Hưng Thiền. Không gian thiền môn tịnh độ thanh tịnh nơi đây mang lại cảm giác an lạc, buông bỏ mọi phiền não đời thường.",
+        "audio_30s_en": "Step inside the serene main hall to revere the monumental cast-bronze statue of Amitābha Buddha at Hưng Thiền Monastery. This peaceful Pure Land sanctuary radiates calm, mindfulness, and inner stillness amidst the delta countryside."
       },
       {
         "code": "HT-03",

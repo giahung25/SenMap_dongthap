@@ -25,8 +25,8 @@
       "original_vi": "Tháp Mười đẹp nhất bông sen\nViệt Nam đẹp nhất có tên Bác Hồ",
       "translation_en": "In the Plain of Reeds, fairest blooms the lotus flower;\nIn all of Vietnam, dearest shines the name of Uncle Hồ.",
       "author": "Bảo Định Giang (1946)",
-      "meaning_vi": "Câu ca dao bất hủ kết tinh vẻ đẹp thanh cao của thiên nhiên Đất Sen Hồng hòa quyện cùng tấm lòng son sắt của nhân dân miền Nam đối với vị Cha già kính yêu của dân tộc.",
-      "meaning_en": "An immortal verse that intertwines the pristine purity of the Pink Lotus Land with the profound devotion of Southern Vietnamese people toward the beloved father of the nation."
+      "meaning_vi": "Câu ca dao bất hủ (bản gốc năm 1946 viết theo phương ngữ Nam Bộ là 'nhứt' và 'Cụ Hồ') kết tinh vẻ đẹp thanh cao của thiên nhiên Đất Sen Hồng hòa quyện cùng tấm lòng son sắt của nhân dân miền Nam đối với vị Cha già kính yêu của dân tộc.",
+      "meaning_en": "An immortal verse (originally composed in 1946 using Southern dialect 'nhứt' and 'Cụ Hồ') that intertwines the pristine purity of the Pink Lotus Land with the profound devotion of Southern Vietnamese people toward the beloved father of the nation."
     },
     "pride_metrics": [
       {
@@ -34,8 +34,8 @@
         "metric": "02",
         "title_vi": "Di tích Quốc gia Đặc biệt",
         "title_en": "Special National Monuments",
-        "desc_vi": "Khu di tích Nguyễn Sinh Sắc & Khu di tích Khảo cổ Gò Tháp",
-        "desc_en": "Nguyễn Sinh Sắc Sanctuary & Gò Tháp Archaeological Sanctuary",
+        "desc_vi": "Khu di tích Nguyễn Sinh Sắc (~9–11 ha) & Khu di tích Khảo cổ Gò Tháp (~290–300 ha)",
+        "desc_en": "Nguyễn Sinh Sắc Sanctuary (~9–11 ha) & Gò Tháp Archaeological Site (~290–300 ha)",
         "icon": "stars",
         "color": "#E11D48"
       },
@@ -91,8 +91,8 @@
         19,
         18
       ],
-      "story_vi": "Tuyến du lịch đưa bạn ngược dòng lịch sử hơn mười bảy thế kỷ về thời kỳ hưng thịnh của nền văn hóa Óc Eo và Vương quốc Phù Nam cổ đại. Khởi hành từ Gò Tháp — trung tâm tôn giáo và đô thị cổ giữa đầm lầy Tháp Mười, nơi lưu giữ những đền tháp gạch nung, tượng thần Vishnu bằng sa thạch nguyên khối và bia ký chữ Phạn cổ nhất miền Nam. Men theo dòng Tiền Giang xuôi về phía tây, hành trình dẫn đến Đền thờ Thượng tướng Trần Văn Năng bên vàm Đốc Vàng — vị danh tướng triều Nguyễn đã hiến dâng trọn đời mình bảo vệ biên cương Tây Nam. Tiếp nối là Đình làng cổ Phú Mỹ và Đình Long Thuận ngự trên dải cù lao xanh ngắt giữa sông Tiền, nơi lưu giữ trọn vẹn những bản sắc phong của vua Tự Đức năm 1852 và nghệ thuật chạm khắc gỗ lim trùng thềm điệp ốc tinh xảo của các bậc tiền nhân đi mở đất.",
-      "story_en": "This curated trail carries travelers back over seventeen centuries into the golden era of the maritime Fu-nan Kingdom and early Mekong pioneers. Beginning at the monumental Gò Tháp Archaeological Sanctuary in the Plain of Reeds, visitors encounter ancient brick sanctums, monolithic sandstone icons of Vishnu, and 6th-century Sanskrit stelae. Downstream along the Tiền River, the trail pays homage to Grand General Trần Văn Năng at Đốc Vàng canal, a patriotic defender of the southwestern frontier during the early Nguyễn Dynasty. The expedition continues to the venerable Phú Mỹ and Long Thuận communal houses situated upon fertile Mekong silt islands, preserving authentic 1852 royal decrees bestowed by King Tự Đức and quintessential Southern Vietnamese ironwood timber craftsmanship.",
+      "story_vi": "Tuyến du lịch đưa bạn ngược dòng lịch sử hơn mười bảy thế kỷ về thời kỳ hưng thịnh của nền văn hóa Óc Eo và Vương quốc Phù Nam cổ đại. Khởi hành từ Gò Tháp — trung tâm tôn giáo và đô thị cổ rộng khoảng 290–300 ha giữa đầm lầy Tháp Mười, nơi lưu giữ những đền tháp gạch nung, tượng thần Vishnu bằng sa thạch nguyên khối và bia ký chữ Phạn cổ nhất miền Nam. Men theo dòng Tiền Giang xuôi về phía tây, hành trình dẫn đến Đền thờ Thượng tướng Trần Văn Năng (1763–1835) bên vàm Đốc Vàng — vị danh tướng triều Nguyễn đã hiến dâng trọn đời mình bảo vệ biên cương Tây Nam. Tiếp nối là Đình làng cổ Phú Mỹ và Đình Long Thuận — ngôi đình lập năm 1876 trên dải cù lao xanh ngắt giữa dòng sông Tiền, được vua Bảo Đại ban sắc phong năm 1936 và lưu giữ nghệ thuật chạm khắc gỗ lim trùng thềm điệp ốc tinh xảo của các bậc tiền nhân đi mở đất.",
+      "story_en": "This curated trail carries travelers back over seventeen centuries into the golden era of the maritime Fu-nan Kingdom and early Mekong pioneers. Beginning at the monumental 290–300-hectare Gò Tháp Archaeological Sanctuary in the Plain of Reeds, visitors encounter ancient brick sanctums, monolithic sandstone icons of Vishnu, and 6th-century Sanskrit stelae. Downstream along the Tiền River, the trail pays homage to Grand General Trần Văn Năng (1763–1835) at Đốc Vàng canal, a patriotic defender of the southwestern frontier during the early Nguyễn Dynasty. The expedition continues to the venerable Phú Mỹ Communal House and Long Thuận Communal House — established in 1876 on a lush Mekong silt island and granted a royal decree by Emperor Bảo Đại in 1936, preserving quintessential Southern Vietnamese ironwood timber craftsmanship.",
       "highlights_vi": [
         "Chiêm ngưỡng nền móng đền đài gạch Phù Nam thế kỷ I - VII tại Gò Tháp",
         "Tượng thần Vishnu bằng đá sa thạch và bia ký chữ Phạn cổ nhất miền Nam",
@@ -128,8 +128,8 @@
         20,
         11
       ],
-      "story_vi": "Hành trình Đỏ là bản hùng ca lịch sử sống động về lòng yêu nước kiên trung của quân dân Đồng Tháp qua hai cuộc kháng chiến vĩ đại. Bắt đầu từ Khu di tích Nguyễn Sinh Sắc tại trung tâm TP. Cao Lãnh — nơi yên nghỉ của thân sinh Bác Hồ với vòm mộ cánh sen trắng vươn mình ra chín đầu rồng uy nghiêm, du khách ghé thăm Bảo tàng Tỉnh trong khuôn viên Dinh Quận trưởng Pháp cổ và Tượng đài Tập kết 1954 bên bờ sông Tiền lịch sử. Tuyến đường tiếp tục đưa du khách đi xuồng ba lá xuyên qua căn cứ ngập nước bí mật Xẻo Quýt, viếng Di tích tưởng niệm vụ thảm sát Bình Thành, tượng đài Chiến thắng Giồng Thị Đam — Gò Quản Cung lừng lẫy mùa lũ 1959, và chốt chặn chiến lược Căn cứ Tỉnh ủy Kiến Phong tại Thông Bình nơi biên cương Tổ quốc.",
-      "story_en": "The Red Trail is an evocative historical odyssey celebrating the unyielding courage of the people of Đồng Tháp across two monumental resistance wars. Starting at the sacred Nguyễn Sinh Sắc Memorial Complex in central Cao Lãnh City — where the father of President Hồ Chí Minh rests beneath an iconic lotus-petal dome crowned with nine dragons, the trail proceeds to the French colonial mansion of the Đồng Tháp Museum and the historic 1954 Regrouping to the North Monument. The journey penetrates deep into the heart of the Plain of Reeds via wooden sampans through the hidden wetland bunkers of Xẻo Quýt, honors peace martyrs at the Bình Thành memorial, stands on the flooded battlefield of Giồng Thị Đam, and reaches the remote borderland command post of Thông Bình.",
+      "story_vi": "Hành trình Đỏ là bản hùng ca lịch sử sống động về lòng yêu nước kiên trung của quân dân Đồng Tháp qua hai cuộc kháng chiến vĩ đại. Bắt đầu từ Khu di tích Nguyễn Sinh Sắc rộng khoảng 9–11 ha tại trung tâm TP. Cao Lãnh — nơi yên nghỉ của thân sinh Bác Hồ với vòm mộ cánh sen trắng vươn mình ra chín đầu rồng uy nghiêm, du khách ghé thăm Bảo tàng Tỉnh (lưu giữ 5 Bảo vật Quốc gia Óc Eo) trong khuôn viên Dinh Quận trưởng Pháp cổ và Tượng đài Tập kết 1954 bên bờ sông Tiền lịch sử. Tuyến đường tiếp tục đưa du khách đi xuồng ba lá xuyên qua căn cứ ngập nước bí mật Xẻo Quýt, viếng Di tích tưởng niệm vụ thảm sát Bình Thành, tượng đài Chiến thắng Giồng Thị Đam — Gò Quản Cung lừng lẫy mùa lũ 1959, và chốt chặn chiến lược Căn cứ Tỉnh ủy Kiến Phong tại Thông Bình nơi biên cương Tổ quốc.",
+      "story_en": "The Red Trail is an evocative historical odyssey celebrating the unyielding courage of the people of Đồng Tháp across two monumental resistance wars. Starting at the sacred 9–11-hectare Nguyễn Sinh Sắc Memorial Complex in central Cao Lãnh City — where the father of President Hồ Chí Minh rests beneath an iconic lotus-petal dome crowned with nine dragons, the trail proceeds to the Đồng Tháp Museum (housing 5 Óc Eo National Treasures) inside a historic French colonial mansion and the 1954 Regrouping to the North Monument. The journey penetrates deep into the heart of the Plain of Reeds via wooden sampans through the hidden wetland bunkers of Xẻo Quýt, honors peace martyrs at the Bình Thành memorial, stands on the flooded battlefield of Giồng Thị Đam, and reaches the remote borderland command post of Thông Bình.",
       "highlights_vi": [
         "Viếng vòm mộ cánh sen trắng Cụ Phó bảng Nguyễn Sinh Sắc và Làng Hòa An xưa",
         "Tìm hiểu 30.000 hiện vật lịch sử tại Dinh Tỉnh trưởng cũ — Bảo tàng Đồng Tháp",
@@ -169,15 +169,15 @@
         9,
         17
       ],
-      "story_vi": "Dọc theo bờ nam dòng Tiền Giang hiền hòa, tuyến du lịch Sa Đéc là bản hòa tấu lãng mạn giữa kiến trúc Pháp cổ, mỹ thuật truyền thống Phúc Kiến và bàn tay khéo léo của các nghệ nhân làng nghề miền sông nước. Điểm nhấn mở đầu là Nhà cổ Huỳnh Thủy Lê — chứng nhân của mối tình bất hủ trong tiểu thuyết 'Người Tình' của Marguerite Duras, tiếp nối bằng Chùa Kiến An Cung với mái ngói gợn sóng rồng bay gốm sứ độc nhất vô nhị. Du khách đắm mình giữa bạt ngàn hương sắc tại Làng hoa Sa Đéc với kỹ thuật giàn hoa trên mặt nước, ghé Đình Tân Phú Trung, trải nghiệm đứng trên lá sen vua khổng lồ tại Chùa Phước Kiển, khám phá huyền thoại 'chợ chiếu ma' Định Yên và chiêm ngưỡng tượng Bồ tát Quán Thế Âm cao 33 mét tại Chùa Hưng Thiền.",
-      "story_en": "Meandering along the southern banks of the Tiền River, the Sa Đéc cultural trail is a romantic symphony bridging French colonial elegance, Southern Min Chinese artistry, and thriving riverine craft heritage. The trail begins at the Huỳnh Thủy Lê Ancient House, celebrated worldwide through Marguerite Duras's Prix Goncourt-winning novel 'The Lover', followed by Kiến An Cung Pagoda with its undulating ceramic wave-tile roofs. Travelers immerse themselves in Sa Đéc Flower Village where blossoms float above canal trellises, visit Tân Phú Trung Communal House, experience standing upon the giant Victoria water lily pads at Phước Kiển Pagoda, unravel the midnight lore of the Định Yên Sedge Mat Market, and admire the majestic 33-meter Avalokiteshvara statue at Hưng Thiền Monastery.",
+      "story_vi": "Dọc theo bờ nam dòng Tiền Giang hiền hòa, tuyến du lịch Sa Đéc là bản hòa tấu lãng mạn giữa kiến trúc Pháp cổ, mỹ thuật truyền thống Phúc Kiến và bàn tay khéo léo của các nghệ nhân làng nghề miền sông nước. Điểm nhấn mở đầu là Nhà cổ Huỳnh Thủy Lê — chứng nhân của mối tình bất hủ trong tiểu thuyết 'Người Tình' của Marguerite Duras, tiếp nối bằng Chùa Kiến An Cung với mái ngói gợn sóng rồng bay gốm sứ độc nhất vô nhị. Du khách đắm mình giữa bạt ngàn hương sắc tại Làng hoa Sa Đéc với kỹ thuật giàn hoa trên mặt nước, ghé Đình Tân Phú Trung, trải nghiệm đứng trên lá sen vua khổng lồ tại Chùa Phước Kiển, khám phá huyền thoại 'chợ chiếu ma' Định Yên và tìm về không gian thiền môn tịnh độ thanh tịnh cùng tôn tượng Đức Phật A Di Đà đúc bằng đồng trang nghiêm tại Chùa Hưng Thiền.",
+      "story_en": "Meandering along the southern banks of the Tiền River, the Sa Đéc cultural trail is a romantic symphony bridging French colonial elegance, Southern Min Chinese artistry, and thriving riverine craft heritage. The trail begins at the Huỳnh Thủy Lê Ancient House, celebrated worldwide through Marguerite Duras's Prix Goncourt-winning novel 'The Lover', followed by Kiến An Cung Pagoda with its undulating ceramic wave-tile roofs. Travelers immerse themselves in Sa Đéc Flower Village where blossoms float above canal trellises, visit Tân Phú Trung Communal House, experience standing upon the giant Victoria water lily pads at Phước Kiển Pagoda, unravel the midnight lore of the Định Yên Sedge Mat Market, and find serene stillness in the Pure Land nunnery and solemn bronze Amitābha Buddha sanctuary at Hưng Thiền Monastery.",
       "highlights_vi": [
         "Sống lại mối tình tiểu thuyết 'Người Tình' (L'Amant) tại Nhà cổ Huỳnh Thủy Lê",
         "Chiêm ngưỡng mái ngói gợn sóng và điêu khắc gốm sứ độc nhất vô nhị tại Kiến An Cung",
         "Check-in thủ phủ hoa kiểng Sa Đéc với giàn hoa trên mặt nước bốn mùa khoe sắc",
         "Đứng trên lá sen vua khổng lồ chịu tải 70-80kg tại Chùa Phước Kiển",
         "Khám phá huyền thoại 'chợ chiếu ma' và xem nghệ nhân dệt chiếu thủ công Định Yên",
-        "Hành hương chiêm bái tượng Bồ tát Quán Thế Âm cao 33m tại Chùa Hưng Thiền"
+        "Hành hương chiêm bái tôn tượng Đức Phật A Di Đà đúc bằng đồng và không gian tịnh độ tại Chùa Hưng Thiền"
       ],
       "highlights_en": [
         "Relive Marguerite Duras's award-winning romance 'The Lover' in Huỳnh Thủy Lê Ancient House",
@@ -185,7 +185,7 @@
         "Stroll through Sa Đéc Flower Village where vibrant blossoms sit on elevated canal trellises",
         "Stand atop the extraordinary giant King Lotus leaves capable of holding adult weight at Phước Kiển Pagoda",
         "Explore the legendary midnight 'Ghost Mat Market' and traditional weaving looms at Định Yên",
-        "Gaze upon the magnificent 33-meter statue of Avalokiteshvara at Hưng Thiền Zen Monastery"
+        "Experience Pure Land tranquility and revere the bronze Amitābha Buddha statue at Hưng Thiền Monastery"
       ]
     },
     {
@@ -206,8 +206,8 @@
         7,
         3
       ],
-      "story_vi": "Tuyến du lịch sinh thái đặc sắc đưa bạn vào sâu trong lòng vùng trũng Đồng Tháp Mười, nơi con nước nổi hàng năm mang theo phù sa và nguồn lợi thủy sản trù phú nuôi dưỡng hệ sinh quyển độc đáo. Trọng tâm của tuyến là Vườn Quốc gia Tràm Chim — Khu Ramsar thứ 2.000 của thế giới với hơn 7.300 ha tràm, sen và đồng lúa ma, nơi cư trú của loài Sếu đầu đỏ quý hiếm nằm trong Sách đỏ thế giới. Du khách tiếp tục di chuyển về Khu du lịch sinh thái Gáo Giồng để ngắm toàn cảnh rừng tràm bạt ngàn từ đài quan sát cao 18 mét, thưởng thức đặc sản cá lóc nướng trui cuốn lá sen non giữa lung sen ngát hương, và kết thúc bằng chuyến thám hiểm rừng tràm nguyên sinh Xẻo Quýt trầm mặc rêu phong.",
-      "story_en": "This ecological trail penetrates deep into the heart of the Plain of Reeds, where annual Mekong floodwaters bestow nutrient-rich alluvial silt and extraordinary biodiversity. The centerpiece is Tràm Chim National Park — the world's 2,000th Ramsar Site encompassing 7,313 hectares of wild lotus marshes, floating rice fields, and melaleuca woodlands sheltering the iconic Sarus Crane. Travelers venture onward to Gáo Giồng Ecotourism Oasis to take in panoramic views of emerald forest canopies from an 18-meter observation tower, relish authentic roasted snakehead fish wrapped in young lotus leaves, and finish with a peaceful sampan boat voyage beneath prehistoric vine canopies in Xẻo Quýt.",
+      "story_vi": "Tuyến du lịch sinh thái đặc sắc đưa bạn vào sâu trong lòng vùng trũng Đồng Tháp Mười, nơi con nước nổi hàng năm mang theo phù sa và nguồn lợi thủy sản trù phú nuôi dưỡng hệ sinh quyển độc đáo. Trọng tâm của tuyến là Vườn Quốc gia Tràm Chim — Khu Ramsar thứ 2.000 của thế giới với hơn 7.300 ha tràm, sen và đồng lúa ma, nơi cư trú của loài Sếu đầu đỏ quý hiếm nằm trong Sách đỏ thế giới. Du khách tiếp tục di chuyển về Khu du lịch sinh thái Gáo Giồng (rừng tràm ~1.700 ha, sân chim tự nhiên rộng 36 ha) để ngắm toàn cảnh đại ngàn từ đài quan sát cao 18 mét, thưởng thức đặc sản cá lóc nướng trui cuốn lá sen non giữa lung sen ngát hương, và kết thúc bằng chuyến thám hiểm rừng tràm nguyên sinh Xẻo Quýt trầm mặc rêu phong.",
+      "story_en": "This ecological trail penetrates deep into the heart of the Plain of Reeds, where annual Mekong floodwaters bestow nutrient-rich alluvial silt and extraordinary biodiversity. The centerpiece is Tràm Chim National Park — the world's 2,000th Ramsar Site encompassing 7,313 hectares of wild lotus marshes, floating rice fields, and melaleuca woodlands sheltering the iconic Sarus Crane. Travelers venture onward to Gáo Giồng Ecotourism Oasis (1,700 ha of melaleuca forest and a 36-hectare natural bird sanctuary) to take in panoramic views of emerald canopies from an 18-meter observation tower, relish authentic roasted snakehead fish wrapped in young lotus leaves, and finish with a peaceful sampan boat voyage beneath prehistoric vine canopies in Xẻo Quýt.",
       "highlights_vi": [
         "Đi tắc ráng lướt sóng qua cánh đồng sen hoang và tràm ngập nước tại Ramsar Tràm Chim",
         "Ngắm hoàng hôn trên đài quan sát chim trời với hàng vạn cánh cò bay về tổ",
@@ -281,8 +281,8 @@
       "motif_icon": "local_florist",
       "center_title_vi": "LĂNG CỤ NGUYỄN SINH SẮC",
       "center_title_en": "NGUYEN SINH SAC SANCTUARY",
-      "motto_vi": "THÂN SINH CHỦ TỊCH HỒ CHÍ MINH • ĐỒNG THÁP NGHĨA TÌNH",
-      "motto_en": "DEVOTED SCHOLAR OF THE MEKONG • CAO LANH HERITAGE"
+      "motto_vi": "THÂN SINH CHỦ TỊCH HỒ CHÍ MINH • KHU DI TÍCH 9–11 HA TẠI CAO LÃNH",
+      "motto_en": "DEVOTED SCHOLAR OF THE MEKONG • 9–11 HA CAO LANH SANCTUARY"
     },
     "2": {
       "monument_id": 2,
@@ -292,8 +292,8 @@
       "motif_icon": "temple_hindu",
       "center_title_vi": "KHẢO CỔ GÒ THÁP",
       "center_title_en": "GO THAP ARCHAEOLOGY",
-      "motto_vi": "VƯƠNG QUỐC PHÙ NAM THẾ KỶ I - VII • THIÊN HỘ DƯƠNG",
-      "motto_en": "ANCIENT FU-NAN CIVILIZATION • PLAIN OF REEDS"
+      "motto_vi": "VƯƠNG QUỐC PHÙ NAM THẾ KỶ I - VII • QUẦN THỂ 290–300 HA",
+      "motto_en": "ANCIENT FU-NAN CIVILIZATION • 290–300 HA PLAIN OF REEDS"
     },
     "3": {
       "monument_id": 3,
@@ -347,8 +347,8 @@
       "motif_icon": "nature",
       "center_title_vi": "RỪNG TRÀM GÁO GIỒNG",
       "center_title_en": "GAO GIONG ECO OASIS",
-      "motto_vi": "LÁ PHỔI XANH ĐỒNG THÁP MƯỜI • SANH CẢNH 1700 HA",
-      "motto_en": "GREEN LUNG OF THE REEDS • TRANQUIL BIRD SANCTUARY"
+      "motto_vi": "RỪNG TRÀM 1.700 HA • SÂN CHIM TỰ NHIÊN 36 HA GÁO GIỒNG",
+      "motto_en": "1,700 HA MELALEUCA FOREST • 36 HA NATURAL BIRD SANCTUARY"
     },
     "8": {
       "monument_id": 8,
@@ -402,8 +402,8 @@
       "motif_icon": "museum",
       "center_title_vi": "BẢO TÀNG ĐỒNG THÁP",
       "center_title_en": "DONG THAP MUSEUM",
-      "motto_vi": "30.000 HIỆN VẬT LỊCH SỬ • DINH QUẬN TRƯỞNG PHÁP 1917",
-      "motto_en": "PROVINCIAL HERITAGE VAULT • FRENCH COLONIAL RESIDENCE"
+      "motto_vi": "30.000 HIỆN VẬT & 5 BẢO VẬT QUỐC GIA • DINH CÒ TÂY CAO LÃNH",
+      "motto_en": "30,000 ARTIFACTS & 5 NATIONAL TREASURES • COLONIAL MANSION"
     },
     "13": {
       "monument_id": 13,
@@ -446,8 +446,8 @@
       "motif_icon": "account_balance",
       "center_title_vi": "ĐÌNH TÂN PHÚ TRUNG",
       "center_title_en": "TAN PHU TRUNG HOUSE",
-      "motto_vi": "SẮC PHONG TỰ ĐỨC NĂM 1852 • KIẾN TRÚC TRÙNG THỀM ĐIỆP ỐC",
-      "motto_en": "ROYAL DECREE 1852 • TIMELESS IRONWOOD ARCHITECTURE"
+      "motto_vi": "SẮC PHONG TỰ ĐỨC NĂM 1854 • KIẾN TRÚC TRÙNG THỀM ĐIỆP ỐC",
+      "motto_en": "ROYAL DECREE 1854 • TIMELESS IRONWOOD ARCHITECTURE"
     },
     "17": {
       "monument_id": 17,
@@ -457,8 +457,8 @@
       "motif_icon": "self_improvement",
       "center_title_vi": "CHÙA HƯNG THIỀN",
       "center_title_en": "HUNG THIEN MONASTERY",
-      "motto_vi": "CỔ TỰ 250 NĂM • BỒ TÁT QUÁN THẾ ÂM 33M LỘ THIÊN",
-      "motto_en": "250 YEARS OF ZEN PEACE • 33-METER AVALOKITESHVARA"
+      "motto_vi": "CỔ TỰ 250 NĂM • ĐẠO TRÀNG TỊNH ĐỘ & PHẬT A DI ĐÀ BẰNG ĐỒNG",
+      "motto_en": "250 YEARS OF ZEN PEACE • PURE LAND AMITABHA SANCTUARY"
     },
     "18": {
       "monument_id": 18,
@@ -468,8 +468,8 @@
       "motif_icon": "holiday_village",
       "center_title_vi": "ĐÌNH CÙ LAO LONG THUẬN",
       "center_title_en": "LONG THUAN ISLAND HOUSE",
-      "motto_vi": "SẮC PHONG VUA TỰ ĐỨC 1852 • ĐẢO NGỌC PHÙ SA GIỮA DÒNG SÔNG TIỀN",
-      "motto_en": "ROYAL DECREE 1852 • SILT ISLAND MEKONG HERITAGE"
+      "motto_vi": "LẬP NĂM 1876 • SẮC PHONG VUA BẢO ĐẠI 1936 GIỮA DÒNG SÔNG TIỀN",
+      "motto_en": "FOUNDED 1876 • EMPEROR BAO DAI DECREE 1936 ON THE MEKONG"
     },
     "19": {
       "monument_id": 19,
