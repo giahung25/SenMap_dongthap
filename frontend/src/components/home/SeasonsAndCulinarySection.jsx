@@ -423,8 +423,7 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src =
-                            'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80';
+                          e.target.src = '/images/culinary/com-goi-la-sen.jpg';
                         }}
                       />
 
