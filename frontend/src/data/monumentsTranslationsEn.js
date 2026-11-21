@@ -343,6 +343,7 @@ export function getLocalizedMonument(monument, lang = 'vi') {
       displayRanking: monument.ranking || monument.cap_xep_hang || 'Cấp tỉnh',
       displayCategory: monument.category || monument.danh_muc || 'Lịch sử - Cách mạng',
       displayDistrict: monument.district || monument.huyen_tp || 'Đồng Tháp',
+      displayPhotoCredit: monument.photoCredit || '',
     };
   }
 
@@ -378,5 +379,6 @@ export function getLocalizedMonument(monument, lang = 'vi') {
     displayRanking: rankingEn,
     displayCategory: categoryEn,
     displayDistrict: districtEn,
+    displayPhotoCredit: monument.photoCreditEn || monument.photoCredit || '',
   };
 }

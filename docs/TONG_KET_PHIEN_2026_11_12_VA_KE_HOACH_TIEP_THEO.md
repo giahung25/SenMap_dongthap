@@ -120,5 +120,7 @@ Theo phân loại tại `docs/PHAN_LOAI_UU_TIEN_LOC_HINH_ANH.md`, cần thay th�
   - `audit/data-and-image-verification` ➔ `main`
 - [ ] Đẩy mã nguồn (`git push origin main`) và gắn tag phiên bản mốc lớn của dự án.
 
+- **Hồ sơ khôi phục phiên `omp` (`w2:p5`):** `omp --resume 01a10561-ce21-771d-94d3-21fd35668ee6` *(đã lưu ngày 20/11/2026 khi chuyển sang sử dụng `agy`)*.
+
 ---
 *Báo cáo được tổng kết và phê duyệt bởi `ARCHITECT_QA` (`w2:p8`) lúc 22:30 ngày 12/11/2026.*

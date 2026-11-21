@@ -75,7 +75,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/e/e3/M%E1%BB%99_Nguy%E1%BB%85n_Sinh_S%E1%BA%AFc_%281862%E2%80%931929%29.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/5/5c/%C4%90%E1%BB%81n_th%E1%BB%9D_Nguy%E1%BB%85n_Sinh_S%E1%BA%AFc.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/0/0f/Nh%C3%A0_s%C3%A0n_B%C3%A1c_H%E1%BB%93_%E1%BB%9F_Cao_L%C3%A3nh.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Mộ Nguyễn Sinh Sắc (1862–1929).jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Mộ Nguyễn Sinh Sắc (1862–1929).jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 2,
@@ -107,7 +109,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/4/44/%C4%90%E1%BB%81n_th%E1%BB%9D_V%C3%B5_Duy_D%C6%B0%C6%A1ng_v%C3%A0_%C4%90%E1%BB%91c_Binh_Ki%E1%BB%81u.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/4/46/Khu_di_tich_khao_co_Go_thap%2CTh%C3%A1p_M%C6%B0%E1%BB%9Di%2C_%C4%90%E1%BB%93ng_Th%C3%A1p%2C_Vi%E1%BB%87t_Nam_-_panoramio.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/1/1b/Cong_vao_khu_di_tich_go_thap.xa_My_hoa%2C_huyen_Th%C3%A1p_M%C6%B0%E1%BB%9Di%2C_%C4%90%E1%BB%93ng_Th%C3%A1p%2C_Vi%E1%BB%87t_Nam_-_panoramio.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Đền thờ Võ Duy Dương và Đốc Binh Kiều.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 4.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Đền thờ Võ Duy Dương và Đốc Binh Kiều.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 4.0)"
   },
   {
     "id": 3,
@@ -124,7 +128,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 20000,
     "note": "Vé vào cổng: 20.000 VNĐ/người lớn (10.000 VNĐ/trẻ em); dịch vụ bơi xuồng ba lá xuyên rừng tràm mùa nước nổi khoảng 20.000 - 30.000 VNĐ/khách. Khuyến khích mang giày đế bệt và kem chống muỗi khi đi bộ dưới tán rừng tràm.",
     "thumbnail": "/images/monuments/monument_3.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/X%E1%BA%BBo_qu%C3%BDt.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/5/54/La_for%C3%AAt_de_cajeputs.JPG",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/3",
     "views": 4860,
     "qrScans": 1335,
@@ -136,10 +140,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.80354,
     "gallery": [
       "/images/monuments/monument_3.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/e/ea/X%E1%BA%BBo_qu%C3%BDt.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/8/82/Xeo_quyt.jpg",
-      "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Khu_Di_Tich_Xeo_Quyt_%2C_Vietnam.webm/1280px--Khu_Di_Tich_Xeo_Quyt_%2C_Vietnam.webm.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/5/54/La_for%C3%AAt_de_cajeputs.JPG",
+      "https://upload.wikimedia.org/wikipedia/commons/2/26/Melaleuca_forest%2C_Tr%C6%B0%E1%BB%9Dng_Xu%C3%A2n_commune%2C_Th%C3%A1p_M%C6%B0%E1%BB%9Di_district%2C_%C4%90%E1%BB%93ng_Th%C3%A1p%2C_Vietnam%2C_at_July-2022.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian rừng tràm Đồng Tháp • Wikimedia Commons: La forêt de cajeputs.JPG (HTVietnam, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative melaleuca forest archive • Wikimedia Commons: La forêt de cajeputs.JPG (HTVietnam, CC BY-SA 3.0)"
   },
   {
     "id": 4,
@@ -171,7 +176,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/b/b3/Nh%C3%A0_c%E1%BB%95_Hu%E1%BB%B3nh_Th%E1%BB%A7y_L%C3%AA.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/9/93/La_maison_de_Huynh_Thuy_Le_%28Sa_Dec%2C_Vietnam%29_%286662996139%29.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/75/V%E1%BA%ADt_d%E1%BB%A5ng_trong_Nh%C3%A0_C%E1%BB%95_Hu%E1%BB%B3nh_Th%E1%BB%A7y_L%C3%AA.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Nhà cổ Huỳnh Thủy Lê.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Nhà cổ Huỳnh Thủy Lê.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 5,
@@ -203,7 +210,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/d/d4/Ki%E1%BA%BFn_An_Cung_1.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/6/65/Ki%E1%BA%BFn_An_Cung_2.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/b/b5/Ki%E1%BA%BFn_An_Cung_3.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Kiến An Cung 1.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Kiến An Cung 1.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 6,
@@ -235,7 +244,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/f/fa/%C4%90%E1%BB%93ng_c%E1%BB%8F_v%C3%A0_chim_n%C6%B0%E1%BB%9Bc.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/3/3c/Sen_v%C3%A0_ngh%E1%BB%85_trong_v%C3%B9ng_%C4%91%E1%BA%A7m_l%E1%BA%A7y_%E1%BB%9F_VQG_Tr%C3%A0m_Chim.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/3/34/Anastomus_oscitans_Tr%C3%A0m_Chim_2.JPG"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Đồng cỏ và chim nước.jpg (Quoilp, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Đồng cỏ và chim nước.jpg (Quoilp, CC BY-SA 3.0)"
   },
   {
     "id": 7,
@@ -267,7 +278,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/9/9e/Gao_Giong_Bird_Sanctuary_Chinese_Pond_Heron_01.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/8/86/Gao_Giap_Bird_Sanctuary_Purple_Heron.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/d/d6/DTM.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Gao Giong Bird Sanctuary Chinese Pond Heron 01.jpg (Neitram, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Gao Giong Bird Sanctuary Chinese Pond Heron 01.jpg (Neitram, CC BY-SA 3.0)"
   },
   {
     "id": 8,
@@ -299,7 +312,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/7/7b/Langhoa3.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/4/48/Hoa_%E1%BB%9F_T%C3%A2n_Quy_T%C3%A2y.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/c/c8/M%E1%BB%99t_v%C6%B0%E1%BB%9Dn_hoa_lan_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Langhoa3.jpg (Tonbi ko, CC BY-SA 4.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Langhoa3.jpg (Tonbi ko, CC BY-SA 4.0)"
   },
   {
     "id": 9,
@@ -331,7 +346,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/9/9c/L%C3%A0ng_chi%E1%BA%BFu_%C4%90%E1%BB%8Bnh_Y%C3%AAn.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/b/bf/%C4%90%E1%BB%8Bnh_Y%C3%AAn_temple.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/9/9c/L%C3%A0ng_chi%E1%BA%BFu_%C4%90%E1%BB%8Bnh_Y%C3%AAn.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Làng chiếu Định Yên.jpg (Duong Dang Khoi, CC0 Public Domain)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Làng chiếu Định Yên.jpg (Duong Dang Khoi, CC0 Public Domain)"
   },
   {
     "id": 10,
@@ -348,7 +365,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Miễn phí vé tham quan. Lễ hội kỳ yên và Lễ giỗ Thượng tướng Quận công Trần Văn Năng được tổ chức trang trọng hàng năm từ ngày 14 đến 17 tháng 2 Âm lịch với nghi thức tế cổ truyền và lễ hội bánh tét dân gian.",
     "thumbnail": "/images/monuments/monument_10.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/2/20/%C4%90%E1%BB%81n_th%E1%BB%9D_%C4%90%E1%BB%97_C%C3%B4ng_T%C6%B0%E1%BB%9Dng.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/3/37/B%C3%A0n_th%E1%BB%9D_Th%E1%BA%A7n_B%C3%ACnh_H%C3%B2a.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/10",
     "views": 5700,
     "qrScans": 1650,
@@ -360,10 +377,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.452392,
     "gallery": [
       "/images/monuments/monument_10.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/20/%C4%90%E1%BB%81n_th%E1%BB%9D_%C4%90%E1%BB%97_C%C3%B4ng_T%C6%B0%E1%BB%9Dng.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/1/1c/%C4%90%C3%ACnh_V%C4%A9nh_Ph%C6%B0%E1%BB%9Bc_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/61/Dinh_vinh_phuoc.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/3/37/B%C3%A0n_th%E1%BB%9D_Th%E1%BA%A7n_B%C3%ACnh_H%C3%B2a.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/1/1c/%C4%90%C3%ACnh_V%C4%A9nh_Ph%C6%B0%E1%BB%9Bc_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc chính điện thờ danh tướng Nam Bộ • Wikimedia Commons: Bàn thờ Thần Bình Hòa.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative architectural archive of Southern Vietnamese hero shrine • Wikimedia Commons: Bàn thờ Thần Bình Hòa.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 11,
@@ -380,7 +398,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Di tích nằm tại khu vực ngã ba sông Sở Hạ vùng biên giới Việt Nam - Campuchia; du khách lưu ý mang theo giấy tờ tùy thân và giữ trang phục lịch sự khi dâng hương.",
     "thumbnail": "/images/monuments/monument_11.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bf/%C4%90%E1%BB%8Bnh_Y%C3%AAn_temple.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/11",
     "views": 5820,
     "qrScans": 1695,
@@ -392,10 +410,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.422561,
     "gallery": [
       "/images/monuments/monument_11.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/e/e9/%C4%90%E1%BB%93ng_C%E1%BB%8F_%E1%BB%9F_%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/27/%C4%90%C3%ACnh_th%E1%BA%A7n_Giao_Kh%E1%BA%A9u.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/b/bf/%C4%90%E1%BB%8Bnh_Y%C3%AAn_temple.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc đình làng cổ Đồng Tháp • Wikimedia Commons: Định Yên temple.jpg (Duong Dang Khoi, CC BY-SA 4.0)",
+    "photoCreditEn": "Illustrative architectural archive of traditional Đồng Tháp communal house • Wikimedia Commons: Định Yên temple.jpg (Duong Dang Khoi, CC BY-SA 4.0)"
   },
   {
     "id": 12,
@@ -427,7 +446,9 @@ export const INITIAL_MONUMENTS = [
       "https://upload.wikimedia.org/wikipedia/commons/a/a0/B%E1%BA%A3o_t%C3%A0ng_%C4%90%E1%BB%93ng_Th%C3%A1p.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/9/92/Bia_Th%C3%A1p_M%C6%B0%E1%BB%9Di.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/7b/%C4%90%C6%B0%E1%BB%9Dng_ph%E1%BB%91_%E1%BB%9F_Cao_L%C3%A3nh%2C_%C4%90%E1%BB%93ng_Th%C3%A1p..JPG"
-    ]
+    ],
+    "photoCredit": "Ảnh thực địa: Wikimedia Commons — Bảo tàng Đồng Tháp.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Field photo: Wikimedia Commons — Bảo tàng Đồng Tháp.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 13,
@@ -444,7 +465,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Khuôn viên quảng trường công viên ven sông Tiền thoáng mát, rất đẹp khi tham quan vào buổi sáng sớm hoặc chiều hoàng hôn.",
     "thumbnail": "/images/monuments/monument_13.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0e/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen_v%C3%A0_th%C3%A1p%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%286%29.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/S%C3%B4ng_Ti%E1%BB%81n.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/13",
     "views": 6060,
     "qrScans": 1785,
@@ -456,10 +477,10 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.642291,
     "gallery": [
       "/images/monuments/monument_13.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/0/0e/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen_v%C3%A0_th%C3%A1p%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%286%29.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/34/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen_v%C3%A0_th%C3%A1p%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%287%29.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/c/cd/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen_v%C3%A0_th%C3%A1p%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%288%29.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/5/57/C%E1%BA%A7u_Cao_L%C3%A3nh.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian bến sông Tiền lịch sử • Wikimedia Commons: Sông Tiền.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative archive of historic Tiền River embarkation waterway • Wikimedia Commons: Sông Tiền.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 14,
@@ -476,7 +497,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Vào cổng miễn phí; nếu du khách muốn trải nghiệm đứng trên lá sen vua chụp ảnh (khoảng 20.000 - 30.000 VNĐ/lượt hỗ trợ đặt mâm gỗ) nên đi vào mùa mưa hoặc mùa nước nổi từ tháng 7 đến tháng 11 âm lịch khi lá sen đạt đường kính lớn nhất.",
     "thumbnail": "/images/monuments/monument_14.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/7/70/Victoria_amazonica_001.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/5/50/Nen%C3%BAfares_%28Victoria_amazonica%29%2C_Zoo_de_Ciudad_Ho_Chi_Minh%2C_Vietnam%2C_2013-08-14%2C_DD_01.JPG",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/14",
     "views": 6180,
     "qrScans": 1830,
@@ -488,10 +509,10 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.816906,
     "gallery": [
       "/images/monuments/monument_14.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/7/70/Victoria_amazonica_001.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/b/b6/Victoria_amazonica_002.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/b/bf/Victoria_amazonica_flower_head.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa loài sen vua Victoria amazonica tại Việt Nam • Wikimedia Commons (Diego Delso, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative botanical archive of giant Victoria amazonica lotus in Vietnam • Wikimedia Commons (Diego Delso, CC BY-SA 3.0)"
   },
   {
     "id": 15,
@@ -508,7 +529,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Điểm di tích lịch sử tưởng niệm trang nghiêm; các đoàn học sinh, sinh viên và tổ chức về nguồn có thể liên hệ trước để tổ chức lễ dâng hương.",
     "thumbnail": "/images/monuments/monument_15.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/6/6e/%C4%90%E1%BB%93ng_Th%C3%A1p_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%283%29.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/3/34/Dai_tuong_niem_liet_si_Cao_Lanh%2C_Dong_Thap.JPG",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/15",
     "views": 6300,
     "qrScans": 1875,
@@ -520,10 +541,10 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.53971,
     "gallery": [
       "/images/monuments/monument_15.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/6e/%C4%90%E1%BB%93ng_Th%C3%A1p_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%283%29.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a8/%C4%90%E1%BB%93ng_Th%C3%A1p_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%284%29.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/71/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%285%29.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian đài tưởng niệm lịch sử tỉnh Đồng Tháp • Wikimedia Commons: Dai tuong niem liet si Cao Lanh, Dong Thap.JPG (Đỗ Tuấn Hưng, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative archive of Đồng Tháp historical memorial • Wikimedia Commons: Dai tuong niem liet si Cao Lanh, Dong Thap.JPG (Đỗ Tuấn Hưng, CC BY-SA 3.0)"
   },
   {
     "id": 16,
@@ -540,7 +561,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Lễ hội Kỳ Yên truyền thống diễn ra vào trung tuần tháng 4 hoặc tháng 5 âm lịch hàng năm với nghi thức tế thần và hát bội cổ truyền đặc sắc.",
     "thumbnail": "/images/monuments/monument_16.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2f/%C4%90%C3%ACnh_th%E1%BA%A7n_Phan_Thanh_Gi%E1%BA%A3n.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7f/B%C3%A0n_th%E1%BB%9D_Th%E1%BA%A7n_ho%C3%A0ng_trong_%C4%91%C3%ACnh_Ch%C3%AD_H%C3%B2a.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/16",
     "views": 6420,
     "qrScans": 1920,
@@ -552,10 +573,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.748443,
     "gallery": [
       "/images/monuments/monument_16.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/2f/%C4%90%C3%ACnh_th%E1%BA%A7n_Phan_Thanh_Gi%E1%BA%A3n.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/7f/B%C3%A0n_th%E1%BB%9D_Th%E1%BA%A7n_ho%C3%A0ng_trong_%C4%91%C3%ACnh_Ch%C3%AD_H%C3%B2a.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a1/%C4%90%C3%ACnh_th%E1%BA%A7n_Ph%C6%B0%E1%BB%9Bc_H%C6%B0ng.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/1/1c/%C4%90%C3%ACnh_V%C4%A9nh_Ph%C6%B0%E1%BB%9Bc_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc nội điện đình làng Nam Bộ • Wikimedia Commons: Bàn thờ Thần hoàng trong đình Chí Hòa.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative architectural archive of Southern communal house sanctuary • Wikimedia Commons: Bàn thờ Thần hoàng trong đình Chí Hòa.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 17,
@@ -572,7 +594,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Chùa là nơi tu học tịnh độ của hàng trăm chư Ni, du khách cần ăn mặc kín đáo, đi nhẹ nói khẽ; đại lễ lớn nhất trong năm là Lễ vía Đức Phật A Di Đà (17/11 âm lịch).",
     "thumbnail": "/images/monuments/monument_17.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Qu%E1%BB%91c_l%E1%BB%99_30%2C_%C4%91o%E1%BA%A1n_qua_huy%E1%BB%87n_Cao_L%C3%A3nh%2C_%C4%90%E1%BB%93ng_Th%C3%A1p.JPG",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/5/52/H%E1%BB%93_sen_ch%C3%B9a_La_H%C3%A1n_-_S%C3%B3c_Tr%C4%83ng.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/17",
     "views": 6540,
     "qrScans": 1965,
@@ -584,10 +606,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.7205,
     "gallery": [
       "/images/monuments/monument_17.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/c/cf/Qu%E1%BB%91c_l%E1%BB%99_30%2C_%C4%91o%E1%BA%A1n_qua_huy%E1%BB%87n_Cao_L%C3%A3nh%2C_%C4%90%E1%BB%93ng_Th%C3%A1p.JPG",
       "https://upload.wikimedia.org/wikipedia/commons/5/52/H%E1%BB%93_sen_ch%C3%B9a_La_H%C3%A1n_-_S%C3%B3c_Tr%C4%83ng.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/71/%C4%90%E1%BB%93ng_Th%C3%A1p_%28h%E1%BB%93_sen%29_ng%C3%A0y_31_th%C3%A1ng_3_n%C4%83m_2014_%285%29.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc cổ tự Cao Lãnh, Đồng Tháp • Wikimedia Commons (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative architectural archive of ancient pagoda in Cao Lãnh, Đồng Tháp • Wikimedia Commons (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 18,
@@ -604,7 +627,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Thuận tiện kết hợp tham quan tuyến du lịch sinh thái Cù lao Long Thuận - Làng nghề dệt choàng Long Khánh trên dòng sông Tiền.",
     "thumbnail": "/images/monuments/monument_18.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a1/%C4%90%C3%ACnh_th%E1%BA%A7n_Ph%C6%B0%E1%BB%9Bc_H%C6%B0ng.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e5/B%C3%AAn_trong_%C4%90%C3%ACnh_Minh_H%C6%B0%C6%A1ng_Gia_Th%E1%BA%A1nh.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/18",
     "views": 6660,
     "qrScans": 2010,
@@ -616,10 +639,10 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.309619,
     "gallery": [
       "/images/monuments/monument_18.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a1/%C4%90%C3%ACnh_th%E1%BA%A7n_Ph%C6%B0%E1%BB%9Bc_H%C6%B0ng.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/27/%C4%90%C3%ACnh_th%E1%BA%A7n_Giao_Kh%E1%BA%A9u.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/7/7f/B%C3%A0n_th%E1%BB%9D_Th%E1%BA%A7n_ho%C3%A0ng_trong_%C4%91%C3%ACnh_Ch%C3%AD_H%C3%B2a.jpg"
-    ]
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc gỗ lim & hoành phi đình làng Nam Bộ • Wikimedia Commons: Bên trong Đình Minh Hương Gia Thạnh.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative architectural archive of Southern communal house ironwood hall • Wikimedia Commons: Bên trong Đình Minh Hương Gia Thạnh.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 19,
@@ -636,7 +659,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Tự do tham quan; dịp lễ Kỳ Yên hàng năm có nghi thức Nghinh Thần tuần du và lễ tế Tiền hiền khai khẩn rất trang trọng.",
     "thumbnail": "/images/monuments/monument_19.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/2/27/%C4%90%C3%ACnh_th%E1%BA%A7n_Giao_Kh%E1%BA%A9u.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1c/%C4%90%C3%ACnh_V%C4%A9nh_Ph%C6%B0%E1%BB%9Bc_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/19",
     "views": 6780,
     "qrScans": 2055,
@@ -648,10 +671,11 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.473081,
     "gallery": [
       "/images/monuments/monument_19.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/27/%C4%90%C3%ACnh_th%E1%BA%A7n_Giao_Kh%E1%BA%A9u.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/6f/Ch%C3%ADnh_%C4%91i%E1%BB%87n_Dinh_B%C3%A0_Th%E1%BB%A7y_Long_Th%C3%A1nh_M%E1%BA%ABu.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/2f/%C4%90%C3%ACnh_th%E1%BA%A7n_Phan_Thanh_Gi%E1%BA%A3n.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/1/1c/%C4%90%C3%ACnh_V%C4%A9nh_Ph%C6%B0%E1%BB%9Bc_%E1%BB%9F_Sa_%C4%90%C3%A9c.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/b/bf/%C4%90%E1%BB%8Bnh_Y%C3%AAn_temple.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa không gian kiến trúc đình làng cổ Đồng Tháp • Wikimedia Commons: Đình Vĩnh Phước ở Sa Đéc.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)",
+    "photoCreditEn": "Illustrative architectural archive of traditional Đồng Tháp communal house • Wikimedia Commons: Đình Vĩnh Phước ở Sa Đéc.jpg (Bùi Thụy Đào Nguyên, CC BY-SA 3.0)"
   },
   {
     "id": 20,
@@ -668,7 +692,7 @@ export const INITIAL_MONUMENTS = [
     "ticketPrice": 0,
     "note": "Khu di tích có nhà trưng bày sa bàn trận đánh, hiện vật vũ khí của Tiểu đoàn 502 và tượng đài tưởng niệm ngoài trời rộng rãi, miễn phí tham quan.",
     "thumbnail": "/images/monuments/monument_20.jpg",
-    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e9/%C4%90%E1%BB%93ng_C%E1%BB%8F_%E1%BB%9F_%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di.jpg",
+    "wikimediaUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg",
     "qrUrl": "https://senmap.dongthap.gov.vn/di-tich/20",
     "views": 6900,
     "qrScans": 2100,
@@ -680,9 +704,9 @@ export const INITIAL_MONUMENTS = [
     "lon": 105.505171,
     "gallery": [
       "/images/monuments/monument_20.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/e/e9/%C4%90%E1%BB%93ng_C%E1%BB%8F_%E1%BB%9F_%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/ab/A_field_in_Dong_Thap_province%2C_near_Highway_1A.jpg"
-    ]
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/%C4%90%E1%BB%93ng_Th%C3%A1p_M%C6%B0%E1%BB%9Di_nh%C3%ACn_tr%C3%AAn_cao.jpg"
+    ],
+    "photoCredit": "Ảnh tư liệu minh họa cảnh quan cánh đồng xã An Phước, Tân Hồng, Đồng Tháp • Wikimedia Commons (trungydang, CC BY 3.0)",
+    "photoCreditEn": "Illustrative landscape archive of An Phước fields, Tân Hồng, Đồng Tháp • Wikimedia Commons (trungydang, CC BY 3.0)"
   }
 ];

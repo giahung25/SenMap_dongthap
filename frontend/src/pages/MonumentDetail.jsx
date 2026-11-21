@@ -38,6 +38,7 @@ import {
   Maximize2,
   ChevronRight,
   Footprints,
+  Camera,
 } from 'lucide-react';
 
 // Subcomponent to fix container size & resize issues (eliminating blank/grey tiles)
@@ -502,6 +503,17 @@ export default function MonumentDetail() {
             </div>
           </div>
 
+          {/* Photo Attribution & License Bar (Creative Commons / Illustrative Archive) */}
+          {localizedMonument.displayPhotoCredit && (
+            <div
+              data-testid="monument-photo-credit"
+              className="px-5 sm:px-6 py-2.5 bg-[#FAF7F2] border-t border-[#E6DEC8] flex items-center gap-2 text-[11px] text-[#4A453E]"
+            >
+              <Camera className="w-3.5 h-3.5 text-[#9E1B32] shrink-0" />
+              <span className="leading-snug">{localizedMonument.displayPhotoCredit}</span>
+            </div>
+          )}
+
           {/* Quick Info Bar in Warm Ivory #F4ECE7 */}
           <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#E6DEC8] bg-[#F4ECE7]/60 border-t border-[#E6DEC8] text-xs">
             <div className="p-4 flex items-center gap-3">
@@ -763,6 +775,13 @@ export default function MonumentDetail() {
                   </div>
                 ))}
               </div>
+
+              {localizedMonument.displayPhotoCredit && (
+                <p className="pt-3 border-t border-[#E6DEC8] text-[11px] text-[#4A453E] flex items-center gap-1.5 leading-relaxed">
+                  <Camera className="w-3.5 h-3.5 text-[#1E5631] shrink-0" />
+                  <span>{localizedMonument.displayPhotoCredit}</span>
+                </p>
+              )}
             </div>
           </div>
 

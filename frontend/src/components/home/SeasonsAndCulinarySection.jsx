@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   Store,
   Award,
+  Camera,
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import {
@@ -299,6 +300,7 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
                         <img
                           src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
                           alt={m.displayName}
+                          title={m.displayPhotoCredit || m.photoCredit || m.displayName}
                           className="w-14 h-14 rounded-xl object-cover shrink-0 shadow-xs"
                           onError={(e) => {
                             e.target.onerror = null;
@@ -340,6 +342,16 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
                     </div>
                   ))}
                 </div>
+
+                {/* Attribution note for seasonal monument thumbnails */}
+                <p className="pt-2.5 border-t border-[#E6DEC8] text-[10px] text-[#4A453E] flex items-start gap-1.5 leading-relaxed">
+                  <Camera className="w-3 h-3 text-[#9E1B32] shrink-0 mt-0.5" />
+                  <span>
+                    {isEn
+                      ? 'Heritage photography: Wikimedia Commons (Creative Commons) & illustrative architectural archives.'
+                      : 'Nguồn ảnh di tích: Wikimedia Commons (Giấy phép Creative Commons) & tư liệu minh họa không gian kiến trúc.'}
+                  </span>
+                </p>
               </div>
             </div>
           </div>
@@ -437,6 +449,18 @@ export default function SeasonsAndCulinarySection({ monuments = [], onSelectMonu
                         {displayPrice}
                       </div>
                     </div>
+
+                    {/* Dòng ghi công bản quyền & nguồn ảnh minh họa (Attribution Layer) */}
+                    {item.image_credit && (
+                      <div
+                        data-testid={`culinary-credit-${item.id}`}
+                        className="px-5 sm:px-6 py-2 bg-[#FAF7F2] border-b border-[#E6DEC8] flex items-center gap-1.5 text-[10px] text-[#4A453E]"
+                        title={item.image_credit}
+                      >
+                        <Camera className="w-3 h-3 text-[#9E1B32] shrink-0" />
+                        <span className="truncate">{item.image_credit}</span>
+                      </div>
+                    )}
 
                     {/* Thân thẻ: Tên món font-serif, Mô tả font-sans & Địa chỉ */}
                     <div className="p-5 sm:p-6 space-y-3.5">
