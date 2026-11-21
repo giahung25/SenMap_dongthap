@@ -1,14 +1,38 @@
+import socket
 import sys
 from pathlib import Path
+
+import pytest
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
 from fastapi.testclient import TestClient
+from app.core.config import settings
 from app.main import app
 
 client = TestClient(app)
+
+
+def _is_postgis_reachable() -> bool:
+    try:
+        with socket.create_connection(
+            (settings.POSTGRES_HOST, int(settings.POSTGRES_PORT)),
+            timeout=1.0,
+        ):
+            return True
+    except OSError:
+        return False
+
+
+pytestmark = pytest.mark.skipif(
+    not _is_postgis_reachable(),
+    reason=(
+        f"PostgreSQL/PostGIS chưa khởi chạy trên "
+        f"{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT} (cần bật Docker Desktop / postgis container)"
+    ),
+)
 
 
 def test_health_check_postgis():
@@ -208,3 +232,43 @@ def test_qr_scan_logging_and_stats():
     assert stats_after["tong_luot_quet_qr"] == qr_before + 1
     assert "Quốc gia" in stats_after["theo_cap_xep_hang"]
     assert "Quốc gia đặc biệt" in stats_after["theo_cap_xep_hang"]
+
+
+def test_standardized_historical_and_legal_records():
+    """Xác minh dữ liệu pháp lý & lịch sử đã chuẩn hóa trên CSDL PostGIS (DT-009, DT-010, DT-012, DT-018)."""
+    # DT-009: Làng nghề dệt chiếu Định Yên — QĐ 3084/QĐ-BVHTTDL ngày 09/09/2013
+    dt09 = client.get("/api/v1/monuments/9").json()["properties"]
+    assert dt09["cap_xep_hang"] == "Quốc gia"
+    assert "3084/QĐ-BVHTTDL" in dt09["lich_su"]
+    assert "09/09/2013" in dt09["lich_su"]
+    assert "2684/QĐ-BVHTTDL" not in dt09["lich_su"]
+
+    # DT-010: Đền thờ Thượng tướng Trần Văn Năng — QĐ 04/2004/QĐ-BVHTT, năm mất 1835
+    dt10 = client.get("/api/v1/monuments/10").json()["properties"]
+    assert dt10["cap_xep_hang"] == "Quốc gia"
+    assert "04/2004/QĐ-BVHTT" in dt10["lich_su"]
+    assert "1763–1835" in dt10["lich_su"]
+    assert "1838" not in dt10["lich_su"]
+    assert "65/2004" not in dt10["lich_su"]
+
+    # DT-012: Bảo tàng Tỉnh Đồng Tháp — 5 Bảo vật Quốc gia
+    dt12 = client.get("/api/v1/monuments/12").json()["properties"]
+    assert dt12["cap_xep_hang"] == "Cấp tỉnh"
+    assert "5 Bảo vật Quốc gia" in dt12["lich_su"]
+
+    # DT-018: Đình Long Thuận — Cấp tỉnh (QĐ 1354/QĐ-UBND-HC), lập 1876, sắc phong Bảo Đại 1936
+    dt18 = client.get("/api/v1/monuments/18").json()["properties"]
+    assert dt18["cap_xep_hang"] == "Cấp tỉnh"
+    assert "1354/QĐ-UBND-HC" in dt18["lich_su"]
+    assert "1876" in dt18["lich_su"]
+    assert "1936" in dt18["lich_su"]
+
+    # Phân bố cấp xếp hạng tổng thể trên 20 di tích
+    stats = client.get("/api/v1/stats").json()["theo_cap_xep_hang"]
+    assert stats == {
+        "Quốc gia đặc biệt": 2,
+        "Quốc gia": 10,
+        "Cấp tỉnh": 4,
+        "Điểm du lịch/Làng nghề": 4,
+    }
+

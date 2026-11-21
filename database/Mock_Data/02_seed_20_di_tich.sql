@@ -5,7 +5,7 @@
 -- ==============================================================================
 
 -- 1. DANH MỤC LOẠI HÌNH DI TÍCH
-INSERT INTO danh_muc (ten_danh_muc, mo_ta) OVERRIDING SYSTEM VALUE VALUES
+INSERT INTO danh_muc (ten_danh_muc, mo_ta) VALUES
 ('Lịch sử - Cách mạng', 'Các khu di tích lịch sử, căn cứ kháng chiến, đền thờ danh nhân và địa điểm sự kiện lịch sử tiêu biểu tại Đồng Tháp'),
 ('Khảo cổ - Văn hóa Óc Eo', 'Các di chỉ khảo cổ học thuộc nền văn hóa Óc Eo và vương quốc Phù Nam cổ đại'),
 ('Kiến trúc - Nghệ thuật', 'Các công trình nhà cổ, đình làng, chùa cổ có giá trị kiến trúc và điêu khắc đặc sắc'),
@@ -14,7 +14,7 @@ INSERT INTO danh_muc (ten_danh_muc, mo_ta) OVERRIDING SYSTEM VALUE VALUES
 ON CONFLICT DO NOTHING;
 
 -- 2. ĐƠN VỊ HÀNH CHÍNH CẤP HUYỆN / THÀNH PHỐ (12 ĐƠN VỊ TỈNH ĐỒNG THÁP)
-INSERT INTO huyen_tp (ten_huyen_tp, loai) OVERRIDING SYSTEM VALUE VALUES
+INSERT INTO huyen_tp (ten_huyen_tp, loai) VALUES
 ('TP Cao Lãnh', 'thanh_pho'),
 ('TP Sa Đéc', 'thanh_pho'),
 ('TP Hồng Ngự', 'thanh_pho'),
@@ -275,6 +275,8 @@ INSERT INTO di_tich (
     'published', 6900, 2100
 )
 ON CONFLICT (id) DO UPDATE SET
+    id_danh_muc = EXCLUDED.id_danh_muc,
+    id_huyen_tp = EXCLUDED.id_huyen_tp,
     ten_di_tich = EXCLUDED.ten_di_tich,
     ten_khac = EXCLUDED.ten_khac,
     cap_xep_hang = EXCLUDED.cap_xep_hang,
@@ -283,27 +285,49 @@ ON CONFLICT (id) DO UPDATE SET
     lich_su = EXCLUDED.lich_su,
     thoi_gian_mo_cua = EXCLUDED.thoi_gian_mo_cua,
     gia_ve = EXCLUDED.gia_ve,
-    luu_y_tham_quan = EXCLUDED.luu_y_tham_quan;
+    luu_y_tham_quan = EXCLUDED.luu_y_tham_quan,
+    trang_thai = EXCLUDED.trang_thai;
 
--- 4. BẢNG HÌNH ẢNH DI TÍCH (LƯU ẢNH THỰC TẾ LOCAL VÀ TƯ LIỆU)
-INSERT INTO hinh_anh (id_di_tich, url, chu_thich, is_thumbnail, thu_tu) OVERRIDING SYSTEM VALUE VALUES
-(1, '/images/monuments/monument_1.jpg', 'Hình ảnh thực tế Khu di tích Nguyễn Sinh Sắc', TRUE, 1),
-(2, '/images/monuments/monument_2.jpg', 'Hình ảnh thực tế Khu di tích khảo cổ Gò Tháp', TRUE, 1),
-(3, '/images/monuments/monument_3.jpg', 'Hình ảnh thực tế Khu di tích Xẻo Quýt', TRUE, 1),
-(4, '/images/monuments/monument_4.jpg', 'Hình ảnh thực tế Nhà cổ Huỳnh Thủy Lê', TRUE, 1),
-(5, '/images/monuments/monument_5.jpg', 'Hình ảnh thực tế Chùa Kiến An Cung', TRUE, 1),
-(6, '/images/monuments/monument_6.jpg', 'Hình ảnh thực tế Vườn quốc gia Tràm Chim', TRUE, 1),
-(7, '/images/monuments/monument_7.jpg', 'Hình ảnh thực tế Khu du lịch sinh thái Gáo Giồng', TRUE, 1),
-(8, '/images/monuments/monument_8.jpg', 'Hình ảnh thực tế Làng hoa Sa Đéc', TRUE, 1),
-(9, '/images/monuments/monument_9.jpg', 'Hình ảnh thực tế Làng nghề dệt chiếu Định Yên', TRUE, 1),
-(10, '/images/monuments/monument_10.jpg', 'Hình ảnh thực tế Đền thờ Thượng tướng Trần Văn Năng', TRUE, 1),
-(11, '/images/monuments/monument_11.jpg', 'Hình ảnh thực tế Căn cứ Tỉnh ủy Kiến Phong (Khu di tích lịch sử Thông Bình)', TRUE, 1),
-(12, '/images/monuments/monument_12.jpg', 'Hình ảnh thực tế Bảo tàng Tỉnh Đồng Tháp', TRUE, 1),
-(13, '/images/monuments/monument_13.jpg', 'Hình ảnh thực tế Tượng đài Tập kết ra Bắc năm 1954', TRUE, 1),
-(14, '/images/monuments/monument_14.jpg', 'Hình ảnh thực tế Chùa Phước Kiển (Chùa Lá Sen)', TRUE, 1),
-(15, '/images/monuments/monument_15.jpg', 'Hình ảnh thực tế Khu căn cứ kháng chiến Bình Thành', TRUE, 1),
-(16, '/images/monuments/monument_16.jpg', 'Hình ảnh thực tế Đình Tân Phú Trung', TRUE, 1),
-(17, '/images/monuments/monument_17.jpg', 'Hình ảnh thực tế Chùa Hưng Thiền', TRUE, 1),
-(18, '/images/monuments/monument_18.jpg', 'Hình ảnh thực tế Đình Long Thuận', TRUE, 1),
-(19, '/images/monuments/monument_19.jpg', 'Hình ảnh thực tế Đình Phú Mỹ', TRUE, 1),
-(20, '/images/monuments/monument_20.jpg', 'Hình ảnh thực tế Khu di tích Chiến thắng Giồng Thị Đam - Gò Quản Cung', TRUE, 1);
+-- 4. BẢNG HÌNH ẢNH DI TÍCH (ĐỒNG BỘ IDEMPOTENT 20 ẢNH ĐẠI DIỆN CỤC BỘ)
+DELETE FROM hinh_anh WHERE id_di_tich BETWEEN 1 AND 20 AND is_thumbnail = TRUE;
+
+INSERT INTO hinh_anh (id_di_tich, url, chu_thich, is_thumbnail, thu_tu) VALUES
+(1, '/images/monuments/monument_1.jpg', 'Ảnh thực địa Khu di tích Nguyễn Sinh Sắc (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(2, '/images/monuments/monument_2.jpg', 'Ảnh thực địa Khu di tích khảo cổ Gò Tháp (Wikimedia Commons, CC BY-SA 4.0)', TRUE, 1),
+(3, '/images/monuments/monument_3.jpg', 'Ảnh tư liệu minh họa không gian rừng tràm Đồng Tháp (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(4, '/images/monuments/monument_4.jpg', 'Ảnh thực địa Nhà cổ Huỳnh Thủy Lê (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(5, '/images/monuments/monument_5.jpg', 'Ảnh thực địa Chùa Kiến An Cung (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(6, '/images/monuments/monument_6.jpg', 'Ảnh thực địa Vườn quốc gia Tràm Chim (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(7, '/images/monuments/monument_7.jpg', 'Ảnh thực địa Khu du lịch sinh thái Gáo Giồng (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(8, '/images/monuments/monument_8.jpg', 'Ảnh thực địa Làng hoa Sa Đéc (Wikimedia Commons, CC BY-SA 4.0)', TRUE, 1),
+(9, '/images/monuments/monument_9.jpg', 'Ảnh thực địa Làng nghề dệt chiếu Định Yên (Wikimedia Commons, CC0)', TRUE, 1),
+(10, '/images/monuments/monument_10.jpg', 'Ảnh tư liệu minh họa chính điện thờ danh tướng Nam Bộ (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(11, '/images/monuments/monument_11.jpg', 'Ảnh tư liệu minh họa kiến trúc đình làng cổ Đồng Tháp (Wikimedia Commons, CC BY-SA 4.0)', TRUE, 1),
+(12, '/images/monuments/monument_12.jpg', 'Ảnh thực địa Bảo tàng Tỉnh Đồng Tháp (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(13, '/images/monuments/monument_13.jpg', 'Ảnh tư liệu minh họa không gian bến sông Tiền lịch sử (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(14, '/images/monuments/monument_14.jpg', 'Ảnh tư liệu minh họa loài sen vua Victoria amazonica (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(15, '/images/monuments/monument_15.jpg', 'Ảnh tư liệu minh họa đài tưởng niệm lịch sử tỉnh Đồng Tháp (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(16, '/images/monuments/monument_16.jpg', 'Ảnh tư liệu minh họa nội điện đình làng Nam Bộ (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(17, '/images/monuments/monument_17.jpg', 'Ảnh tư liệu minh họa cổ tự Cao Lãnh, Đồng Tháp (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(18, '/images/monuments/monument_18.jpg', 'Ảnh tư liệu minh họa nội thất gỗ lim & hoành phi đình Nam Bộ (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(19, '/images/monuments/monument_19.jpg', 'Ảnh tư liệu minh họa kiến trúc đình làng cổ Đồng Tháp (Wikimedia Commons, CC BY-SA 3.0)', TRUE, 1),
+(20, '/images/monuments/monument_20.jpg', 'Ảnh tư liệu minh họa cảnh quan xã An Phước, Tân Hồng, Đồng Tháp (Wikimedia Commons, CC BY 3.0)', TRUE, 1);
+
+-- 5. BẢNG MÃ QR ĐỊNH DANH ĐỘNG CHO 20 DI TÍCH (QUAN HỆ 1:1 - IDEMPOTENT)
+INSERT INTO qr_code (id_di_tich, qr_url, file_path)
+SELECT
+    id,
+    'https://senmap.dongthap.gov.vn/di-tich/' || id,
+    '/static/qrcodes/di_tich_' || id || '.png'
+FROM di_tich
+WHERE id BETWEEN 1 AND 20
+ON CONFLICT (id_di_tich) DO UPDATE SET
+    qr_url = EXCLUDED.qr_url,
+    file_path = EXCLUDED.file_path;
+
+-- 6. ĐỒNG BỘ LẠI CHUỖI TỰ TĂNG (IDENTITY SEQUENCES) SAU KHI NẠP SEED
+SELECT setval(pg_get_serial_sequence('danh_muc', 'id'), COALESCE((SELECT MAX(id) FROM danh_muc), 1), true);
+SELECT setval(pg_get_serial_sequence('huyen_tp', 'id'), COALESCE((SELECT MAX(id) FROM huyen_tp), 1), true);
+SELECT setval(pg_get_serial_sequence('di_tich', 'id'), COALESCE((SELECT MAX(id) FROM di_tich), 1), true);
+SELECT setval(pg_get_serial_sequence('hinh_anh', 'id'), COALESCE((SELECT MAX(id) FROM hinh_anh), 1), true);
+SELECT setval(pg_get_serial_sequence('qr_code', 'id'), COALESCE((SELECT MAX(id) FROM qr_code), 1), true);
