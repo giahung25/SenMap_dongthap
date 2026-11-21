@@ -10,10 +10,21 @@ function getStoredMonuments() {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        // Auto-migrate cached items to ensure valid thumbnails
+        // Auto-migrate cached items to ensure valid thumbnails & photo credits
         return parsed.map((item) => {
+          const base = INITIAL_MONUMENTS.find((m) => m.id === Number(item.id));
           if (!item.thumbnail || item.thumbnail === 'undefined' || item.thumbnail.includes('upload.wikimedia.org')) {
             item.thumbnail = `/images/monuments/monument_${item.id}.jpg`;
+          }
+          if (base) {
+            if (!item.photoCredit) {
+              item.photoCredit = base.photoCredit;
+              item.photoCreditEn = base.photoCreditEn;
+              item.wikimediaUrl = base.wikimediaUrl;
+              item.gallery = base.gallery;
+            } else if (!item.photoCreditEn && base.photoCreditEn) {
+              item.photoCreditEn = base.photoCreditEn;
+            }
           }
           return item;
         });
@@ -44,6 +55,7 @@ function normalizeFeature(f) {
     const p = f.properties || {};
     const [lon, lat] = f.geometry?.coordinates || [105.63, 10.45];
     const monumentId = p.id || f.id;
+    const base = INITIAL_MONUMENTS.find((m) => m.id === Number(monumentId));
     const localThumb = monumentId ? `/images/monuments/monument_${monumentId}.jpg` : null;
     const thumbFromImages = Array.isArray(p.hinh_anh) && p.hinh_anh.length > 0 ? p.hinh_anh[0].url : null;
     const validThumb =
@@ -65,6 +77,9 @@ function normalizeFeature(f) {
       ticketPrice: p.gia_ve !== undefined ? Number(p.gia_ve) : 0,
       note: p.luu_y_tham_quan || p.note || '',
       thumbnail: validThumb,
+      photoCredit: p.photo_credit || p.photoCredit || base?.photoCredit || '',
+      photoCreditEn: p.photo_credit_en || p.photoCreditEn || base?.photoCreditEn || '',
+      gallery: p.gallery || base?.gallery || (validThumb ? [validThumb] : []),
       qrUrl: p.qr_url || (p.qr_code && p.qr_code.qr_url) || `https://senmap.dongthap.gov.vn/di-tich/${monumentId}`,
       views: p.luot_xem || p.views || 0,
       qrScans: p.luot_quet_qr || p.qrScans || 0,
@@ -76,6 +91,7 @@ function normalizeFeature(f) {
   const lat = f.lat || (f.coordinates ? f.coordinates[0] : 10.45);
   const lon = f.lon || (f.coordinates ? f.coordinates[1] : 105.63);
   const monumentId = f.id || (f.properties && f.properties.id);
+  const base = INITIAL_MONUMENTS.find((m) => m.id === Number(monumentId));
   const localThumb = monumentId ? `/images/monuments/monument_${monumentId}.jpg` : null;
   const validThumb =
     f.thumbnail_url ||
@@ -84,6 +100,9 @@ function normalizeFeature(f) {
   return {
     ...f,
     thumbnail: validThumb,
+    photoCredit: f.photo_credit || f.photoCredit || base?.photoCredit || '',
+    photoCreditEn: f.photo_credit_en || f.photoCreditEn || base?.photoCreditEn || '',
+    gallery: f.gallery || base?.gallery || (validThumb ? [validThumb] : []),
     coordinates: [lat, lon],
     lat,
     lon,

@@ -14,7 +14,6 @@ import {
   CheckCircle2,
   Camera,
   MapPin,
-  Sparkles,
 } from 'lucide-react';
 
 /**
@@ -106,7 +105,7 @@ export default function QrScannerView() {
         {/* Nút Back Washi Outline */}
         <Link
           to="/"
-          className="p-2.5 rounded-full bg-[#FFFFFF] hover:bg-[#F4ECE7] border border-[#E6DEC8] hover:border-[#D5C390] text-[#1E1B18] transition-all flex items-center justify-center shadow-2xs active:scale-95"
+          className="p-2.5 rounded-full bg-[#FFFFFF] hover:bg-[#F4ECE7] border border-[#E6DEC8] hover:border-[#D5C390] text-[#1E1B18] transition-colors flex items-center justify-center shadow-2xs"
           title="Quay lại"
         >
           <ArrowLeft className="w-5 h-5 text-[#1E1B18]" />
@@ -129,9 +128,9 @@ export default function QrScannerView() {
           <button
             type="button"
             onClick={() => setTorchOn(!torchOn)}
-            className={`p-2.5 rounded-full border transition-all shadow-2xs active:scale-95 ${
+            className={`p-2.5 rounded-full border transition-colors shadow-2xs ${
               torchOn
-                ? 'bg-[#D5C390] text-[#1E1B18] border-[#D5C390] shadow-sm shadow-[#D5C390]/40'
+                ? 'bg-[#D5C390] text-[#1E1B18] border-[#D5C390] shadow-xs'
                 : 'bg-[#FFFFFF] hover:bg-[#FAF7F2] text-[#4A453E] border-[#E6DEC8] hover:border-[#D5C390]'
             }`}
             title="Đèn flash"
@@ -147,7 +146,7 @@ export default function QrScannerView() {
           <button
             type="button"
             onClick={() => setSoundOn(!soundOn)}
-            className={`p-2.5 rounded-full border bg-[#FFFFFF] hover:bg-[#FAF7F2] border-[#E6DEC8] hover:border-[#D5C390] transition-all shadow-2xs active:scale-95 ${
+            className={`p-2.5 rounded-full border bg-[#FFFFFF] hover:bg-[#FAF7F2] border-[#E6DEC8] hover:border-[#D5C390] transition-colors shadow-2xs ${
               soundOn ? 'text-[#1E5631]' : 'text-[#4A453E] opacity-60'
             }`}
             title="Âm thanh"
@@ -166,7 +165,7 @@ export default function QrScannerView() {
       {/* ============================================================== */}
       <div className="relative flex-1 flex flex-col items-center justify-center p-4 sm:p-6 my-auto">
         {/* Khung Thẻ Viền Kép Vàng Tatami #D5C390 & #E6DEC8 */}
-        <div className="p-2 sm:p-2.5 rounded-3xl sm:rounded-[2rem] bg-[#FFFFFF] border-2 border-[#D5C390] shadow-xl ring-4 ring-[#E6DEC8]/60 transition-all">
+        <div className="p-2 sm:p-2.5 rounded-3xl sm:rounded-[2rem] bg-[#FFFFFF] border-2 border-[#D5C390] shadow-md ring-4 ring-[#E6DEC8]/60">
           {/* Viewfinder Target Frame (Ống kính camera giữ nền tối kỹ thuật theo MASTER.md Mục 5.1) */}
           <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl sm:rounded-[1.75rem] overflow-hidden bg-[#1E1B18]/95 flex items-center justify-center shadow-inner">
             {/* Live Video Feed or Fallback Poster */}
@@ -180,7 +179,7 @@ export default function QrScannerView() {
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-[#1E1B18]/90">
                 <div className="w-14 h-14 rounded-2xl bg-[#FFFFFF]/10 border border-[#D5C390]/40 flex items-center justify-center mb-3">
-                  <Camera className="w-7 h-7 text-[#D5C390] animate-pulse" />
+                  <Camera className="w-7 h-7 text-[#D5C390]" />
                 </div>
                 <p className="text-xs text-white font-serif font-bold tracking-wide">
                   {t('cameraReady')}
@@ -198,7 +197,7 @@ export default function QrScannerView() {
             <div className="absolute bottom-2.5 right-2.5 w-7 h-7 border-b-4 border-r-4 border-[#D5C390] rounded-br-xl pointer-events-none shadow-xs" />
 
             {/* Tia Quét Laser Đỏ Son Thếp Vàng (#9E1B32) */}
-            <div className="absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-[#9E1B32] to-transparent shadow-[0_0_10px_#9E1B32] animate-[bounce_2.5s_infinite] pointer-events-none" />
+            <div className="absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-[#9E1B32] to-transparent animate-[bounce_2.5s_infinite] pointer-events-none" />
 
             {/* Tâm Ngắm Trung Tâm (Center Reticle) */}
             <div className="w-12 h-12 border border-[#D5C390]/50 rounded-full flex items-center justify-center pointer-events-none">
@@ -207,9 +206,9 @@ export default function QrScannerView() {
 
             {/* Thông Báo Quét Thành Công (Scan Success Toast) trên Thẻ Washi #FFFFFF */}
             {scanSuccessItem && (
-              <div className="absolute inset-3 sm:inset-4 rounded-2xl bg-[#FFFFFF]/95 backdrop-blur-md border-2 border-[#1E5631] shadow-2xl flex flex-col items-center justify-center text-center p-4 animate-in fade-in zoom-in-95">
+              <div className="absolute inset-3 sm:inset-4 rounded-2xl bg-[#FFFFFF]/95 backdrop-blur-md border-2 border-[#1E5631] shadow-xl flex flex-col items-center justify-center text-center p-4 animate-in fade-in zoom-in-95">
                 <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#1E5631]/40 flex items-center justify-center mb-2 shadow-2xs">
-                  <CheckCircle2 className="w-7 h-7 text-[#1E5631] animate-bounce" />
+                  <CheckCircle2 className="w-7 h-7 text-[#1E5631]" />
                 </div>
                 <h3 className="text-sm sm:text-base font-serif font-bold text-[#1E1B18]">
                   {t('scanSuccess')}
@@ -263,7 +262,7 @@ export default function QrScannerView() {
               <div
                 key={m.id}
                 onClick={() => handleScanMonument(m)}
-                className="p-3 rounded-2xl bg-[#FFFFFF] hover:bg-[#FAF7F2] border border-[#E6DEC8] hover:border-[#D5C390] cursor-pointer transition-all flex items-center justify-between gap-3 group shadow-2xs"
+                className="p-3 rounded-2xl bg-[#FFFFFF] hover:bg-[#FAF7F2] border border-[#E6DEC8] hover:border-[#D5C390] cursor-pointer transition-colors flex items-center justify-between gap-3 group shadow-2xs"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {/* Thumbnail di tích */}
@@ -306,7 +305,7 @@ export default function QrScannerView() {
                 {/* Nút quét nhanh */}
                 <button
                   type="button"
-                  className="px-3 py-1.5 rounded-xl bg-[#9E1B32] group-hover:bg-[#831427] text-white font-bold text-[11px] shrink-0 flex items-center gap-1 shadow-2xs transition-all active:scale-95"
+                  className="px-3 py-1.5 rounded-xl bg-[#9E1B32] hover:bg-[#831427] text-white font-bold text-[11px] shrink-0 flex items-center gap-1 shadow-2xs transition-colors"
                 >
                   <Scan className="w-3.5 h-3.5" />
                   <span>{t('scanBtn')}</span>

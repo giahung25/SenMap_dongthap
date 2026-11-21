@@ -4,7 +4,7 @@ import {
   Volume2,
   Square,
   MapPin,
-  Sparkles,
+  Landmark,
   Award,
   ChevronRight,
   BookOpen,
@@ -142,14 +142,14 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
         {/* 1. SECTION HEADER */}
         <div className="text-center max-w-3xl mx-auto space-y-3.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] border border-[#E6DEC8] text-[#9E1B32] text-xs font-bold uppercase tracking-[0.18em] shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#9E1B32]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFFFFF] border border-[#E6DEC8] text-[#9E1B32] text-xs font-semibold uppercase tracking-[0.08em]">
+            <Landmark className="w-3.5 h-3.5 text-[#9E1B32]" />
             <span>{t.badge}</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1E1B18] tracking-tight leading-[1.3] pb-1">
             <span className="block">{t.titlePrefix}</span>
-            <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 bg-gradient-to-r from-[#FF1E56] via-[#F43F5E] to-[#F59E0B] bg-clip-text text-transparent whitespace-nowrap">{t.titleHighlight}</span>
+            <span className="inline-block mt-1 sm:mt-1.5 pb-1.5 text-[#9E1B32] whitespace-nowrap">{t.titleHighlight}</span>
           </h2>
 
           <p className="text-sm sm:text-base text-[#4A453E] font-sans leading-relaxed max-w-2xl mx-auto">
@@ -161,7 +161,7 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
         <div className="space-y-8 lg:space-y-10">
           {/* THẺ TIÊU ĐIỂM LỚN (HERO FEATURE CARD - KDT NGUYỄN SINH SẮC) */}
           {heroMonument && (
-            <div className="rounded-3xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-sm hover:shadow-md hover:border-[#D5C390] transition-all duration-300 overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">
+            <div className="rounded-3xl bg-[#FFFFFF] border border-[#E6DEC8] shadow-sm hover:border-[#D5C390] transition-colors duration-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12 items-stretch">
               {/* Ảnh Tiêu Điểm bên trái (7 cột) */}
               <div className="lg:col-span-7 relative h-72 sm:h-80 lg:h-[420px] bg-[#FAF7F2] overflow-hidden">
                 <img
@@ -170,7 +170,7 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
                     `/images/monuments/monument_${heroMonument.id}.jpg`
                   }
                   alt={heroMonument.displayName}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = `/images/monuments/monument_${heroMonument.id}.jpg`;
@@ -206,7 +206,7 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
                   <button
                     type="button"
                     onClick={(e) => handleToggleAudio(heroMonument, e)}
-                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-between transition-all border ${
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-between transition-colors duration-200 border ${
                       speakingId === heroMonument.id
                         ? 'bg-[#9E1B32] text-white border-[#9E1B32]'
                         : 'bg-[#FAF7F2] hover:bg-[#F4ECE7] text-[#1E1B18] border-[#E6DEC8]'
@@ -263,7 +263,7 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
               return (
                 <div
                   key={m.id}
-                  className="rounded-2xl bg-[#FFFFFF] border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                  className="rounded-2xl bg-[#FFFFFF] border border-[#E6DEC8] hover:border-[#D5C390] shadow-xs transition-colors duration-200 overflow-hidden flex flex-col justify-between group"
                 >
                   <div>
                     {/* Ảnh tỉ lệ 16:10 */}
@@ -271,7 +271,7 @@ export default function FeaturedMasterpiecesSection({ monuments = [], onLocateMo
                       <img
                         src={m.thumbnail || `/images/monuments/monument_${m.id}.jpg`}
                         alt={m.displayName}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = `/images/monuments/monument_${m.id}.jpg`;
